@@ -79,7 +79,7 @@ class Aluno(models.Model):
     id = ShortUUIDField(primary_key=True, editable=False, alphabet="0123456789", length=4)
     photo = models.ImageField(upload_to='photos/', null=True, blank=True)
     nome = models.CharField(max_length=12, verbose_name='Name')
-    middle_name = models.CharField(max_length=20, verbose_name='Middle Name')
+    middle_name = models.CharField(max_length=20, verbose_name='Middle Name', blank=True, null=True)
     surname = models.CharField(max_length=15, verbose_name='Last Name', null=True)
     phone = models.CharField(max_length=15, help_text='Use only numbers')
     email = models.EmailField(max_length=128, unique=True)
