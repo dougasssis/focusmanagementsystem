@@ -61,6 +61,7 @@ FOCUS BJJ - {{ request.user.location }}
                             </thead>
                             <tbody>
                                 {% for user in object_list %}
+                                    {% if not user.id != '553' and  user.id != '635' %}
                                 <tr>
 
                                 <td> <img src='{{ user.country.flag }}' align="left" class="py-2 px-2"  /> {{ user.country.name }}</td>
@@ -74,6 +75,7 @@ FOCUS BJJ - {{ request.user.location }}
                                     <a href="{% url 'focusbjj:branchdetails' user.pk %}" class="btn btn-primary">Details</a>
                                 </td>
                                 </tr>
+                                    {% endif %}
                                 {% endfor %}
 
 
