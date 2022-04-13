@@ -1,0 +1,178 @@
+{% load static %}
+  <aside class="main-sidebar navbar-gray-dark sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{% static 'images/defaultuser.jpeg' %}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">{{ user.contact_name }}</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            {% url 'admin_home' as admin_home %}
+            <a href="{% url 'focusbjj:filiais' %}" class="nav-link {% if request.path == admin_home %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Home
+              </p>
+            </a>
+          </li>
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            {% url 'add_staff' as add_staff %}
+            <a href="{% url 'focusbjj:add_staff' %}" class="nav-link {% if request.path == add_staff %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Adicionar Filial
+              </p>
+            </a>
+          </li>
+
+           <li class="nav-item">
+              {% url 'manage_staff' as manage_staff %}
+            {% url 'edit_staff' staff_id=id as edit_staff %}
+            <a href="{% url 'focusbjj:managestaff' %}" class="nav-link {% if request.path == manage_staff %} active {% endif %} {% if request.path == edit_staff %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Filiais
+              </p>
+            </a>
+          </li>
+
+
+          <li class="nav-item">
+            <a href="{% url 'focusbjj:addproduct' %}" class="nav-link ">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Adicionar Produto
+              </p>
+            </a>
+          </li>
+
+          {% else %}
+          {% endif%}
+          <li class="nav-item">
+            <a href="{% url 'focusbjj:products' %}" class="nav-link ">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Produtos
+              </p>
+            </a>
+          </li>
+
+           <li class="nav-item">
+            <a href="{% url 'focusbjj:add_aluno' %}" class="nav-link {% if request.path == add_student %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Adicionar Aluno
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{% url 'focusbjj:managealunos' %}" class="nav-link {% if request.path == manage_student %} active {% endif %} {% if request.path == edit_student %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Alunos | Adultos
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'focusbjj:managealunoskids' %}" class="nav-link {% if request.path == manage_student %} active {% endif %} {% if request.path == edit_student %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Alunos | Infantil
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'focusbjj:managegraduation' %}" class="nav-link {% if request.path == manage_student %} active {% endif %} {% if request.path == edit_student %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Graduação
+              </p>
+            </a>
+          </li>
+
+
+           <li class="nav-item">
+            <a href="{% url 'focusbjj:addvenda' %}" class="nav-link ">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Adicionar Vendas
+              </p>
+            </a>
+          </li>
+
+           <li class="nav-item">
+            <a href="{% url 'focusbjj:vendas' user.pk %}" class="nav-link ">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Histórico de Vendas
+              </p>
+            </a>
+          </li>
+
+
+          <li class="nav-item">
+            <a href="{% url 'focusbjj:championship' %}" class="nav-link {% if request.path == manage_student %} active {% endif %} {% if request.path == edit_student %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Adicionar Campeonato
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'focusbjj:championshipdetails' %}" class="nav-link {% if request.path == manage_student %} active {% endif %} {% if request.path == edit_student %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Campeonatos
+              </p>
+            </a>
+          </li>
+
+           <li class="nav-item">
+            <a href="{% url 'focusbjj:editarstaff' request.user.pk %}" class="nav-link ">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Editar Profile
+              </p>
+            </a>
+          </li>
+
+     <!--     <li class="nav-item">
+            <a href="{% url 'focusbjj:logout' %}" class="nav-link ">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Check In
+              </p>
+            </a>
+          </li>  -->
+
+          <li class="nav-item">
+             <a href="{% url 'focusbjj:logout' %}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Logout
+              </p>
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>

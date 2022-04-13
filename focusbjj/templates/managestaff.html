@@ -1,0 +1,97 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block titulo %}
+FOCUS BJJ - {{ request.user.location }}
+{% endblock %}
+
+{% block content %}
+
+<section class="content">
+        <div class="container-fluid">
+
+            <a class="btn btn-primary btn-sm" href="{% url 'focusbjj:add_staff' %}" role="button">+ Adicionar Filial</a> <br/>&nbsp;
+
+            {% if messages %}
+            <div class="form-group">
+            <div class="col-12">
+                {% for message in messages %}
+                {% if message.tags == "error" %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                {% elif message.tags == "success" %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            </div>
+            {% endif %}
+
+
+            <div class="row">
+
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Afiliados | <b>Focus BJJ </b> </h3>
+                            <div class="card-tools">
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                <th>País</th>
+                                <th>Cidade</th>
+                                <th>Contato</th>
+                                <th>Telefone</th>
+                                <th>E-Mail</th>
+                                <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in object_list %}
+                                    {% if user.id != '120' and  user.id != '245' %}
+                                <tr>
+
+                                <td> <img src='{{ user.country.flag }}' align="left" class="py-2 px-2"  /> {{ user.country.name }}</td>
+                                <td>{{ user.location|title }}</td>
+                                <td>{{ user.contact_name|title }}</td>
+                                <td>{{user.phone}}</td>
+                                <td>{{ user.email|lower }}</td>
+                                <td>
+                                    <a href="{% url 'focusbjj:editarstaff' user.pk %}" class="btn btn-success">Edit</a>
+                                 <!--   <a href="#" class="btn btn-danger">Delete</a> -->
+                                    <a href="{% url 'focusbjj:branchdetails' user.pk %}" class="btn btn-primary">Details</a>
+                                </td>
+                                </tr>
+                                    {% endif %}
+                                {% endfor %}
+
+
+                            </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+
+    </header>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% load static %}
+{% load attendance_tags %}
+
+<canvas id="myChart"  height="100"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Branca','Cinza/Branca','Cinza','Cinza/Preta' ,'Amarela/Branca', 'Amarela', 'Amarela/Preta', 'Verde/Branca', 'Verde', 'Verde/Preta', 'Laranja/Branca', 'Laranja', 'Laranja/Preta',  'Azul', 'Roxa', 'Marrom', 'Preta'],
+            datasets: [{
+                label: 'Focus {{ user.location }}, {{ user.country.name }}',
+                data: [ {{ user|white }} , {{ user|gray_white }}, {{ user|gray }}, {{ user|gray_black }},
+                 {{ user|yellow_white }}, {{ user|yellow }}, {{ user|yellow_black }},
+                 {{ user|green_white }}, {{ user|green }}, {{ user|green_black }},
+                 {{ user|orange_white }},{{ user|orange }},  {{ user|orange_black }}, {{ user|green }},
+                 {{ user|blue }},{{ user|purple }}, {{ user|brown }}, {{ user|black }}],
+                backgroundColor: [
+                    'rgba(250, 250, 250)',
+                    'rgba(160, 160, 160)',
+                    'rgba(160, 160, 160)',
+                    'rgba(160, 160, 160)',
+                    'rgba(255, 223, 0)',
+                    'rgba(255, 223, 0)',
+                    'rgba(255, 223, 0)',
+                    'rgba(0,204,0)',
+                    'rgba(0,204,0)',
+                    'rgba(0,204,0)',
+                    'rgba(255, 117, 24)',
+
+                    'rgba(255, 117, 24)',
+                    'rgba(0, 128, 255)',
+                    'rgba(204, 51, 0)',
+                    'rgba(181, 101, 29)',
+                    'rgba(128, 0, 0)',
+                    'rgba(0, 0, 0)',
+                ],
+                borderWidth: 2,
+            },
+            {
+                label: 'Focus',
+                    data: [ {{ belts.white }} , {{ belts.gray_white }}, {{ belts.gray }}, {{ belts.gray_black }},
+                    {{ belts.yellow_white }}, {{ belts.yellow }}, {{ belts.yellow_black }},
+                    {{ belts.green_white }}, {{ belts.green }}, {{ belts.green_black }},
+                    {{ belts.orange_white }}, {{ belts.orange }}, {{ belts.orange_black }},
+                    {{ belts.blue }}, {{ belts.purple }}, {{ belts.brown }}, {{ belts.black }}],
+                    backgroundColor: [
+                    'rgba(239, 235, 235)',
+                    'rgba(128, 128, 128)',
+                    'rgba(128, 128, 128)',
+                    'rgba(128, 128, 128)',
+                    'rgba(255, 204, 0)',
+                    'rgba(255, 204, 0)',
+                    'rgba(255, 204, 0)',
+                    'rgba(34,139,34)',
+                    'rgba(34,139,34)',
+                    'rgba(34,139,34)',
+                    'rgba(255, 117, 24)',
+                    'rgba(255, 117, 24)',
+                    'rgba(255, 117, 24)',
+                    'rgba(0, 0, 255)',
+                    'rgba(102, 0, 102)',
+                    'rgba(128, 0, 0)',
+                    'rgba(0, 0, 0)',
+                ],
+                borderWidth: 0,
+            }]
+        },
+        options: {
+            scales: {
+            y: {
+                min: 0,
+                ticks: {
+                    stepSize: 1
+                    }
+            }},
+        }
+    });
+</script>

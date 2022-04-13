@@ -1,0 +1,84 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load alerta_tags %}
+{% load attendance_tags %}
+
+{% block titulo %}
+FOCUS BJJ - {{ request.user.location }}
+{% endblock %}
+
+{% block content %}
+
+<section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"></h3>
+                            <p><b>Aluno elegíveis à graduação</b> </p>
+                            <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                               <!-- <input type="text" name="table_search" class="form-control float-right" placeholder="Search"> -->
+                                <div class="input-group-append align-left">
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Faixa</th>
+                                <th>Stripe</th>
+                                <th>Aulas</th>
+                                <th>Aulas Totais</th>
+                                <th>Status</th>
+                                <th></th>
+                                </tr>
+                            </thead>
+                                {% for aluno in request.user.alunos.all|dictsort:"nome" %}
+                                    {% if aluno|alert %}
+                            <tbody>
+                                <tr>
+                                <td>{{ aluno.id }}</td>
+                                <td>{{ aluno.nome|title }}</td>
+                                <td>{{ aluno|current_belt }}</td>
+                                <td>{{ aluno|current_stripe }}</td>
+                                <td>
+                                    {% if aluno|new_attendance == None %}
+                                    {{ aluno|get_count_att_aluno }}
+                                    {% else %}
+                                    {{ aluno|new_attendance }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ aluno|get_count_att_aluno }}</td>
+                                <td>
+                                    <ion-icon name="warning"></ion-icon>
+                                    <strong class="text-red"> &nbsp; {{ aluno|alert }} </strong>
+                                </td>
+                                <td>
+                                    <a href="{% url 'focusbjj:graduation' aluno.pk %}" class="btn btn-warning text-white">Graduate</a>
+                                    <a href="{% url 'focusbjj:alunos' aluno.pk %}" class="btn btn-primary">Details</a>
+                                </td>
+                                </tr>
+                            </tbody>
+                                   {% endif %}
+                            {% endfor %}
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+    </header>
+{% endblock %}

@@ -1,0 +1,183 @@
+<!DOCTYPE html >
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title></title>
+    <style type="text/css">
+        body{
+        margin: 0;
+        background-color: #cccccc;
+        }
+        table {
+            border-spacing: 0;
+        }
+        td {
+            padding: 0;
+        }
+        img {
+            border: 0;
+        }
+        .wrapper {
+            width: 100%;
+            table-layout: fixed;
+            background-color: #cccccc;
+            padding-bottom: 60px;
+        }
+        .main {
+            background-color: #ffffff;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 600px;
+            border-spacing: 0;
+            font-family: sans-serif;
+            color: #171a1b;
+        }
+        .two-columns {
+            text-align: center;
+            font-size: 0;
+        }
+        .two-columns .column{
+            width: 100%;
+            max-width: 300px;
+            display: inline-block;
+            vertical-align: center;
+            text-align: center;
+        }
+        .three-columns{
+             text-align: center;
+            font-size: 0;
+            padding: 15px 0 25px;
+        }
+        .three-columns .column{
+            width: 100%;
+            max-width: 200px;
+            display: inline-block;
+            vertical-align: center;
+            text-align: center;
+        }
+        .three-columns .padding{
+            padding: 15px;
+        }
+        .three-columns .content{
+            font-size: 15px;
+            line-height: 20px;
+            padding: 0 5px;
+        }
+        .two-columns.last {
+            padding: 15px 0;
+        }
+        .two-columns .padding{
+            padding:20px;
+        }
+        .two-columns .content{
+            font-size: 15px;
+            line-height: 20px;
+            text-align: left;
+        }
+        .button {
+            background-color: #ffffff;
+            color: #171a1b;
+            text-decoration: none;
+            padding:12px 30px;
+            border-radius:5px;
+            font-weight: bold;
+        }
+        .button-dark{
+            background-color: #171a1b;
+            color: #ffffff;
+            text-decoration: none;
+            padding:12px 30px;
+            border-radius:5px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <center class="wrapper">
+        <table class="main" width="100%">
+<!-- TOP BORDER -->
+            <tr>
+                <td height="8" style="background-color: #171a1b;"></td>
+            </tr>
+<!-- LOGO SECTION -->
+            <tr>
+                <td style="padding: 14px 0 4px; ">
+                    <table width="100%">
+                        <tr>
+                            <td class="two-columns">
+                                <table class="column">
+                                    <tr>
+                                        <td style="padding: 0 62px 10px;">
+                                            <a href="#">
+                                                <img src="https://i.postimg.cc/65TnPbN4/focus-nova.png" alt="Focus Jiu-Jitsu" width="180" title="Focus Jiu-Jitsu">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+<!-- BANNER IMAGE -->
+            <tr>
+                <td>
+                    <a href=""><img src="https://wc.wallpaperuse.com/wallp/48-483993_s.jpg" alt="" width="600" style="max-width:100%"> </a>
+                </td>
+            </tr>
+
+<!-- TITLE TEXT BUTTON -->
+            <tr>
+                <td style="padding: 15px 0 50px">
+                    <table width="100%">
+                        <tr>
+                            <td style="text-align:center; padding:15px">
+                                <p style="font-size:20px; font-weight:bold">Welcome to Focus Jiu-Jitsu!</p>
+                                <p style="line-height:23px; font-size: 15px; padding:5px 0 15px;">
+                                    {{nome}}, you have been successfully registered on our platform.
+                                    <br> Your MEMBER ID is <b>{{ id }}</b>.
+                                </p>
+                                <p style="line-height:23px; font-size: 15px; padding:5px;">
+                                    Now we can follow our students closer and can help them in the best way possible.
+                                    Remember your MEMBER ID and always check-in before starting your training.
+
+                                </p>
+                                <p><b>Oss!!!</b></p>
+                                <!--<a href="" class="button-dark">Learn More</a>-->
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+<!-- FOOTER -->
+            <tr>
+                <td style="background-color:#26292b">
+                    <table width="100%">
+                        <tr>
+                            <td style="text-align: center; padding:10px ; color:#ffffff">
+                                <p style="padding:5px; font-weight:bold">Focus Jiu-Jitsu HQ</p>
+                                <p style="font-size: 15px; padding:5px">Rua Dr. Afonso Cordeiro, 711 Matosinhos, Portugal - 4450-007</p>
+                                <p style="font-size: 15px; margin-top:-10px">Phone: +351 932665662 E-Mail: infofocusjiujitsu@gmail.com</p>
+                                <a href="https://www.instagram.com/focusjiujitsuhq/?hl=pt"><img width="34px" src="https://i.postimg.cc/MXgy6dj8/white-instagram.png"></a>
+                                <a href="https://www.facebook.com/focusjiujitsu/"><img  width="34px" src="https://i.postimg.cc/CRTHNmF4/white-facebook.png"></a>
+                                <a href="https://www.youtube.com/channel/UCxbnIECL9fUA345zWWB-0yQ"><img width="34px" src="https://i.postimg.cc/ftp0bRyv/white-youtube.png"></a>
+                                <p style="font-size: 12px; font-weight:bold">VISIT OUR SOCIAL MEDIAS</p>
+
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+
+        </table>
+
+    </center>
+
+</body>

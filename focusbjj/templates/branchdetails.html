@@ -1,0 +1,380 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load attendance_tags %}
+
+
+
+{% block content %}
+<section class="content">
+
+    <div class="container-fluid">
+        <div class="row"><!--FIRST ROW  -->
+
+            <div class="col-lg-4"> <!--FIRST COLUMN  -->
+                <div class="card-body table-responsive p-0">
+                <div class="card card-outline card-info">
+                <div class="card-header">
+                <h3 class="card-title">Informações do Afiliado  <strong>| {{ afiliado.location|title }}</strong></h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                </div>
+                </div>
+                <div class="card-body"><!-- /.card-body -->
+                    <table class="table table-hover text-nowrap">
+
+                        <tbody>
+                            <tr>
+                                <th style="width:100px">Contato</th>
+                                <td>{{ afiliado.contact_name }}</td>
+                            </tr>
+                            <tr>
+                              <th>Fone</th>
+                              <td>{{ afiliado.phone }}</td>
+                            </tr>
+                            <tr>
+                              <th>E-Mail</th>
+                              <td>{{ afiliado.email|lower }}</td>
+                            </tr>
+                            <tr>
+                              <th>País</th>
+                              <td>{{ afiliado.country.unicode_flag }} {{ afiliado.country.name }}</td>
+                            </tr>
+                            <tr>
+                              <th>Cidade</th>
+                              <td>{{ afiliado.location }}</td>
+                            </tr>
+                            <tr>
+                              <th>Alunos</th>
+                              <td>{{ afiliado.alunos.count }}</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+            </div> <!--FINISH FIRST COLUMN  -->
+
+
+    <div class="col-lg-4"> <!-- SECOND COLUMN  -->
+        <div class="card-body table-responsive p-0">
+        <div class="card card-outline card-info">
+        <div class="card-header">
+          <!--<a href="{% url 'focusbjj:vendas' afiliado.id %}">-->
+            <h3 class="card-title">Alunos por Gênero<strong>  </strong></h3>
+      <!--    </a>-->
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+        </div>
+        </div>
+        <div class="card-body"><!-- /.card-body -->
+            <canvas id="genderChart"  height="260"></canvas>
+       </div>
+        </div>
+        </div>
+    </div> <!--FINISH SECOND COLUMN  -->
+
+       <div class="col-lg-4"> <!-- AGE COLUMN CHART  -->
+        <div class="card-body table-responsive p-0">
+        <div class="card card-outline card-info">
+        <div class="card-header">
+          <!--<a href="{% url 'focusbjj:vendas' afiliado.id %}">-->
+            <h3 class="card-title">Alunos por Idade<strong>  </strong></h3>
+      <!--    </a>-->
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+        </div>
+        </div>
+        <div class="card-body"><!-- /.card-body -->
+            <canvas id="ageChart"  height="260"></canvas>
+
+
+        </div>
+        </div>
+        </div>
+        </div> <!--FINISH third COLUMN  -->
+        </div>
+</section> <!--FINISH FIRST ROW  -->
+    <div class="row">
+            <div class="col-lg-6"> <!--FIRST COLUMN  -->
+                <div class="card-body table-responsive p-0">
+                <div class="card card-outline card-info">
+                <div class="card-header">
+                <h3 class="card-title">Alunos por Faixa | <b>Adultos</b> <strong></strong></h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                </div>
+
+                </div>
+                <div class="card-body"><!-- /.card-body -->
+                    <table class="table table-hover text-nowrap">
+                        <canvas id="myChart"  height="150"></canvas>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div> <!--FINISH FIRST COLUMN  -->
+
+        <div class="col-lg-6"> <!--FIRST COLUMN  -->
+            <div class="card-body table-responsive p-0">
+            <div class="card card-outline card-info">
+            <div class="card-header">
+            <h3 class="card-title">Alunos por Faixa | <b>Kids</b><strong></strong></h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+            </div>
+
+            </div>
+            <div class="card-body"><!-- /.card-body -->
+                <table class="table table-hover text-nowrap">
+                    <canvas id="kidsChart"  height="150"></canvas>
+                </table>
+            </div>
+            </div>
+
+        </div> <!--FINISH FIRST COLUMN  -->
+    </div>
+        <div class="row"><!--HISTORICO DE VENDAS  -->
+            <div class="col-lg-12"> <!--HISTORICO DE VENDAS  -->
+                <div class="card-body table-responsive p-0">
+                <div class="card card-outline card-info">
+                <div class="card-header">
+                <h3 class="card-title">Histórico de Vendas <strong></strong></h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                </div>
+
+                </div>
+                <div class="card-body"><!-- /.card-body -->
+                   <table class="table table-hover text-nowrap">
+                    <tr>
+                        <th>Aluno</th>
+                        <th>Data</th>
+                        <th>Valor</th>
+                    </tr>
+                    <tr>
+                        {% for venda in afiliado|vendas_branch %}
+                        <td>{{ venda.aluno.nome }}</td>
+                        <td>{{ venda.time_stamp|date:"d F Y" }}</td>
+                        <td>{{ venda.price }}</td>
+                        <td><a href="{% url 'focusbjj:saledetails' venda.pk %}" class="btn btn-primary">Details</a></td>                </tbody>
+                        {% endfor %}
+                        <td></td>
+                        <td></td>
+                        <td>{{afiliado|somavendas_branch|floatformat:2}}</td>
+                    </tr>
+            </table>
+
+                </div>
+                </div>
+            </div>
+            </div> <!--FINISH FIRST COLUMN  -->
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // setup block
+    const data = {
+            labels: ['Branca', 'Azul', 'Roxa', 'Marrom', 'Preta'],
+            datasets: [{
+                label: 'Focus {{ afiliado.location }}, {{ afiliado.country.name }}',
+                data: [{{ afiliado|white }} ,{{ afiliado|blue }},{{ afiliado|purple }}, {{ afiliado|brown }}, {{ afiliado|black }}],
+            backgroundColor: [
+                'rgba(250, 250, 250)',
+                'rgba(0, 0, 255)',
+                'rgba(153, 51, 153)',
+                'rgba(128, 0, 0)',
+                'rgba(0, 0, 0)',
+               ],
+               borderWidth: 2,
+            },
+           {
+                label: 'Focus',
+                data: [{{ belts.white }} ,{{ belts.blue }},{{ belts.purple }}, {{ belts.brown }}, {{ belts.black }}],
+            backgroundColor: [
+                'rgba(250, 250, 250)',
+                'rgba(0, 0, 255)',
+                'rgba(153, 51, 153)',
+                'rgba(128, 0, 0)',
+                'rgba(0, 0, 0)',
+               ],
+               borderWidth: 2,
+            }]
+    };
+
+
+
+    // CONFIG ADULTS BELT BLOCK
+    const config = {
+        type: 'bar',
+        data,
+        options: {
+            scales: {
+            y: {
+                min: 0,
+                ticks: {
+                    stepSize: 1
+                    }
+                }
+           }
+        }
+     };
+
+    //RENDER ADULTS BELT
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+
+    // KIDS DATA CHART
+    const datakids = {
+            labels: ['Branca', 'Cinza/Branca', 'Cinza', 'Cinza/Preta', 'Amarela/Branca', 'Amarela', 'Amarela/Preta', 'Verde/Branca'
+            , 'Verde', 'Verde/Preta', 'Laranja/Branca', 'Laranja', 'Laranja/Preta'],
+            datasets: [{
+                label: 'Focus {{ afiliado.location }}, {{ afiliado.country.name }}',
+                data: [{{ afiliado|white_kids }} ,{{ afiliado|gray_white }},{{ afiliado|gray }},{{ afiliado|gray_black }},{{ afiliado|yellow_white }},{{ afiliado|yellow }},{{ afiliado|yellow_black }},
+                 {{ afiliado|green_white }}, {{ afiliado|green }} , {{ afiliado|green_black }}  ,{{ afiliado|orange_white }},{{ afiliado|orange }},{{ afiliado|orange_black }}],
+            backgroundColor: [
+                'rgba(250, 250, 250)',
+
+                'rgb(250, 250, 250)',
+                'rgb(169, 169, 169)',
+                'rgb(0, 0, 0)',
+
+                'rgb(250, 250, 250)',
+                'rgb(255, 215, 0)',
+                'rgb(0, 0, 0)',
+
+                'rgb(250, 250, 250)',
+                'rgb(0, 128, 128)',
+                'rgb(0, 0, 0)',
+
+                'rgb(250, 250, 250)',
+                'rgb(255, 69, 0)',
+                'rgb(0, 0, 0)',
+               ],
+               borderColor: [
+                    'rgba(250, 250, 250)',
+                    'rgb(169, 169, 169)',
+                    'rgb(169, 169, 169)',
+                    'rgb(169, 169, 169)',
+                    'rgb(255, 215, 0)',
+                    'rgb(255, 215, 0)',
+                    'rgb(255, 215, 0)',
+                    'rgb(0, 128, 128)',
+                    'rgb(0, 128, 128)',
+                    'rgb(0, 128, 128)',
+                    'rgb(255, 69, 0)',
+                    'rgb(255, 69, 0)',
+                    'rgb(255, 69, 0)',
+               ],
+               borderWidth: 10,
+
+          }]
+    };
+
+
+    // kids config
+    const configkids = {
+        type: 'bar',
+        data: datakids,
+        options: {
+            scales: {
+            y: {
+                min: 0,
+                ticks: {
+                    stepSize: 1
+                    }
+                }
+           }
+        }
+     };
+
+    //render kids block
+        const kidsChart = new Chart(
+            document.getElementById('kidsChart'),
+            configkids
+        );
+
+
+    // GENDER DATA
+     const datagender = {
+        labels: ['Masculino', 'Feminino'],
+        datasets: [{
+            label: 'Focus {{ afiliado.location }}, {{ afiliado.country.name }}',
+            data: [{{ afiliado|male }} ,{{ afiliado|female }}],
+        backgroundColor: [
+            'rgb(0, 0, 255)',
+            'rgb(255, 0, 157)',
+           ],
+      }]
+};
+
+    // GENDER CONFIG
+        const configgender = {
+        type: 'pie',
+        data: datagender,
+        options: {
+            maintainAspectRatio:false,
+            scales: {
+
+           }
+        }
+     };
+
+    //RENDER GENDER BLOCK
+        const genderChart = new Chart(
+        document.getElementById('genderChart'),
+        configgender
+    );
+
+        // AGE DATA
+     const data_age = {
+        labels: ['4 a 6 anos', '7 a 10 anos', '11 a 13 anos', 'Adulto'],
+        datasets: [{
+            label: 'Focus',
+            data: [{{ afiliado|under7 }}, {{ afiliado|under10 }}, {{ afiliado|under13 }} ,{{ afiliado|adulto }}],
+        backgroundColor: [
+            'rgb(255, 0, 0)',
+            'rgb(0, 204, 0)',
+            'rgb(0, 128, 255)',
+            'rgb(255, 223, 0)',
+
+           ],
+      }]
+};
+
+    // GENDER CONFIG
+        const configage = {
+        type: 'pie',
+        data: data_age,
+        options: {
+            maintainAspectRatio:false,
+            scales: {
+
+           }
+        }
+     };
+
+    //RENDER GENDER BLOCK
+        const ageChart = new Chart(
+        document.getElementById('ageChart'),
+        configage
+    );
+</script>
+
+
+
+
+{% endblock  %}

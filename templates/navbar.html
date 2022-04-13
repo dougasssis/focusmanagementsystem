@@ -1,0 +1,50 @@
+{% load static %}
+<nav class="w-full flex justify-between items-center py-3 px-4 fixed  z-50">
+    <div class="w-3/12">
+            <a href="{% url 'focusbjj:homepage' %}">
+            <h1 class="text-bold"></h1>
+            <img class="w-3/12" src="{% static 'images/focus_nova.png' %}">
+        </a>
+    </div>
+    <div class="w-6/12 flex flex-nowrap justify-end">
+
+        <div class="mr-2">
+
+            <a href="{% url 'focusbjj:add_aluno' %}">
+                <button class="bg-red-600 text-white py-1 px-3 rounded-md">
+                    Register Athlete
+                </button>
+            </a>
+            <a href="{% url 'focusbjj:login' %}">
+                <button class="bg-red-600 py-1 px-3 text-white rounded-md">
+                    Login
+                </button>
+            </a>
+
+        </div>
+
+        <div class="mr-2">
+        {% if user.is_authenticated %}
+
+            <a href="{% url 'focusbjj:add_aluno' %}">
+                <button class="bg-red-600 py-1 px-3 text-white rounded-md">
+                    Registrar Aluno
+                </button>
+            </a>
+        </div>
+            {% if user.is_superuser %}
+                <div class="mr-2">
+                    <a href="{% url 'focusbjj:add_staff' %}">
+                        <button class="bg-red-600 py-1 px-3 text-white rounded-md">
+                            Registrar Staff
+                        </button>
+                    </a>
+                </div>
+            {% endif %}
+        {% else %}
+        {% endif %}
+
+
+    </div>
+
+</nav>

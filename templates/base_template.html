@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en-us">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Student Management System</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css'%} ">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet"
+        href="{% static 'plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css'%} ">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css'%} ">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="{% static 'plugins/jqvmap/jqvmap.min.css'%} ">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css'%} ">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="{% static 'plugins/overlayScrollbars/css/OverlayScrollbars.min.css'%} ">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="{% static 'plugins/daterangepicker/daterangepicker.css'%} ">
+    <!-- summernote -->
+    <link rel="stylesheet" href="{% static 'plugins/summernote/summernote-bs4.css'%} ">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- Sweet Alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    {% block custom_css %}
+
+    {% endblock custom_css %}
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+
+
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+          {% if user.is_authenticated %}
+
+    <ul class="navbar-nav">
+      <li class="nav-item float-left">
+        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+      {% endif %}
+      <div align="center" style="padding-left:10px">
+      <!--  <img height="40" width="130" src="{% static 'images/focus_nova.png' %}">-->
+        <h4 style="font-size: 18px; "><b>Focus JJ | </b>Management System</h4>
+      </div>
+    <ul class="navbar-nav ml-auto">
+      <!-- Messages Dropdown Menu -->
+        {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'focusbjj:logout' %}">
+          Logout
+        </a>
+      </li>
+        {% else %}
+    <div class="mr-2">
+        <a href="{% url 'focusbjj:login' %}">
+            <button class="bg-red-600 py-1 px-3 text-white rounded-md">
+                Login
+            </button>
+        </a>
+        <a href="{% url 'focusbjj:homepage' %}">
+            <button class="bg-red-600 text-white py-1 px-3 rounded-md">
+                Check In
+            </button>
+        </a>
+    </div>
+      {% endif %}
+
+    <!-- Right navbar links -->
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+    {% if user.is_authenticated %}
+    {% include 'sidebar_template.html' with user=user id=id %}
+
+
+
+  <!-- Content Wrapper. Contains page content -->
+   <div class="content-wrapper">
+       <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">
+                {% block page_title %}
+                {% endblock page_title %}
+            </h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+         {% else %}
+    {% endif %}
+     {% block content %}
+
+     {% endblock %}
+
+  </div>
+  <!-- /.content-wrapper -->
+
+
+</div>
+<!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="{% static 'plugins/jquery/jquery.min.js'%} "></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js'%} "></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js'%} "></script>
+    <!-- ChartJS -->
+    <script src="{% static 'plugins/chart.js/Chart.min.js'%} "></script>
+    <!-- Sparkline -->
+    <script src="{% static 'plugins/sparklines/sparkline.js'%} "></script>
+    <!-- JQVMap -->
+    <script src="{% static 'plugins/jqvmap/jquery.vmap.min.js'%} "></script>
+    <script src="{% static 'plugins/jqvmap/maps/jquery.vmap.usa.js'%} "></script>
+    <!-- jQuery Knob Chart -->
+    <script src="{% static 'plugins/jquery-knob/jquery.knob.min.js'%} "></script>
+    <!-- daterangepicker -->
+    <script src="{% static 'plugins/moment/moment.min.js'%} "></script>
+    <script src="{% static 'plugins/daterangepicker/daterangepicker.js'%} "></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{% static 'plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js'%} "></script>
+    <!-- Summernote -->
+    <script src="{% static 'plugins/summernote/summernote-bs4.min.js'%} "></script>
+    <!-- overlayScrollbars -->
+    <script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js'%} "></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'dist/js/adminlte.js'%} "></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="{% static 'dist/js/pages/dashboard.js'%} "></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{% static 'dist/js/demo.js'%} "></script>
+
+{% block custom_js %}
+{% endblock custom_js %}
+
+</body>
+</html>

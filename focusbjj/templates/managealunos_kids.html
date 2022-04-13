@@ -1,0 +1,107 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load attendance_tags %}
+
+{% block titulo %}
+FOCUS BJJ - {{ request.user.location }}
+{% endblock %}
+
+{% block content %}
+
+<section class="content">
+        <div class="container-fluid">
+            <a class="btn btn-primary btn-sm" href="{% url 'focusbjj:add_aluno' %}" role="button">+ Add Athlete</a> <br/>&nbsp;
+            <div class="row">
+
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"></h3>
+                            <p>Alunos | <b>Categoria Infantil</b></p>
+                              <!--      <form method="get">
+                                        {{ filter.form}}
+                                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                    </form> -->
+                            <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <div class="input-group-append">
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                <thead>
+                    <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Faixa</th>
+                    <th>Aulas</th>
+                    <th>Aulas Totais</th>
+                    <th>Dias Ausentes</th>
+                    <th>Última Graduação</th>
+                    <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for aluno in request.user.alunos.all|dictsort:"nome" %}
+                   {% if aluno.idade <= 16 %}
+                    <tr>
+                    <td>{{ aluno.id }}</td>
+                    <td>{{ aluno.nome|title }} {{ aluno.surname|title }}</td>
+                    <td>
+                        {% if aluno|current_belt %}
+                        {{ aluno|current_belt }}
+                        {% else %}
+                        {{ aluno.belt }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if aluno|new_attendance == None %}
+                        {{ aluno|get_count_att_aluno }}
+                        {% else %}
+                        {{ aluno|new_attendance }}
+                        {% endif %}
+                    </td>
+                    <td>{{ aluno|get_count_att_aluno }}</td>
+                    <td>
+                        {% if aluno|get_count_att_aluno %}
+                        {% if aluno|last_att_aluno %}
+                            <ion-icon name="warning"></ion-icon>
+                            <strong class="text-red"> &nbsp; {{ aluno|last_att_aluno|cut:"," |slice:"7"}}</strong>
+                        {% else %}
+                        {% endif %}
+                        {% endif %}
+                    </td>
+                    <td>{{ aluno|last_graduation|date:"d/m/Y" }}</td>
+
+
+
+                    <td>
+                        <a href="{% url 'focusbjj:editaralunos' aluno.pk %}" class="btn btn-success">Editar</a>
+                        <a href="{% url 'focusbjj:graduation' aluno.pk %}" class="btn btn-warning text-white">Graduar</a>
+                        <a href="{% url 'focusbjj:alunos' aluno.pk %}" class="btn btn-primary">Detalhes</a>
+                    </td>
+                    </tr>
+                {% else %}
+                {% endif %}
+                {% endfor %}
+                </tbody>
+                </table>
+                        </div>
+                        <!-- /.card-body -->
+                        </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+
+
+    </header>
+
+{% endblock %}

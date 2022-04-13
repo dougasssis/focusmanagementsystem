@@ -1,0 +1,90 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{ STATIC_URL }}js/jquery.js
+
+{% block titulo %}
+Sales
+{% endblock%}
+{% block content %}
+<style>
+    .hidden{
+        display:none;
+    }
+
+</style>
+<section>
+    <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <header   class="bg-no-repeat bg-cover" style="background-image: url('#');">
+     <script>
+    {% for msg in messages %}
+        swal('{{ msg }}');
+    {% endfor %}
+    </script>
+        <div class="z-10 h-full py-5 md:py-30 text-dark-100 text-center flex items-center flex-col ">
+            <form method="post" >
+                {% csrf_token %}
+                <fieldset class="form-group ">
+                    <legend class="border-bottom mb-4">Registrar Venda<strong> | Focus Jiu-Jitsu</strong> </legend>
+                        {{ form|crispy }}
+                    {% if formset %}
+                        {{ formset.management_form }}
+                    <div id="items-list">
+                        <div class="item-form">
+                             {% for form in formset %}
+                                <div id="form_set">
+                                    {{ form|crispy }}
+                                </div>
+                            {% endfor %}
+                            <div id="empty-form" class="hidden">
+                                {{ formset.empty_form|crispy }}
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" id="add-item" class="btn btn-primary btn-sm add-item">Add Item</a>
+                    {% endif %}
+                </fieldset>
+                <br>
+                <button class="bg-primary py-1 px-3 text-white w-full md:text-lg rounded-md" type="submit">Add Sell</button>
+            </form>
+
+            <script>
+                const addMoreBtn = document.getElementById('add-item')
+                const totalNewForms = document.getElementById('id_form-TOTAL_FORMS')
+                addMoreBtn.addEventListener('click', add_new_form)
+
+                function add_new_form(event) {
+                    if (event) {
+                        event.preventDefault()
+                    }
+                    const currentProductForms = document.getElementsByClassName('form_set')
+                    const currentFormCount = currentProductForms.length
+                    const formCopyTarget = document.getElementById('items-list')
+                    const copyEmptyFormEl = document.getElementById('empty-form').cloneNode(true)
+                    copyEmptyFormEl.setAttribute('class', 'form_set')
+                    copyEmptyFormEl.setAttribute('id', `form-${currentFormCount}`)
+                    const regex = new RegExp('__prefix__', 'g')
+                    copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
+                    formCopyTarget.append(copyEmptyFormEl)
+
+                }
+
+
+            </script>
+
+            {% if user.is_superuser %}
+            <div class="nav-item">
+            <small class="nav-link"><a href="{% url 'focusbjj:addproduct' %}">Add New Product?</a></small>
+            </div>
+            {% else %}
+            {% endif %}
+        </div>
+        </div>
+
+    </header>
+    </section>
+
+
+{% endblock %}

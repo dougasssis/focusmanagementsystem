@@ -1,0 +1,45 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block titulo %}
+Add Product
+{% endblock%}
+{% block content %}
+
+<section >
+    <header   class="bg-no-repeat bg-cover" style="background-image: url('#');">
+        <div class="z-10 h-full py-5 md:py-30 text-dark-100 text-center flex items-center flex-col ">
+            <form method="post" >
+                {% csrf_token %}
+                <fieldset class="form-group ">
+                    <legend class="border-bottom mb-4">Delete Product<strong> | Focus Jiu-Jitsu</strong> </legend>
+                    <strong>Are sure You want to delete this item?</strong>
+
+                </fieldset>
+                <div align="center">
+                 <table>
+                     <tr>
+                        <th style="width:100px">Item:</th>
+                        <td>{{ products.product }}</td>
+                     </tr>
+                     <tr>
+                        <th>Description:</th>
+                        <td>{{ products.description }}</td>
+                    </tr>
+                        </table>
+                    </div>
+                <br>
+                <button class="bg-red py-1 px-3 text-white  md:text-lg rounded-md " type="submit">Delete</button>
+                <a href="{% url 'focusbjj:products' %}" class="btn btn-primary">Cancel</a>
+            </form>
+        </div>
+    </header>
+</section>
+<script>
+{% for msg in messages %}
+    swal('{{ msg }}');
+{% endfor %}
+</script>
+
+{% endblock %}

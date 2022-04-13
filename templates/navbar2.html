@@ -1,0 +1,18 @@
+<nav class="w-full flex justify-between items-center navbar-white py-3 px-4 fixed  z-50">
+    <img height="30" width="50" src="{% static 'images/focus_nova.png' %}">
+    <h4 style="margin-left: 20px margin-top: 5px;">Management System</h4>
+    <ul class="navbar-nav ml-auto">
+    <div class="mr-2">
+        <a href="{% url 'focusbjj:login' %}">
+            <button class="bg-red-600 py-1 px-3 text-white rounded-md">
+                Login
+            </button>
+        </a>
+        <a href="{% url 'focusbjj:add_aluno' %}">
+            <button class="bg-red-600 text-white py-1 px-3 rounded-md">
+                Register Athlete
+            </button>
+        </a>
+    </div>
+    </ul>
+  </nav>
