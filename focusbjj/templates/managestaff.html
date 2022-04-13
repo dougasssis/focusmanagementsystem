@@ -61,7 +61,7 @@ FOCUS BJJ - {{ request.user.location }}
                             </thead>
                             <tbody>
                                 {% for user in object_list %}
-                                    {% if not afiliado.is_superuser %}
+                                    {% if user.id != '553' and user.id != '635' %}
                                 <tr>
 
                                 <td> <img src='{{ user.country.flag }}' align="left" class="py-2 px-2"  /> {{ user.country.name }}</td>
