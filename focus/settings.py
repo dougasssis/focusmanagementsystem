@@ -9,26 +9,24 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(%wjka9%cz$(-bg8u@-3%$v*dyl7v&9r5fvv9!vxlz-!p%x^%r'
+SECRET_KEY = 'django-insecure-qnbe3i2m3olfkx-meh%^q(%4y+-is%jx#)3)nvac^d&5-3xt%g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-
-ALLOWED_HOSTS = ['127.0.0.1', 'focusjiujitsu.herokuapp.com']
-
+ALLOWED_HOSTS = ['127.0.0.1', 'focussystemtest.herokuapp.com', 'focusjiujitsu.herokuapp.com']
 
 # Application definition
 
@@ -47,6 +45,7 @@ INSTALLED_APPS = [
     'jquery',
     'cloudinary_storage',
     'cloudinary',
+
 ]
 
 MIDDLEWARE = [
@@ -80,7 +79,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'focus.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -91,13 +89,13 @@ DATABASES = {
     }
 }
 
-#NOVO DATABASE POSTGRES
-import dj_database_url
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+#import dj_database_url
 
+#DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
+
 AUTH_USER_MODEL = 'focusbjj.CustomUser'
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -114,18 +112,25 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
 LANGUAGE_CODE = 'pt-br'
 
+# LINGUAS A SEREM TRABALHADAS / CRIADO FOLDER LOCALE PARA ISSO
+
+LANGUAGES = (
+    ('en', _('English')),
+    ('pt-br', _('Portuguese')),
+    ('es', _('Spanish')),
+)
+
+
 TIME_ZONE = 'UTC'
 
-USE_I18N = False
+USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -138,6 +143,7 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
