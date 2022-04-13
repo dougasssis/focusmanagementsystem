@@ -153,6 +153,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
 class ManageStaff(SuperuserRequiredMixin, TemplateView):
     template_name = 'managestaff.html'
     model = CustomUser, Aluno
+    context_object_name = 'afiliado'
 
     def get_context_data(self, **kwargs):
         context = super(ManageStaff, self).get_context_data(**kwargs)
@@ -300,7 +301,6 @@ class RegisterAlunoView(FormView):
         if success_msg:
             messages.success(self.request, success_msg)
         return super().form_valid(form)
-
 
     def get_success_url(self):
         return reverse('focusbjj:add_aluno')
