@@ -122,7 +122,7 @@ LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+USE_I18N = False
 
 USE_TZ = True
 
@@ -152,9 +152,9 @@ LOGIN_REDIRECT_URL = 'focusbjj:filiais'
 LOGIN_URL = 'focusbjj:login'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'hvdvwp61n',
-    'API_KEY': '652415386794925',
-    'API_SECRET': 'iJ8A6RNI0OA7fXn0pkC36kfBumM',
+    'CLOUD_NAME': 'hwjxciszs',
+    'API_KEY': '338815192623428',
+    'API_SECRET': 'LtXgilWTVEhp-JC6Ih976glZGHY',
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
