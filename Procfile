@@ -1,1 +1,1 @@
-web: gunicorn focus.wsgi --log-file -
+web gunicorn focus.wsgi --log-file -
