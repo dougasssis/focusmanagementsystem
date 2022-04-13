@@ -152,9 +152,9 @@ LOGIN_REDIRECT_URL = 'focusbjj:filiais'
 LOGIN_URL = 'focusbjj:login'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'hwjxciszs',
-    'API_KEY': '338815192623428',
-    'API_SECRET': 'LtXgilWTVEhp-JC6Ih976glZGHY',
+    'CLOUD_NAME': 'holwfsrwh',
+    'API_KEY': '751324248687953',
+    'API_SECRET': 'cWnCSmjPRk6p4-2vqX3_0V6957g',
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
