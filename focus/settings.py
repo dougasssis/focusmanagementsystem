@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qnbe3i2m3olfkx-meh%^q(%4y+-is%jx#)3)nvac^d&5-3xt%g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'focussystemtest.herokuapp.com', 'focusjiujitsu.herokuapp.com']
 
@@ -90,7 +90,6 @@ DATABASES = {
 }
 
 import dj_database_url
-
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # Password validation
@@ -116,15 +115,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
 LANGUAGE_CODE = 'pt-br'
-
-# LINGUAS A SEREM TRABALHADAS / CRIADO FOLDER LOCALE PARA ISSO
-
-LANGUAGES = (
-    ('en', _('English')),
-    ('pt-br', _('Portuguese')),
-    ('es', _('Spanish')),
-)
-
 
 TIME_ZONE = 'UTC'
 
