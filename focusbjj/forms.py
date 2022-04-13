@@ -56,7 +56,7 @@ class RegisterAlunoForm(forms.ModelForm):
 
     class Meta:
         model = Aluno
-        fields = ['photo', 'nome', 'surname', 'email', 'phone', 'gender', 'dob', 'location',
+        fields = ['photo', 'nome', 'surname', 'email', 'address', 'phone', 'gender', 'dob', 'location',
                   'belt', 'stripe']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Primeiro Nome'}),
