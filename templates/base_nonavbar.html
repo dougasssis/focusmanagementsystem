@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html>
 
@@ -57,7 +58,7 @@
         </a>
         <a href="{% url 'focusbjj:add_aluno' %}">
             <button class="bg-red-600 text-white py-1 px-3 rounded-md">
-                Registrar Aluno
+                {% trans "Registrar Aluno" %}
             </button>
         </a>
     </div>

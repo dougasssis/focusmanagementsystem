@@ -2,6 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 { STATIC_URL }}js/jquery.js
+{% load i18n %}
 
 {% block titulo %}
 Sales
@@ -27,7 +28,7 @@ Sales
             <form method="post" >
                 {% csrf_token %}
                 <fieldset class="form-group ">
-                    <legend class="border-bottom mb-4">Registrar Venda<strong> | Focus Jiu-Jitsu</strong> </legend>
+                    <legend class="border-bottom mb-4">{% trans "Registrar Venda" %}<strong> | Focus Jiu-Jitsu</strong> </legend>
                         {{ form|crispy }}
                     {% if formset %}
                         {{ formset.management_form }}
@@ -43,11 +44,11 @@ Sales
                             </div>
                         </div>
                     </div>
-                    <a href="#" id="add-item" class="btn btn-primary btn-sm add-item">Add Item</a>
+                    <a href="#" id="add-item" class="btn btn-primary btn-sm add-item">{% trans "Adicionar Item" %}</a>
                     {% endif %}
                 </fieldset>
                 <br>
-                <button class="bg-primary py-1 px-3 text-white w-full md:text-lg rounded-md" type="submit">Adicionar Venda</button>
+                <button class="bg-primary py-1 px-3 text-white w-full md:text-lg rounded-md" type="submit">{% trans "Adicionar Venda" %}</button>
             </form>
 
             <script>
@@ -76,7 +77,7 @@ Sales
 
             {% if user.is_superuser %}
             <div class="nav-item">
-            <small class="nav-link"><a href="{% url 'focusbjj:addproduct' %}">Add New Product?</a></small>
+            <small class="nav-link"><a href="{% url 'focusbjj:addproduct' %}">Adicionar novo produto?</a></small>
             </div>
             {% else %}
             {% endif %}

@@ -1,6 +1,8 @@
 {% extends 'base_nonavbar.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load i18n %}
+
 
 
 {% block titulo %}
@@ -14,14 +16,14 @@ HASHFLIX - FAZER LOGIN.
             <form method="post">
                 {% csrf_token %}
                 <fieldset class="form-group">
-                    <legend class=" mb-4"> Login</legend>
+                    <legend class=" mb-4">Login</legend>
                     {{ form|crispy }}
                 </fieldset>
-                <button class="bg-red-600 py-1 my-2 px-3 w-full text-white md:text-lg rounded-md" type="submit">Fazer Login</button>
+                <button class="bg-red-600 py-1 my-2 px-3 w-full text-white md:text-lg rounded-md" type="submit">{% trans "Fazer Login" %}</button>
             </form>
             <div class="nav-item">
-            <small class="nav-link"><a href="{% url 'focusbjj:homepage' %}">Voltar para página de Check In.</a></small>
-            <small class="nav-link"><a href="{% url 'focusbjj:password_reset' %}"><p>Esqueceu a Senha? Clique Aqui!</p></a></small>
+            <small class="nav-link"><a href="{% url 'focusbjj:homepage' %}">{% trans "Voltar para página de Check In" %}</a></small>
+            <small class="nav-link"><a href="{% url 'focusbjj:password_reset' %}"><p>{% trans "Esqueceu a Senha? Clique Aqui!" %}</p></a></small>
 
             </div>
 

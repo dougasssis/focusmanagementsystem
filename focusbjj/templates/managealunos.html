@@ -1,6 +1,8 @@
 {% extends 'base_template.html' %}
 {% load static %}
 {% load attendance_tags %}
+{% load i18n %}
+
 
 {% block titulo %}
 FOCUS BJJ - {{ request.user.location }}
@@ -10,7 +12,7 @@ FOCUS BJJ - {{ request.user.location }}
 
 <section class="content">
         <div class="container-fluid">
-            <a class="btn btn-primary btn-sm" href="{% url 'focusbjj:add_aluno' %}" role="button">+ Add Athlete</a> <br/>&nbsp;
+            <a class="btn btn-primary btn-sm" href="{% url 'focusbjj:add_aluno' %}" role="button">{% trans "+ Adicionar Aluno" %}</a> <br/>&nbsp;
             <div class="row">
 
                 <div class="col-md-12">
@@ -35,12 +37,12 @@ FOCUS BJJ - {{ request.user.location }}
                 <thead>
                     <tr>
                     <th>ID</th>
-                    <th>Nome</th>
-                    <th>Faixa</th>
-                    <th>Aulas</th>
-                    <th>Aulas Totais</th>
-                    <th>Dias Ausentes</th>
-                    <th>Última Graduação</th>
+                    <th>{% trans "Nome" %}</th>
+                    <th>{% trans "Faixa" %}</th>
+                    <th>{% trans "Aulas" %}</th>
+                    <th>{% trans "Aulas Totais" %}</th>
+                    <th>{% trans "Dias Ausentes" %}</th>
+                    <th>{% trans "Última Graduação" %}</th>
                     <th></th>
                     </tr>
                 </thead>

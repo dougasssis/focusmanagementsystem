@@ -2,6 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load attendance_tags %}
+{% load i18n %}
 
 
 {% block titulo %}
@@ -26,10 +27,10 @@ Products List
         <thead>
         <tr>
           <th></th>
-          <th>Item</th>
-          <th>Descrição</th>
-          <th>Preço</th>
-          <th>Preço de Venda Sugerido</th>
+          <th>{% trans "Item" %}</th>
+          <th>{% trans "Descrição" %}</th>
+          <th>{% trans "Preço" %}</th>
+          <th>{% trans "Preço de Venda Sugerido" %}</th>
           <th></th>
           <th></th>
         </tr>

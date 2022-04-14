@@ -2,11 +2,11 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load attendance_tags %}
-
+{% load i18n %}
 
 {% block titulo %}
 Student Details
-{% endblock%}
+{% endblock %}
 {% block content %}
 
 <section class="content">
@@ -16,7 +16,7 @@ Student Details
                 <div class="card-body table-responsive p-0">
                 <div class="card card-outline card-info">
                 <div class="card-header">
-                <h3 class="card-title">Informações Pessoais do Aluno  <strong>| {{ aluno.nome|title }}</strong></h3>
+                <h3 class="card-title">{% trans "Informações Pessoais do Aluno" %}  <strong>| {{ aluno.nome|title }}</strong></h3>
 
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -34,15 +34,15 @@ Student Details
                                 {% endif %}
                             </tr>
                              <tr>
-                              <th>Número Id</th>
+                              <th>{% trans "ID" %}</th>
                               <td>{{ aluno.id }}</td>
                             </tr>
                             <tr>
-                                <th>Nome</th>
+                                <th>{% trans "Nome" %}</th>
                                 <td>{{ aluno.nome|title }} {{ aluno.surname|title }}</td>
                             </tr>
                             <tr>
-                                <th>Telefone</th>
+                                <th>{% trans "Telefone" %}</th>
                                 <td>{{ aluno.phone }}</td>
                             </tr>
                             <tr>
@@ -50,11 +50,11 @@ Student Details
                                 <td>{{ aluno.email|lower }}</td>
                             </tr>
                             <tr>
-                                <th>Sexo</th>
+                                <th>{% trans "Gênero" %}</th>
                                 <td>{{ aluno.gender }}</td>
                             </tr>
                             <tr>
-                                <th>Primeira Faixa</th>
+                                <th>{% trans "Primeira Faixa" %}</th>
                                 {% if aluno.stripee %}
                                 <td>{{ aluno.belt }} - {{ aluno.stripe }}</td>
                                 {% else %}
@@ -62,7 +62,7 @@ Student Details
                                 {% endif %}
                             </tr>
                             <tr>
-                                <th>Faixa Atual</th>
+                                <th>{% trans "Faixa Atual" %}</th>
                                 {% if aluno|current_belt %}
                                 <td>{{ aluno|current_belt }} - {{ aluno|current_stripe }} </td>
                                 {% else %}
@@ -70,11 +70,11 @@ Student Details
                                 {% endif %}
                             </tr>
                              <tr>
-                                <th>Data de Nascimento</th>
+                                <th>{% trans "Data de Nascimento" %}</th>
                                 <td>{{ aluno.dob|date:"d F Y" }}</td>
                             </tr>
                             <tr>
-                                <th>Início</th>
+                                <th>{% trans "Inicio" %}</th>
                                 <td>{{ aluno.join_date|date:"d F Y" }}</td>
                             </tr>
                             <tr>
@@ -93,7 +93,7 @@ Student Details
         <div class="card-body table-responsive p-0">
         <div class="card card-outline card-info">
         <div class="card-header">
-            <h3 class="card-title">Histórico de Compras<strong>  </strong></h3>
+            <h3 class="card-title">{% trans "Histórico de Compras" %}<strong>  </strong></h3>
 
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -104,8 +104,8 @@ Student Details
             <table class="table table-hover text-nowrap">
                 <thead>
                     <tr>
-                        <th>Data</th>
-                        <th>Valor</th>
+                        <th>{% trans "Data" %}</th>
+                        <th>{% trans "Valor" %}</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -116,12 +116,12 @@ Student Details
                         <td>{{ venda.time_stamp|date:"d F Y" }}</td>
                         <td>{{ venda.price }}</td>
                         <td></td>
-                        <td><a href="{% url 'focusbjj:saledetails' venda.pk %}" class="btn btn-primary">Detalhes</a></td>
+                        <td><a href="{% url 'focusbjj:saledetails' venda.pk %}" class="btn btn-primary">{% trans "Detalhes" %}</a></td>
                 {% endfor %}
                 </tbody>
                 <thead>
                     <tr>
-                        <th>Total</th>
+                        <th>{% trans "Total" %}</th>
                         <th>{{ aluno|somavendas }}</th>
                         <th></th>
                         <th></th>
@@ -142,7 +142,7 @@ Student Details
                 <div class="card-body table-responsive p-0">
                 <div class="card card-outline card-info">
                 <div class="card-header">
-                <h3 class="card-title">Campeonatos <strong></strong></h3>
+                <h3 class="card-title">{% trans "Campeonatos" %} <strong></strong></h3>
 
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -153,10 +153,10 @@ Student Details
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th>Campeonato</th>
-                                <th>Categoria</th>
-                                <th>Peso</th>
-                                <th>Colocação</th>
+                                <th>{% trans "Campeonatos" %}</th>
+                                <th>{% trans "Categoria" %}</th>
+                                <th>{% trans "Peso" %}</th>
+                                <th>{% trans "Colocação" %}</th>
 
                             </tr>
                         </thead>
@@ -181,7 +181,7 @@ Student Details
         <div class="card-body table-responsive p-0">
         <div class="card card-outline card-info">
         <div class="card-header">
-            <h3 class="card-title">Histórico de Graduação<strong>  </strong></h3>
+            <h3 class="card-title"><strong>{% trans "Histórico de Graduação" %}</strong></h3>
 
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -192,9 +192,9 @@ Student Details
             <table class="table table-hover text-nowrap">
                 <thead>
                     <tr>
-                        <th>Faixa</th>
-                        <th>Stripe</th>
-                        <th>Data</th>
+                        <th>{% trans "Faixa" %}</th>
+                        <th>{% trans "Grau" %}</th>
+                        <th>{% trans "Data" %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -205,7 +205,6 @@ Student Details
                             {% if graduacao.stripe %}
                             {{ graduacao.stripe }}
                             {% else %}
-                                
                             {% endif %}
                         </td>
                         <td>{{ graduacao.time_stamp|date:"d F Y" }}</td>

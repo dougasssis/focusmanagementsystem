@@ -1,5 +1,7 @@
 {% extends 'base_template.html' %}
 {% load static %}
+{% load i18n %}
+
 
 {% load attendance_tags %}
 
@@ -36,13 +38,12 @@ FOCUS BJJ - {{ request.user.location }}
                             <thead>
                                 <tr>
                                 <th>ID</th>
-                                <th>Nome</th>
+                                <th>{% trans "Nome" %}</th>
                                 <th>Filial</th>
-                                <th>Faixa</th>
-                                <th>Aulas</th>
-                                <th>Aulas Totais</th>
-                                <th>Dias Ausentes</th>
-                               <!-- <th>Last Graduation</th>-->
+                                <th>{% trans "Faixa" %}</th>
+                                <th>{% trans "Aulas" %}</th>
+                                <th>{% trans "Aulas Totais" %}</th>
+                                <th>{% trans "Dias Ausentes" %}</th>
                                 <th></th>
                                 </tr>
                             </thead>

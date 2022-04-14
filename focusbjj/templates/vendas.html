@@ -2,6 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load attendance_tags %}
+{% load i18n %}
 
 
 {% block titulo %}
@@ -14,7 +15,7 @@ Sales History
     <!-- PIE CHART -->
       <div class="card card-outline card-info">
         <div class="card-header">
-          <h3 class="card-title"><strong>Histórico de Vendas</strong></h3>
+          <h3 class="card-title"><strong>{% trans "Histórico de Vendas" %}</strong></h3>
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
           <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
@@ -24,10 +25,10 @@ Sales History
         <table class="table table-hover text-nowrap">
         <thead>
         <tr>
-          <th>Aluno</th>
-          <th>Item</th>
-          <th>Data</th>
-          <th>Valor</th>
+          <th>{% trans "Aluno" %}</th>
+          <th>{% trans "Item" %}</th>
+          <th>{% trans "Data" %}</th>
+          <th>{% trans "Valor" %}</th>
           <th></th>
 
         </tr>
@@ -44,7 +45,7 @@ Sales History
           <td>{{ venda.time_stamp|date:"d F Y" }}</td>
           <td>{{ venda.price }}</td>
 
-          <td><a href="{% url 'focusbjj:saledetails' venda.pk %}" class="btn btn-primary">Details</a></td>
+          <td><a href="{% url 'focusbjj:saledetails' venda.pk %}" class="btn btn-primary">{% trans "Detalhes" %}</a></td>
 
         </tr>
         {% endfor %}
@@ -53,7 +54,7 @@ Sales History
         <tr>
           <th></th>
           <th></th>
-          <th>Total Acumulado</th>
+          <th>{% trans "Total" %}</th>
           <th>{{ user|somavendas_branch }}</th>
           <th></th>
         </tr>

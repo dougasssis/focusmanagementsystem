@@ -2,6 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load attendance_tags %}
+{% load i18n %}
 
 {% block head %}
 <style>
@@ -44,7 +45,7 @@ Sales History
         <table class="table table-hover text-nowrap">
         <tbody>
         <tr>
-          <th>Aluno</th>
+          <th>{% trans "Aluno" %}</th>
           <td>{{ venda.aluno.nome }}</td>
         </tr>
         <tr>
@@ -53,18 +54,18 @@ Sales History
         </tr>
         {% for item in venda|produto %}
         <tr>
-          <th>Item</th>
+          <th>{% trans "Item" %}</th>
            <td>
-              {{ item }} &nbsp; <b>Qtd.</b> &nbsp;{{ item.qtd }}
+              {{ item }} &nbsp; <b>{% trans "Qtd" %}.</b> &nbsp;{{ item.qtd }}
            </td>
         </tr>
         {% endfor %}
         <tr>
-          <th>Data</th>
+          <th>{% trans "Data" %}</th>
             <td>{{ venda.time_stamp|date:"d F Y" }}</td>
         </tr>
         <tr>
-          <th style="width:70px">Método de Pagamento</th>
+          <th style="width:70px">{% trans "Método de Pagamento" %}</th>
             <td>{{ venda.method }}</td>
         </tr>
 
