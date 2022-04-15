@@ -10,14 +10,14 @@ Products List
 {% endblock%}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/lightbox_.css' %}" xmlns="http://www.w3.org/1999/html">
-<script defer src="{% static 'js/lightbox_.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/lightbox.css' %}">
+<link type="text/javascript" href="{% static 'js/lightbox.js' %}">
 
 <div class="col-lg-12">
     <!-- PIE CHART -->
       <div class="card card-outline card-info">
         <div class="card-header">
-          <h3 class="card-title">Store |&nbsp;<b>Focus JJ</b><br><small>{% trans "Clique na Imagem para Ampliar" %}</small></h3>
+          <h3 class="card-title">Produtos</h3>
 
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -40,9 +40,9 @@ Products List
         <tbody>
         {% for item in products %}
         <tr>
-          <td class="grid"><img width="50px" src="{{ item.image.url }}"></td>
-          <td>  {{ item.item }}</td>
-          <td>  {{ item.description }}</td>
+          <td><img width="50px" src="{{ item.image.url }}"></td></a>
+          <td>{{ item.item }}</td>
+          <td>{{ item.description }}</td>
           <td>€ {{ item.price }}</td>
           <td>€ {{ item.sugg_price }}</td>
           {% if user.is_superuser %}
