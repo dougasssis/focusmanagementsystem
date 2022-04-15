@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-14 13:03+0000\n"
+"POT-Creation-Date: 2022-04-15 13:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -250,7 +250,6 @@ msgid "Esqueceu a Senha? Clique Aqui!"
 msgstr "I forgot my password. Click Here!"
 
 #: focusbjj/templates/managealunos.html:15
-#| msgid "Adicionar Aluno"
 msgid "+ Adicionar Aluno"
 msgstr "Add Athlete"
 
@@ -276,7 +275,6 @@ msgstr "Absence"
 
 #: focusbjj/templates/managealunos.html:45
 #: focusbjj/templates/managealunos_kids.html:46
-#| msgid "Graduação"
 msgid "Última Graduação"
 msgstr "Last Graduation"
 
@@ -335,6 +333,10 @@ msgid ""
 msgstr ""
 "If You haven't received an email, please check if you provided the correct e-"
 "mail address and check you spam box"
+
+#: focusbjj/templates/products.html:18
+msgid "Clique na Imagem para Ampliar"
+msgstr "Click in the Image to Zoom +"
 
 #: focusbjj/templates/products.html:30 focusbjj/templates/saledetails.html:57
 #: focusbjj/templates/vendas.html:29
@@ -398,5 +400,3 @@ msgstr "Add Championship"
 #: templates/sidebar_template.html:151
 msgid "Editar Perfil"
 msgstr "Edit Profile"
-
-

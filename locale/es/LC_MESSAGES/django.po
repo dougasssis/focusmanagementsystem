@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-14 13:26+0000\n"
+"POT-Creation-Date: 2022-04-15 13:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -313,7 +313,9 @@ msgstr "Restablecimiento de contraseña enviado con éxito!"
 
 #: focusbjj/templates/password_reset_done.html:18
 msgid "Nos te enviamos um email com instruções para configurar sua nova senha."
-msgstr "Le hemos enviado un correo electrónico con instrucciones para configurar su nueva contraseña."
+msgstr ""
+"Le hemos enviado un correo electrónico con instrucciones para configurar su "
+"nueva contraseña."
 
 #: focusbjj/templates/password_reset_done.html:21
 msgid "Você receberá a mensagem em breve."
@@ -323,8 +325,14 @@ msgstr "Recibirás el mensaje pronto."
 msgid ""
 "Se você não recebeu um email, por favor certifique-se que você forneceu o "
 "endereço que você está cadastrado, e verifique sua pasta de spam."
-msgstr "Si no ha recibido un correo electrónico, asegúrese de haber proporcionado el dirección con la que está registrado y verifique su carpeta de correo no deseado."
+msgstr ""
+"Si no ha recibido un correo electrónico, asegúrese de haber proporcionado el "
+"dirección con la que está registrado y verifique su carpeta de correo no "
+"deseado."
 
+#: focusbjj/templates/products.html:18
+msgid "Clique na Imagem para Ampliar"
+msgstr ""
 
 #: focusbjj/templates/products.html:30 focusbjj/templates/saledetails.html:57
 #: focusbjj/templates/vendas.html:29
