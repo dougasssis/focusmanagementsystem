@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import inlineformset_factory
-
+from django.utils.translation import gettext as _, get_language, activate
 from focusbjj.models import GetAttendance, Aluno, Venda, Graduation, Product, Championship, ProductsList, CustomUser
 from django.contrib.auth import get_user_model
 
@@ -18,7 +18,7 @@ class AttendForm(forms.ModelForm):
             'aluno': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Insert Member ID'})
         }
         labels = {
-            'aluno': "INSIRA O SEU ID"
+            'aluno':  _("INSIRA O SEU ID" )
         }
 
 

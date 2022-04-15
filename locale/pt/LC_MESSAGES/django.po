@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-14 13:27+0000\n"
+"POT-Creation-Date: 2022-04-15 15:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: focusbjj/forms.py:21
+msgid "INSIRA O SEU ID"
+msgstr ""
 
 #: focusbjj/templates/add_aluno.html:18 templates/base_nonavbar.html:61
 msgid "Registrar Aluno"
@@ -304,7 +308,7 @@ msgid "Você pode prosseguir e fazer login agora."
 msgstr ""
 
 #: focusbjj/templates/password_reset_confirm.html:19
-msgid "Redefinir Palavra-Passe"
+msgid "Redefinir Senha"
 msgstr ""
 
 #: focusbjj/templates/password_reset_done.html:16
@@ -313,7 +317,9 @@ msgstr "Redefinição de palavra-passe enviada com sucesso!"
 
 #: focusbjj/templates/password_reset_done.html:18
 msgid "Nos te enviamos um email com instruções para configurar sua nova senha."
-msgstr "Nos te enviamos um email com instruções para configurar sua nova palavra-passe."
+msgstr ""
+"Nos te enviamos um email com instruções para configurar sua nova palavra-"
+"passe."
 
 #: focusbjj/templates/password_reset_done.html:21
 msgid "Você receberá a mensagem em breve."
@@ -323,6 +329,10 @@ msgstr ""
 msgid ""
 "Se você não recebeu um email, por favor certifique-se que você forneceu o "
 "endereço que você está cadastrado, e verifique sua pasta de spam."
+msgstr ""
+
+#: focusbjj/templates/products.html:18
+msgid "Clique na Imagem para Ampliar"
 msgstr ""
 
 #: focusbjj/templates/products.html:30 focusbjj/templates/saledetails.html:57
