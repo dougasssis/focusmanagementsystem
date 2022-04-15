@@ -454,7 +454,7 @@ class SaleDetails(LoginRequiredMixin, DetailView):
 
 
 class ProductList(LoginRequiredMixin, ListView):
-    template_name = 'products.html'
+    template_name = 'products_.html'
     model = ProductsList
 
     def get_context_data(self, **kwargs):

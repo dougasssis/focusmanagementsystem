@@ -1,0 +1,105 @@
+*{
+    margin:0; padding:0;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    transition: all 0.4s cubic-bezier(0,1.57,.67,1.18);
+}
+
+.box-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: #ccc;
+}
+
+.box {
+    flex:1 1 300px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.3);
+    position: relative;
+    overflow: hidden;
+    margin:20px;
+}
+
+.box .image img {
+    height: auto;
+    width: 100%;
+    margin: auto;
+    object-fit: cover;
+    filter: drop-shadow(0 3px 5px rgba(0,0,0,.7));
+    cursor: pointer;
+}
+
+.box .info .title {
+    padding: 10px;
+    color: #666;
+    font-size: 20px;
+}
+
+.box .info .description {
+    padding: 0px 10px 5px;
+    color: #666;
+    font-size: 13px;
+}
+
+.box .info .subinfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 10px;
+    border-top: 1px solid rgba(0,0,0,.3);
+}
+
+.box .info .subinfo .price{
+    color:#ff3300;
+    font-size: 20px;
+}
+
+.box .info .subinfo .price span{
+    color:#999;
+    font-size: 15px;
+    text-decoration: line-trought;
+}
+
+.box .info .subinfo .stars i{
+    color:orange;
+    font-size: 17px;
+}
+
+.box .overlay {
+    position: absolute;
+    top:0; left: 0;
+    height: 223px;
+    width: 100%;
+    background: rgba(0,0,0,.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: none;
+    transform: scale(0);
+}
+
+.box:hover .overlay{
+    transform: scale(1);
+}
+
+.box .overlay a{
+    color: #666;
+    background: #fff;
+    margin:10px;
+    padding:13px 15px;
+    font-size:25px;
+    transform: translateY(-150px);
+    transition-property: transform;
+}
+
+.box .overlay a:hover{
+    color:orange;
+
+}
+.box:hover .overlay a{
+    transform: translateY(0px);
+}

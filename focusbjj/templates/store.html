@@ -1,0 +1,65 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load attendance_tags %}
+{% load i18n %}
+    {% block head %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    {% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'main.css' %}">
+
+    <div class="row"> <!--  Row -->
+        {% for product in products %}
+            <div class="col-lg-4"> <!-- Column -->
+                <div class="box-element product container">
+                    <div class="container">
+                        <img class="thumbnail" src="{{ product.image.url }}">
+                        <hr>
+                        <div class="row"><!-- Imagens Miniaturas -->
+                            <div class="col-lg-2">
+                                <img width="50px" src="{{ product.image.url }}">
+                            </div>
+                            <div class="col-lg-2 ">
+                                <img width="50px" src="{{ product.image.url }}">
+                            </div>
+                            <div class="col-lg-2">
+                                <img width="50px" src="{{ product.image.url }}">
+                            </div>
+                            <div class="col-lg-6">
+                                 <h4 style="display: inline-block; float: right">Preço: $ {{ product.price }}</strong></h4>
+                                <h4 style="display: inline-block; float: right">Preço de Venda: $ {{product.sugg_price}}</strong></h4>
+                            </div>
+                        </div>
+                        <h6><strong>{{ product.item }}</strong></h6>
+                        <h5><small>{{ product.description }} </small></h5><br>
+                        <div class="row"> <!-- PRICE AND BUTTONS ROW -->
+                            <div class="col-lg-5">
+                                {% if not user.is_superuser %}
+                                <a href="{% url 'focusbjj:editproduct' product.pk %}" class="btn btn-primary btn-sm">Editar</a>
+                                <a href="{% url 'focusbjj:deleteproduct' product.pk %}" class=" btn btn-danger btn-sm">Delete</a>
+                                {% else %}
+                                {% endif %}
+                            </div>
+
+                        </div><!-- END PRICE AND BUTTONS ROW -->
+                    </div>
+                </div>
+            </div>
+        <br>
+   {% endfor %}
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
+{% endblock %}
+
+
+

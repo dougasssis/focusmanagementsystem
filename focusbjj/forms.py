@@ -87,13 +87,15 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = ProductsList
-        fields = ['image', 'item', 'description', 'price', 'sugg_price']
+        fields = ['image', 'image2', 'image3','item', 'description', 'price', 'sugg_price']
 
         labels = {
             'sugg_price': 'Preço de Venda',
             'description': 'Descrição',
             'price': 'Preço',
-            'image': 'Imagem',
+            'image': 'Imagem Principal',
+            'image2': 'Imagem',
+            'image3': 'Imagem',
 
         }
 

@@ -1,0 +1,82 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load attendance_tags %}
+{% load i18n %}
+
+{% block head %}
+
+{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="http://cdnjs.cloudfare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+<script defer src="{% static 'script.js' %}"></script>
+
+<div class="row">
+    {% for product in products %}
+    <div class="box-container col-lg-3"> <!--  Row -->
+        <div class="box">
+            <div class="image">
+                <img src="{{ product.image.url }}" alt="">
+            </div>
+            <div class="info">
+                <h3 class="title">{{ product.item }}</h3>
+                <h3 class="description">{{ product.description }}</h3>
+                <div class="subinfo">
+                    <div class="price">€ {{ product.price }}</div>
+                    <div class="stars">
+                        {% if user.is_superuser %}
+                        <a href="{% url 'focusbjj:editproduct' product.pk %}" class="btn btn-primary btn-sm">Editar</a>
+                        <a href="{% url 'focusbjj:deleteproduct' product.pk %}" class=" btn btn-danger btn-sm">Delete</a>
+                        {% else %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="overlay">
+                   <!-- <img width="70px" style="--i:1" src="{{ product.image.url }}" alt="">
+                    <img width="70px" style="--i:1" src="{{ product.image.url }}" alt="">
+                    <img width="70px" style="--i:1" src="{{ product.image.url }}" alt="">
+
+                    <a href="{{ product.image.url }}" style="--i:1" class="fas fa-shopping-cart"></a>
+                    <a href="{{ product.image.url }}" style="--i:1" class="fas fa-heart"></a>
+                    <a href="{{ product.image.url }}" style="--i:1" class="fas fa-search"></a>-->
+
+                    {% if product.image3 %}
+                    <a href="#" style="--i:1">
+                        <img width="70px" style="--i:1" src="{{ product.image.url }}" alt="">
+                    </a>
+                     <a href="#" style="--i:1">
+                        <img width="70px" style="--i:1" src="{{ product.image2.url }}" alt="">
+                    </a>
+                    <a href="#" style="--i:1">
+                        <img width="70px" style="--i:1" src="{{ product.image3.url }}" alt="">
+                    </a>
+
+                    {% elif product.image2 %}
+                    <a href="#" style="--i:1">
+                        <img width="70px" style="--i:1" src="{{ product.image.url }}" alt="">
+                    </a>
+                     <a href="#" style="--i:1">
+                        <img width="70px" style="--i:1" src="{{ product.image2.url }}" alt="">
+                    </a>
+                    {% else %}
+                    <a href="#" style="--i:1">
+                        <img width="70px" style="--i:1" src="{{ product.image.url }}" alt="">
+                    </a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+
+
