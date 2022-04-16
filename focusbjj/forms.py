@@ -87,16 +87,15 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = ProductsList
-        fields = ['image', 'image2', 'image3','item', 'description', 'price', 'sugg_price']
+        fields = ['image', 'image2', 'image3','item', 'description', 'price'] #, 'sugg_price'
 
         labels = {
             'sugg_price': 'Preço de Venda',
             'description': 'Descrição',
             'price': 'Preço',
             'image': 'Imagem Principal',
-            'image2': 'Imagem',
-            'image3': 'Imagem',
-
+            'image2': 'Imagem 2',
+            'image3': 'Imagem 3',
         }
 
 
@@ -147,14 +146,14 @@ class RegisterChampionship(forms.ModelForm):
         }
 
         labels = {
-            'athlete': 'Aluno',
-            'date': 'Data',
-            'championship': 'Campeonato',
-            'country': 'País',
-            'city': 'Cidade',
-            'category': 'Categoria',
-            'weight': 'Peso',
-            'ranking': 'Colocação,'
+            'athlete': _('Aluno'),
+            'date': _('Data'),
+            'championship': _('Campeonato'),
+            'country': _('País'),
+            'city': _('Cidade'),
+            'category': _('Categoria'),
+            'weight': _('Peso'),
+            'ranking': _('Colocação'),
         }
 
 

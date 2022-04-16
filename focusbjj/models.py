@@ -126,12 +126,12 @@ class Venda(models.Model):
 class ProductsList(models.Model):
     objects = None
     image = models.ImageField(upload_to='produtos/')
-    image2 = models.ImageField(upload_to='produtos/', blank=True, null=True)
-    image3 = models.ImageField(upload_to='produtos/', blank=True, null=True)
+    image2 = models.ImageField(upload_to='produtos/', blank=True, null=True, help_text='Opcional')
+    image3 = models.ImageField(upload_to='produtos/', blank=True, null=True, help_text='Opcional')
     item = models.CharField(max_length=50)
-    description = models.CharField(max_length=255, blank=True, null=True)
+    description = models.CharField(max_length=70, blank=True, null=True)
     price = models.CharField(max_length=6, null=True)
-    sugg_price = models.CharField(max_length=6, null=True)
+   # sugg_price = models.CharField(max_length=6, null=True)
 
     def __str__(self):
         return str(self.item)
