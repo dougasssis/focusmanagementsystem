@@ -11,8 +11,8 @@ Sales
 {% endblock%}
 {% block content %}
 
-<section >
-    <header   class="bg-no-repeat bg-cover" style="background-image: url('#');">
+<section>
+    <header class="bg-no-repeat bg-cover" style="background-image: url('#');">
         <div class="z-10 h-full py-32 md:py-30 text-dark-100 text-center flex items-center flex-col ">
             <form method="post" >
                 {% csrf_token %}
@@ -20,17 +20,20 @@ Sales
                     <legend class="border-bottom mb-4">{% trans "Graduar Aluno" %}<strong> | Focus Jiu-Jitsu</strong> </legend>
                         <p><b>Aluno:</b> {{ aluno.nome }} {{ aluno.surname }}</p>
                         <p><b>Faixa:</b> {{ aluno|current_belt }} {{ aluno|current_stripe }}</p><br>
-
                         {{ form|crispy }}
                 </fieldset>
                 <br>
                 <button class="bg-primary py-1 px-3 text-white w-full md:text-lg rounded-md" type="submit">Graduate</button>
             </form>
         </div>
-        </div>
 
     </header>
-    </section>
+</section>
+    <script>
+    {% for msg in messages %}
+        swal('{{ msg }}');
+    {% endfor %}
+    </script>
 
 
 {% endblock %}

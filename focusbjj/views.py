@@ -11,7 +11,7 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
 from .filter import AlunoFilter, SalesFilter
-from .templatetags.attendance_tags import current_belt
+from .templatetags.attendance_tags import current_belt, current_stripe
 from django.utils.translation import gettext as _, get_language, activate
 
 
@@ -425,6 +425,8 @@ class Graduate(LoginRequiredMixin, CreateView):
         return data
 
 
+
+
 class AddChampionship(LoginRequiredMixin, CreateView):
     template_name = 'campeonatos.html'
     model = Championship
@@ -483,7 +485,7 @@ class AddSocialMedia(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('focusbjj:addsocialmedia')
+        return reverse('focusbjj:socialmedia')
 
 
 class UpdateSocialMedia(LoginRequiredMixin, UpdateView):

@@ -15,7 +15,7 @@
     background: #ccc;
 }
 
-.box {
+.box-social-media {
     flex:1 1 300px;
     background: #fff;
     border: 1px solid rgba(0,0,0,.3);
@@ -24,7 +24,16 @@
     margin:20px;
 }
 
-.box .image img {
+.box-social-media .image img {
+    height: 250px;
+    width: 100%;
+    margin: auto;
+    object-fit: cover;
+    filter: drop-shadow(0 3px 5px rgba(0,0,0,.7));
+    cursor: pointer;
+}
+
+.box-social-media-social-media .image img {
     height: auto;
     width: 100%;
     margin: auto;
@@ -33,20 +42,24 @@
     cursor: pointer;
 }
 
-
-.box .info .title {
+.box-social-media .info .title {
     padding: 10px;
     color: #666;
     font-size: 20px;
 }
 
-.box .info .description {
+.box-social-media .info .small {
+    padding: 10px;
+    color: #666;
+}
+
+.box-social-media .info .description {
     padding: 0px 10px 5px;
     color: #666;
     font-size: 13px;
 }
 
-.box .info .subinfo {
+.box-social-media .info .subinfo {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -54,23 +67,23 @@
     border-top: 1px solid rgba(0,0,0,.3);
 }
 
-.box .info .subinfo .price{
+.box-social-media .info .subinfo .price{
     color:#ff3300;
     font-size: 20px;
 }
 
-.box .info .subinfo .price span{
+.box-social-media .info .subinfo .price span{
     color:#999;
     font-size: 15px;
     text-decoration: line-trought;
 }
 
-.box .info .subinfo .stars i{
+.box-social-media .info .subinfo .stars i{
     color:orange;
     font-size: 17px;
 }
 
-.box .overlay {
+.box-social-media .overlay {
     position: absolute;
     top:0; left: 0;
     height: 70%;
@@ -83,11 +96,11 @@
     transform: scale(0);
 }
 
-.box:hover .overlay{
+.box-social-media:hover .overlay{
     transform: scale(1);
 }
 
-.box .overlay a{
+.box-social-media .overlay a{
     color: #666;
     background: #fff;
     margin:10px;
@@ -97,10 +110,10 @@
     transition-property: transform;
 }
 
-.box .overlay a:hover{
+.box-social-media .overlay a:hover{
     color:orange;
 
 }
-.box:hover .overlay a{
+.box-social-media:hover .overlay a{
     transform: translateY(0px);
 }

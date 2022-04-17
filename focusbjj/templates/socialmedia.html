@@ -11,17 +11,20 @@
 <link rel="stylesheet" href="http://cdnjs.cloudfare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 <link rel="stylesheet" href="{% static 'style.css' %}">
 <link rel="stylesheet" href="{% static 'styles.css' %}">
+<link rel="stylesheet" href="{% static 'style_socialmedia.css' %}">
 <script defer src="{% static 'script.js' %}"></script>
 
 <div class="row">
     {% for post in posts %}
     <div class="box-container col-lg-3"> <!--  Row -->
-        <div class="box">
+        <div class="box-social-media">
             <div class="image">
                 <img src="{{ post.image.url }}" alt="">
             </div>
             <div class="info">
+                <small class="small">{% trans 'Clique na imagem para download' %}</small>
                 <h3 class="title">{{ post.title }} - {{ post.year }}</h3>
+
                 <div class="subinfo">
                     <div class="stars">
                         {% if user.is_superuser %}
