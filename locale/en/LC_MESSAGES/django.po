@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-15 15:15+0000\n"
+"POT-Creation-Date: 2022-04-17 11:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,230 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: focusbjj/forms.py:21
+#: focusbjj/forms.py:22
 msgid "INSIRA O SEU ID"
 msgstr "INSERT MEMBER ID"
+
+#: focusbjj/forms.py:30
+msgid "Usuário"
+msgstr "Username"
+
+#: focusbjj/forms.py:31
+msgid "Password"
+msgstr ""
+
+#: focusbjj/forms.py:74
+msgid "Foto"
+msgstr "Photo"
+
+#: focusbjj/forms.py:75 focusbjj/templates/detalhesalunos.html:41
+#: focusbjj/templates/managealunos.html:40
+#: focusbjj/templates/managealunos_kids.html:41
+#: focusbjj/templates/managealunostotal.html:41
+#: focusbjj/templates/managegraduationtotal.html:37
+msgid "Nome"
+msgstr "Name"
+
+#: focusbjj/forms.py:76
+msgid "Último Nome"
+msgstr "Last Name"
+
+#: focusbjj/forms.py:77 focusbjj/forms.py:171 focusbjj/forms.py:184
+#: focusbjj/templates/detalhesalunos.html:45
+msgid "Telefone"
+msgstr "Phone"
+
+#: focusbjj/forms.py:78 focusbjj/forms.py:186
+msgid "Endereço"
+msgstr "Address"
+
+#: focusbjj/forms.py:79 focusbjj/templates/detalhesalunos.html:66
+msgid "Data de Nascimento"
+msgstr "Birth of Date"
+
+#: focusbjj/forms.py:80
+msgid "Unidade"
+msgstr "Local"
+
+#: focusbjj/forms.py:81 focusbjj/forms.py:131
+#: focusbjj/templates/detalhesalunos.html:188
+#: focusbjj/templates/managealunos.html:41
+#: focusbjj/templates/managealunos_kids.html:42
+#: focusbjj/templates/managealunostotal.html:43
+#: focusbjj/templates/managegraduationtotal.html:38
+msgid "Faixa"
+msgstr "Belt"
+
+#: focusbjj/forms.py:82 focusbjj/forms.py:132
+#: focusbjj/templates/detalhesalunos.html:189
+#: focusbjj/templates/managegraduationtotal.html:39
+msgid "Grau"
+msgstr "Stripe"
+
+#: focusbjj/forms.py:94
+#, fuzzy
+#| msgid "Preço de Venda Sugerido"
+msgid "Preço de Venda"
+msgstr "Suggested Price for Sale"
+
+#: focusbjj/forms.py:95 focusbjj/templates/products.html:31
+msgid "Descrição"
+msgstr "Description"
+
+#: focusbjj/forms.py:96 focusbjj/templates/products.html:32
+msgid "Preço"
+msgstr "Price"
+
+#: focusbjj/forms.py:97
+msgid "Imagem Principal"
+msgstr "Image"
+
+#: focusbjj/forms.py:98
+msgid "Imagem 2"
+msgstr "Image 2"
+
+#: focusbjj/forms.py:99
+msgid "Imagem 3"
+msgstr "Image 3"
+
+#: focusbjj/forms.py:113 focusbjj/forms.py:151
+#: focusbjj/templates/saledetails.html:48 focusbjj/templates/vendas.html:28
+msgid "Aluno"
+msgstr "Athletes"
+
+#: focusbjj/forms.py:114 focusbjj/templates/saledetails.html:68
+msgid "Método de Pagamento"
+msgstr "Payment Method"
+
+#: focusbjj/forms.py:115
+msgid "Valor Total"
+msgstr "Total Ammount"
+
+#: focusbjj/forms.py:133
+msgid "Professor"
+msgstr "Master"
+
+#: focusbjj/forms.py:152 focusbjj/templates/detalhesalunos.html:100
+#: focusbjj/templates/detalhesalunos.html:190
+#: focusbjj/templates/saledetails.html:64 focusbjj/templates/vendas.html:30
+msgid "Data"
+msgstr "Date"
+
+#: focusbjj/forms.py:153
+#, fuzzy
+#| msgid "Campeonatos"
+msgid "Campeonato"
+msgstr "Championships List"
+
+#: focusbjj/forms.py:154 focusbjj/templates/homecontent_.html:100
+msgid "País"
+msgstr "Country"
+
+#: focusbjj/forms.py:155 focusbjj/templates/homecontent_.html:104
+msgid "Cidade"
+msgstr "City"
+
+#: focusbjj/forms.py:156 focusbjj/templates/detalhesalunos.html:150
+msgid "Categoria"
+msgstr "Category"
+
+#: focusbjj/forms.py:157 focusbjj/templates/detalhesalunos.html:151
+msgid "Peso"
+msgstr "Weight"
+
+#: focusbjj/forms.py:158 focusbjj/templates/detalhesalunos.html:152
+msgid "Colocação"
+msgstr "Place"
+
+#: focusbjj/forms.py:170 focusbjj/forms.py:183
+#, fuzzy
+#| msgid "Contato"
+msgid "Nome de Contato"
+msgstr "Contact"
+
+#: focusbjj/forms.py:185
+msgid "E-Mail"
+msgstr ""
+
+#: focusbjj/models.py:50
+msgid "Feminino"
+msgstr "Female"
+
+#: focusbjj/models.py:51
+msgid "Masculino"
+msgstr "Male"
+
+#: focusbjj/models.py:55
+msgid "Cartão de Crédito"
+msgstr "Credit Card"
+
+#: focusbjj/models.py:56
+msgid "Cartão de Débito"
+msgstr "Debt Card"
+
+#: focusbjj/models.py:57
+msgid "Dinheiro"
+msgstr "Cash"
+
+#: focusbjj/models.py:58 focusbjj/models.py:219
+msgid "Outros"
+msgstr "Others"
+
+#: focusbjj/models.py:184
+msgid "Juvenil"
+msgstr "Juvenile"
+
+#: focusbjj/models.py:185
+#, fuzzy
+#| msgid "Adultos"
+msgid "Adulto/Master"
+msgstr "Adults/Master"
+
+#: focusbjj/models.py:189
+msgid "Primeiro Lugar"
+msgstr "First Place"
+
+#: focusbjj/models.py:190
+msgid "Segundo Lugar"
+msgstr "Second Place"
+
+#: focusbjj/models.py:191
+msgid "Teceiro Lugar"
+msgstr "Third Place"
+
+#: focusbjj/models.py:212
+msgid "Ano Novo"
+msgstr "New Year"
+
+#: focusbjj/models.py:213
+msgid "Natal"
+msgstr "Christmas"
+
+#: focusbjj/models.py:214
+msgid "Páscoa"
+msgstr "Easter"
+
+#: focusbjj/models.py:215
+msgid "Dia dos Pais"
+msgstr "Father's Day"
+
+#: focusbjj/models.py:216
+msgid "Dia das Mães"
+msgstr "Mother's Day"
+
+#: focusbjj/models.py:217
+msgid "Dia das Crianças"
+msgstr "Kid's Day"
+
+#: focusbjj/models.py:218
+msgid "Dia da Mulher"
+msgstr "Women's Day"
 
 #: focusbjj/templates/add_aluno.html:18 templates/base_nonavbar.html:61
 msgid "Registrar Aluno"
 msgstr "Register Athlete"
 
-#: focusbjj/templates/add_aluno.html:22 templates/sidebar_template.html:80
+#: focusbjj/templates/add_aluno.html:22 templates/sidebar_template.html:98
 msgid "Adicionar Aluno"
 msgstr "Add Athlete"
 
@@ -54,18 +269,6 @@ msgstr "Personal Info"
 msgid "ID"
 msgstr "ID"
 
-#: focusbjj/templates/detalhesalunos.html:41
-#: focusbjj/templates/managealunos.html:40
-#: focusbjj/templates/managealunos_kids.html:41
-#: focusbjj/templates/managealunostotal.html:41
-#: focusbjj/templates/managegraduationtotal.html:37
-msgid "Nome"
-msgstr "Name"
-
-#: focusbjj/templates/detalhesalunos.html:45
-msgid "Telefone"
-msgstr "Phone"
-
 #: focusbjj/templates/detalhesalunos.html:53
 msgid "Gênero"
 msgstr "Gender"
@@ -74,89 +277,56 @@ msgstr "Gender"
 msgid "Primeira Faixa"
 msgstr "First Belt"
 
-#: focusbjj/templates/detalhesalunos.html:65
+#: focusbjj/templates/detalhesalunos.html:61
 msgid "Faixa Atual"
 msgstr "Current Belt"
 
-#: focusbjj/templates/detalhesalunos.html:73
-msgid "Data de Nascimento"
-msgstr "Birth Date"
-
-#: focusbjj/templates/detalhesalunos.html:77
+#: focusbjj/templates/detalhesalunos.html:70
 msgid "Inicio"
 msgstr "Join Date"
 
-#: focusbjj/templates/detalhesalunos.html:96
+#: focusbjj/templates/detalhesalunos.html:89
 msgid "Histórico de Compras"
 msgstr "Purchase History"
 
-#: focusbjj/templates/detalhesalunos.html:107
-#: focusbjj/templates/detalhesalunos.html:197
-#: focusbjj/templates/saledetails.html:64 focusbjj/templates/vendas.html:30
-msgid "Data"
-msgstr "Date"
-
-#: focusbjj/templates/detalhesalunos.html:108 focusbjj/templates/vendas.html:31
+#: focusbjj/templates/detalhesalunos.html:101 focusbjj/templates/vendas.html:31
 msgid "Valor"
 msgstr "Price"
 
-#: focusbjj/templates/detalhesalunos.html:119 focusbjj/templates/vendas.html:48
+#: focusbjj/templates/detalhesalunos.html:112 focusbjj/templates/vendas.html:48
 msgid "Detalhes"
 msgstr "Details"
 
-#: focusbjj/templates/detalhesalunos.html:124 focusbjj/templates/vendas.html:57
+#: focusbjj/templates/detalhesalunos.html:117 focusbjj/templates/vendas.html:57
 msgid "Total"
 msgstr "Total"
 
-#: focusbjj/templates/detalhesalunos.html:145
-#: focusbjj/templates/detalhesalunos.html:156
-#: templates/sidebar_template.html:142
+#: focusbjj/templates/detalhesalunos.html:138
+#: focusbjj/templates/detalhesalunos.html:149
+#: templates/sidebar_template.html:160
 msgid "Campeonatos"
 msgstr "Championships List"
 
-#: focusbjj/templates/detalhesalunos.html:157
-msgid "Categoria"
-msgstr "Category"
-
-#: focusbjj/templates/detalhesalunos.html:158
-msgid "Peso"
-msgstr "Weight"
-
-#: focusbjj/templates/detalhesalunos.html:159
-msgid "Colocação"
-msgstr "Place"
-
-#: focusbjj/templates/detalhesalunos.html:184
+#: focusbjj/templates/detalhesalunos.html:177
 msgid "Histórico de Graduação"
 msgstr "Graduation History"
 
-#: focusbjj/templates/detalhesalunos.html:195
-#: focusbjj/templates/managealunos.html:41
-#: focusbjj/templates/managealunos_kids.html:42
-#: focusbjj/templates/managealunostotal.html:43
-#: focusbjj/templates/managegraduationtotal.html:38
-msgid "Faixa"
-msgstr "Belt"
+#: focusbjj/templates/edit_socialmedia.html:18
+#, fuzzy
+msgid "Editar Social Media"
+msgstr "Edit Afiliate"
 
-#: focusbjj/templates/detalhesalunos.html:196
-#: focusbjj/templates/managegraduationtotal.html:39
-msgid "Grau"
-msgstr "Stripe"
+#: focusbjj/templates/edit_socialmedia.html:21
+#: focusbjj/templates/editaralunos.html:21
+#: focusbjj/templates/editarbranch.html:21
+msgid "Editar"
+msgstr "Edit"
 
 #: focusbjj/templates/editaralunos.html:18
-#, fuzzy
 msgid "Editar Aluno"
 msgstr "Edit Athlete"
 
-#: focusbjj/templates/editaralunos.html:21
-#: focusbjj/templates/editarbranch.html:21
-#, fuzzy
-#| msgid "Editar Perfil"
-msgid "Editar"
-msgstr "Edit Profile"
-
 #: focusbjj/templates/editarbranch.html:18
-#, fuzzy
 msgid "Editar Afiliado"
 msgstr "Edit Afiliate"
 
@@ -169,7 +339,6 @@ msgid "Clique Aqui."
 msgstr "Click Here!"
 
 #: focusbjj/templates/graduation.html:20
-#, fuzzy
 msgid "Graduar Aluno"
 msgstr "Graduate Athlete"
 
@@ -196,14 +365,6 @@ msgstr "Contact"
 #: focusbjj/templates/homecontent_.html:92
 msgid "Fone"
 msgstr "Phone"
-
-#: focusbjj/templates/homecontent_.html:100
-msgid "País"
-msgstr "Country"
-
-#: focusbjj/templates/homecontent_.html:104
-msgid "Cidade"
-msgstr "City"
 
 #: focusbjj/templates/homecontent_.html:108
 #: focusbjj/templates/managealunos_kids.html:23
@@ -308,7 +469,7 @@ msgstr "Submit"
 
 #: focusbjj/templates/password_reset_complete.html:17
 msgid "Senha alterada com sucesso!"
-msgstr "Password edited successfully"
+msgstr "New password set successfully"
 
 #: focusbjj/templates/password_reset_complete.html:19
 msgid "Você pode prosseguir e fazer login agora."
@@ -320,7 +481,7 @@ msgstr "Reset Password"
 
 #: focusbjj/templates/password_reset_done.html:16
 msgid "Redefinição de senha enviada com sucesso!"
-msgstr "Succes!"
+msgstr "Success!"
 
 #: focusbjj/templates/password_reset_done.html:18
 msgid "Nos te enviamos um email com instruções para configurar sua nova senha."
@@ -347,60 +508,58 @@ msgstr "Click in the Image to Zoom +"
 msgid "Item"
 msgstr "Item"
 
-#: focusbjj/templates/products.html:31
-msgid "Descrição"
-msgstr "Description"
-
-#: focusbjj/templates/products.html:32
-msgid "Preço"
-msgstr "Price"
-
 #: focusbjj/templates/products.html:33
 msgid "Preço de Venda Sugerido"
 msgstr "Suggested Price for Sale"
-
-#: focusbjj/templates/saledetails.html:48 focusbjj/templates/vendas.html:28
-#, fuzzy
-#| msgid "Alunos"
-msgid "Aluno"
-msgstr "Athletes"
 
 #: focusbjj/templates/saledetails.html:59
 msgid "Qtd"
 msgstr "Qty"
 
-#: focusbjj/templates/saledetails.html:68
-msgid "Método de Pagamento"
-msgstr "Payment Method"
+#: focusbjj/templates/socialmedia.html:25
+#, fuzzy
+#| msgid "Clique na Imagem para Ampliar"
+msgid "Clique na imagem para download"
+msgstr "Click in the Image to Zoom +"
 
-#: focusbjj/templates/vendas.html:18 templates/sidebar_template.html:124
+#: focusbjj/templates/vendas.html:18 templates/sidebar_template.html:142
 msgid "Histórico de Vendas"
 msgstr "Sales History"
 
-#: templates/sidebar_template.html:71
+#: templates/sidebar_template.html:69
+#, fuzzy
+#| msgid "Adicionar Venda"
+msgid "Adicionar Social Media"
+msgstr "Add Sale"
+
+#: templates/sidebar_template.html:80
 msgid "Produtos"
 msgstr "Products List"
 
 #: templates/sidebar_template.html:89
+msgid "Social Media"
+msgstr ""
+
+#: templates/sidebar_template.html:107
 msgid "Alunos | Adultos"
 msgstr "Athlete | Adults"
 
-#: templates/sidebar_template.html:97
+#: templates/sidebar_template.html:115
 msgid "Alunos | Infantil"
 msgstr "Athlete | Kids"
 
-#: templates/sidebar_template.html:105
+#: templates/sidebar_template.html:123
 msgid "Graduação"
 msgstr "Graduations"
 
-#: templates/sidebar_template.html:115
+#: templates/sidebar_template.html:133
 msgid "Adicionar Vendas"
 msgstr "Add Sale"
 
-#: templates/sidebar_template.html:134
+#: templates/sidebar_template.html:152
 msgid "Adicionar Campeonato"
 msgstr "Add Championship"
 
-#: templates/sidebar_template.html:151
+#: templates/sidebar_template.html:169
 msgid "Editar Perfil"
 msgstr "Edit Profile"
