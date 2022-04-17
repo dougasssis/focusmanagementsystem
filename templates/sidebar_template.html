@@ -62,6 +62,15 @@
             </a>
           </li>
 
+          <li class="nav-item">
+            <a href="{% url 'focusbjj:addsocialmedia' %}" class="nav-link ">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                {% trans "Adicionar Social Media" %}
+              </p>
+            </a>
+          </li>
+
           {% else %}
           {% endif%}
           <li class="nav-item">
@@ -69,6 +78,15 @@
               <i class="nav-icon fas fa-th"></i>
               <p>
                 {% trans "Produtos" %}
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{% url 'focusbjj:socialmedia' %}" class="nav-link ">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                {% trans "Social Media" %}
               </p>
             </a>
           </li>

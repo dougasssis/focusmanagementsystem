@@ -1,0 +1,42 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block titulo %}
+Delelte Social Media
+{% endblock%}
+{% block content %}
+
+<section >
+    <header   class="bg-no-repeat bg-cover" style="background-image: url('#');">
+        <div class="z-10 h-full py-5 md:py-30 text-dark-100 text-center flex items-center flex-col ">
+            <form method="post" >
+                {% csrf_token %}
+                <fieldset class="form-group ">
+                    <legend class="border-bottom mb-4">Delete Social Media<strong> | Focus Jiu-Jitsu</strong> </legend>
+                    <strong>Are sure You want to delete this item?</strong>
+
+                </fieldset>
+                <div align="center">
+                 <table>
+                     <tr>
+                        <img width="200px" src="{{ post.image.url }}" alt=""><br>
+                        <td  style="width:300px" align="center"><b>Post:</b> {{ post.title }} - {{ post.year }}</td>
+                     </tr>
+
+                        </table>
+                    </div>
+                <br>
+                <button class="bg-red py-1 px-3 text-white  md:text-lg rounded-md " type="submit">Delete</button>
+                <a href="{% url 'focusbjj:socialmedia' %}" class="btn btn-primary">Cancel</a>
+            </form>
+        </div>
+    </header>
+</section>
+<script>
+{% for msg in messages %}
+    swal('{{ msg }}');
+{% endfor %}
+</script>
+
+{% endblock %}

@@ -87,7 +87,7 @@ def current_stripe(aluno_instance):
     if belt:
         current = belt[0].stripe
     else:
-        current = ''
+        current = aluno_instance.stripe
     return current
 
 

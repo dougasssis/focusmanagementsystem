@@ -2,7 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import inlineformset_factory
 from django.utils.translation import gettext as _, get_language, activate
-from focusbjj.models import GetAttendance, Aluno, Venda, Graduation, Product, Championship, ProductsList, CustomUser
+from focusbjj.models import GetAttendance, Aluno, Venda, Graduation, Product, Championship, ProductsList, CustomUser, \
+    Posts
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -26,8 +27,8 @@ class LoginForm(forms.Form):
     class Meta:
         fields = ['username', 'password']
         labels = {
-            'username': "Nome de Utilizador",
-            'password': "Password",
+            'username': _("Usuário"),
+            'password': _("Password"),
         }
 
 
@@ -70,15 +71,15 @@ class RegisterAlunoForm(forms.ModelForm):
         }
 
         labels = {
-            'photo': 'Foto',
-            'nome': 'Nome',
-            'surname': 'Último Nome',
-            'phone': 'Telefone',
-            'address': 'Endereço',
-            'dob': 'Data de Nascimento',
-            'location': 'Unidade',
-            'belt': 'Faixa',
-            'stripe': 'Grau',
+            'photo': _('Foto'),
+            'nome': _('Nome'),
+            'surname': _('Último Nome'),
+            'phone': _('Telefone'),
+            'address': _('Endereço'),
+            'dob': _('Data de Nascimento'),
+            'location': _('Unidade'),
+            'belt': _('Faixa'),
+            'stripe': _('Grau'),
         }
 
 
@@ -90,12 +91,12 @@ class ProductForm(forms.ModelForm):
         fields = ['image', 'image2', 'image3','item', 'description', 'price'] #, 'sugg_price'
 
         labels = {
-            'sugg_price': 'Preço de Venda',
-            'description': 'Descrição',
-            'price': 'Preço',
-            'image': 'Imagem Principal',
-            'image2': 'Imagem 2',
-            'image3': 'Imagem 3',
+            'sugg_price': _('Preço de Venda'),
+            'description': _('Descrição'),
+            'price': _('Preço'),
+            'image': _('Imagem Principal'),
+            'image2': _('Imagem 2'),
+            'image3': _('Imagem 3'),
         }
 
 
@@ -109,9 +110,9 @@ class VendaForm(forms.ModelForm):
             'aluno': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Insert Member ID'}),
         }
         labels = {
-            'aluno': 'Aluno',
-            'method': 'Método de Pagamento',
-            'price': 'Valor Total',
+            'aluno': _('Aluno'),
+            'method': _('Método de Pagamento'),
+            'price': _('Valor Total'),
         }
 
 
@@ -124,11 +125,12 @@ class GraduateForm(forms.ModelForm):
 
     class Meta:
         model = Graduation
-        fields = ['belt', 'stripe']
+        fields = ['belt', 'stripe', 'master']
 
         label = {
-            'belt': 'Faixa',
-            'stripe': 'Grau'
+            'belt': _('Faixa'),
+            'stripe': _('Grau'),
+            'master': _('Professor'),
         }
 
 
@@ -165,8 +167,8 @@ class EditBranchForm(forms.ModelForm):
         fields = ['contact_name', 'email', 'phone']
 
         labels = {
-            'contact_name': 'Nome de Contato',
-            'phone': 'Telefone'
+            'contact_name': _('Nome de Contato'),
+            'phone': _('Telefone'),
         }
 
 
@@ -175,9 +177,28 @@ class EditAtlheteForm(forms.ModelForm):
 
     class Meta:
         model = Aluno
-        fields = ['nome', 'email', 'phone']
+        fields = ['nome', 'email', 'phone', 'address']
 
         labels = {
-            'nome': 'Nome de Contato',
-            'phone': 'Telefone'
+            'nome': _('Nome de Contato'),
+            'phone': _('Telefone'),
+            'email': _('E-Mail'),
+            'address': _('Endereço'),
+        }
+
+
+class SocialMediaForm(forms.ModelForm):
+    template_name = 'add_socialmedia.html'
+
+    class Meta:
+        model = Posts
+        fields = ['image', 'title']
+
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título do Evento'}),
+        }
+
+        labels = {
+            'image': 'Image',
+            'title': 'Título',
         }

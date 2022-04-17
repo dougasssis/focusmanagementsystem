@@ -55,19 +55,12 @@ Student Details
                             </tr>
                             <tr>
                                 <th>{% trans "Primeira Faixa" %}</th>
-                                {% if aluno.stripee %}
                                 <td>{{ aluno.belt }} - {{ aluno.stripe }}</td>
-                                {% else %}
-                                <td>{{ aluno.belt }}</td>
-                                {% endif %}
                             </tr>
                             <tr>
                                 <th>{% trans "Faixa Atual" %}</th>
-                                {% if aluno|current_belt %}
                                 <td>{{ aluno|current_belt }} - {{ aluno|current_stripe }} </td>
-                                {% else %}
-                                <td>{{ aluno.belt }} </td>
-                                {% endif %}
+
                             </tr>
                              <tr>
                                 <th>{% trans "Data de Nascimento" %}</th>

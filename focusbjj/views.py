@@ -463,6 +463,56 @@ class ProductList(LoginRequiredMixin, ListView):
         return context
 
 
+class SocialMedia(LoginRequiredMixin, ListView):
+    template_name = 'socialmedia.html'
+    model = Posts
+
+    def get_context_data(self, **kwargs):
+        context = super(SocialMedia, self).get_context_data(**kwargs)
+        context['posts'] = Posts.objects.all()
+        return context
+
+
+class AddSocialMedia(LoginRequiredMixin, CreateView):
+    template_name = 'add_socialmedia.html'
+    model = Posts
+    form_class = SocialMediaForm
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('focusbjj:addsocialmedia')
+
+
+class UpdateSocialMedia(LoginRequiredMixin, UpdateView):
+    template_name = 'edit_socialmedia.html'
+    model = Posts
+    fields = ['title']
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateSocialMedia, self).get_context_data(**kwargs)
+        context['posts'] = Posts.objects.all()
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('focusbjj:socialmedia')
+
+
+class DeleteSocialMedia(LoginRequiredMixin, DeleteView):
+    template_name = 'delete_socialmedia.html'
+    model = Posts
+    context_object_name = 'post'
+
+    def get_success_url(self):
+        return reverse('focusbjj:socialmedia')
+
+
 class EditProduct(LoginRequiredMixin, UpdateView):
     template_name = 'editarprodutos.html'
     model = ProductsList

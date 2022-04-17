@@ -1,0 +1,44 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load attendance_tags %}
+{% load i18n %}
+
+{% block head %}
+
+{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="http://cdnjs.cloudfare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+<script defer src="{% static 'script.js' %}"></script>
+
+<div class="row">
+    {% for post in posts %}
+    <div class="box-container col-lg-3"> <!--  Row -->
+        <div class="box">
+            <div class="image">
+                <img src="{{ post.image.url }}" alt="">
+            </div>
+            <div class="info">
+                <h3 class="title">{{ post.title }} - {{ post.year }}</h3>
+                <div class="subinfo">
+                    <div class="stars">
+                        {% if user.is_superuser %}
+                        <a href="{% url 'focusbjj:updatesocialmedia' post.pk %}" class="btn btn-primary btn-sm">Editar</a>
+                        <a href="{% url 'focusbjj:deletesocialmedia' post.pk %}" class=" btn btn-danger btn-sm">Delete</a>
+                        {% else %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+
+

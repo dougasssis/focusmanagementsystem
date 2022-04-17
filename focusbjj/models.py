@@ -5,6 +5,8 @@ from django.utils import timezone
 from django_countries.fields import CountryField
 from django import template
 from shortuuid.django_fields import ShortUUIDField
+from django.utils.translation import gettext as _
+
 
 register = template.Library()
 
@@ -45,15 +47,15 @@ GRAU = (
 )
 
 GENDER = (
-    ('Female', 'Feminino'),
-    ('Male', 'Masculino'),
+    ('Female', _('Feminino')),
+    ('Male', _('Masculino')),
 )
 
 METHODS = (
-    ('Credit Card', 'Cartão de Crédito'),
-    ('Debit Card', 'Cartão de Débito'),
-    ('Cash', 'Dinheiro'),
-    ('Others', 'Outros')
+    ('Credit', _('Cartão de Crédito')),
+    ('Debit', _('Cartão de Débito')),
+    ('Cash', _('Dinheiro')),
+    ('Others', _('Outros'))
 )
 
 
@@ -101,6 +103,9 @@ class Aluno(models.Model):
         idade = today.year - self.dob.year - ((today.month, today.day) < (self.dob.month, self.dob.day))
         return idade
 
+    class Meta:
+        ordering = ["nome"]
+
 
 class GetAttendance(models.Model):
     objects = None
@@ -131,7 +136,8 @@ class ProductsList(models.Model):
     item = models.CharField(max_length=50)
     description = models.CharField(max_length=70, blank=True, null=True)
     price = models.CharField(max_length=6, null=True)
-   # sugg_price = models.CharField(max_length=6, null=True)
+
+    # sugg_price = models.CharField(max_length=6, null=True)
 
     def __str__(self):
         return str(self.item)
@@ -139,7 +145,8 @@ class ProductsList(models.Model):
 
 class Product(models.Model):
     objects = None
-    product = models.ForeignKey(ProductsList, on_delete=models.CASCADE, max_length=50, related_name='produto', verbose_name='Item')
+    product = models.ForeignKey(ProductsList, on_delete=models.CASCADE, max_length=50, related_name='produto',
+                                verbose_name='Item')
     qtd = models.PositiveIntegerField(verbose_name='Quantidade')
     venda = models.ForeignKey(Venda, on_delete=models.CASCADE, null=True, related_name='venda')
     price = models.CharField(max_length=6, null=True, blank=True)
@@ -151,6 +158,7 @@ class Product(models.Model):
 class Graduation(models.Model):
     objects = None
     aluno = models.ForeignKey(Aluno, related_name='graduacao', on_delete=models.CASCADE, verbose_name='Athlete')
+    master = models.CharField(max_length=15, null=True)
     belt = models.CharField(max_length=255, choices=BELT)
     stripe = models.CharField(max_length=255, choices=GRAU)
     time_stamp = models.DateTimeField(default=timezone.now)
@@ -165,27 +173,22 @@ WEIGHT = (
     ('feather', 'Feather'),
     ('light', 'Light'),
     ('middle', 'Middle'),
-    ('middle heavy', 'Middle Heavy'),
+    ('middle_heavy', 'Middle Heavy'),
     ('heavy', 'Heavy'),
-    ('super heavy', 'Super Heavy'),
-    ('ultra heavy', 'Ultra Heavy'),
+    ('super_heavy', 'Super Heavy'),
+    ('ultra_heavy', 'Ultra Heavy'),
     ('open', 'Open'),
 )
 
 CATEGORY = (
-    ('juvenil', 'Juvenil'),
-    ('adult master', 'Adulto/Master'),
-)
-
-GI = (
-    ('nogi', 'No Gi'),
-    ('gi', 'Gi'),
+    ('juvenile', _('Juvenil')),
+    ('adult', _('Adulto/Master')),
 )
 
 RANKING = (
-    ('first place', 'Primeiro Lugar'),
-    ('second place', 'Segundo Lugar'),
-    ('third place', 'Teceiro Lugar'),
+    ('first place', _('Primeiro Lugar')),
+    ('second place', _('Segundo Lugar')),
+    ('third place', _('Teceiro Lugar')),
 )
 
 
@@ -204,4 +207,26 @@ class Championship(models.Model):
         return str(self.athlete) + " - " + str(self.championship)
 
 
+class Posts(models.Model):
+    CATEGORY = (
+        ('newyear', _('Ano Novo')),
+        ('xmas', _('Natal')),
+        ('easter', _('Páscoa')),
+        ('father', _('Dia dos Pais')),
+        ('mother', _('Dia das Mães')),
+        ('kids', _('Dia das Crianças')),
+        ('women', _('Dia da Mulher')),
+        ('others', _('Outros')),
+    )
 
+    objects = None
+    title = models.CharField(max_length=50)
+    category = models.CharField(max_length=20, default='others', choices=CATEGORY, null=True, blank=True)
+    image = models.ImageField(upload_to='socialmedia', )
+    timestamp = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    def year(self):
+        return self.timestamp.year
