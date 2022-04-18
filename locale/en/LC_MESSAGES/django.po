@@ -376,8 +376,6 @@ msgid "Alunos por Gênero"
 msgstr "Gender"
 
 #: focusbjj/templates/homecontent_.html:140
-#, fuzzy
-#| msgid "Alunos | Infantil"
 msgid "Alunos por Idade"
 msgstr "Age"
 
