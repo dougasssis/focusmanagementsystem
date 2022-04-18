@@ -152,6 +152,9 @@ class ProductsList(models.Model):
     def __str__(self):
         return str(self.item)
 
+    class Meta:
+        ordering = ["item"]
+
 
 class Product(models.Model):
     objects = None
