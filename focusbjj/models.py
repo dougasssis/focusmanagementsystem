@@ -73,7 +73,7 @@ class CustomUser(AbstractUser):
         return str(self.country) + " - " + str(self.location)
 
     class Meta:
-        ordering = ["country"]
+        ordering = ["country", "location"]
 
 
 class Aluno(models.Model):
