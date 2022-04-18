@@ -94,11 +94,8 @@ FOCUS BJJ - {{ request.user.location }}
                                 <td>{{ aluno.nome|title }} {{ aluno.surname|title }}</td>
                                 <td>{{ aluno.location }}</td>
                                 <td>
-                            <!--    {% if aluno|current_belt %} -->
                                 {{ aluno|current_belt }}
-                              <!--  {% else %}
-                                {{ aluno.belt }}
-                                {% endif %} -->
+
                                 </td>
                                 <td>
                                     {% if aluno|new_attendance == None %}

@@ -56,6 +56,8 @@ FOCUS BJJ - {{ request.user.location }}
                                 <th>Contato</th>
                                 <th>Telefone</th>
                                 <th>E-Mail</th>
+                                <th>Status</th>
+
                                 <th></th>
                                 </tr>
                             </thead>
@@ -69,6 +71,15 @@ FOCUS BJJ - {{ request.user.location }}
                                 <td>{{ user.contact_name|title }}</td>
                                 <td>{{user.phone}}</td>
                                 <td>{{ user.email|lower }}</td>
+                                <td>
+                                    {% if user.is_active %}
+                                    <b>Usúario Ativo   </b>
+                                    {% else %}
+                                    <b style="color: red"> Usúario Inativo </b>
+                                    {% endif %}
+                                </td>
+
+
                                 <td>
                                     <a href="{% url 'focusbjj:editarstaffsuper' user.pk %}" class="btn btn-success">Edit</a>
                                     <a href="{% url 'focusbjj:branchdetails' user.pk %}" class="btn btn-primary">Details</a>

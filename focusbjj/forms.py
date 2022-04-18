@@ -88,7 +88,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = ProductsList
-        fields = ['image', 'image2', 'image3','item', 'description', 'price'] #, 'sugg_price'
+        fields = ['image', 'image2', 'image3','item', 'description', 'category', 'price', 'sugg_price']
 
         labels = {
             'sugg_price': _('Preço de Venda'),
@@ -97,6 +97,7 @@ class ProductForm(forms.ModelForm):
             'image': _('Imagem Principal'),
             'image2': _('Imagem 2'),
             'image3': _('Imagem 3'),
+            'category': _('Categoria'),
         }
 
 

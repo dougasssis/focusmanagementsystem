@@ -10,9 +10,8 @@ from focusbjj.models import *
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
-from .filter import AlunoFilter, SalesFilter
+from .filter import AlunoFilter, ProductsFilter
 from .templatetags.attendance_tags import current_belt, current_stripe
-from django.utils.translation import gettext as _, get_language, activate
 
 
 class Attendance(FormView):
@@ -463,12 +462,20 @@ class SaleDetails(LoginRequiredMixin, DetailView):
 
 
 class ProductList(LoginRequiredMixin, ListView):
-    template_name = 'products_.html'
+    template_name = 'products.html'
     model = ProductsList
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        filter = ProductsFilter(self.request.GET, queryset)
+        return filter.qs
 
     def get_context_data(self, **kwargs):
         context = super(ProductList, self).get_context_data(**kwargs)
         context['products'] = ProductsList.objects.all()
+        queryset = self.get_queryset()
+        filter = ProductsFilter(self.request.GET, queryset)
+        context['filter'] = filter
         return context
 
 
