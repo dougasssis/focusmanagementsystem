@@ -62,8 +62,8 @@
             {% endif %}
           </td>
             </div>
-          <td>  {{ item.item }}</td>
-          <td>  {{ item.description }}</td>
+          <td>  {{ item.item|title }}</td>
+          <td>  {{ item.description|capfirst }}</td>
           <td>€ {{ item.price }}</td>
           <td>€ {{ item.sugg_price }}</td>
           {% if user.is_superuser %}
@@ -101,8 +101,8 @@
             {% endif %}
           </td>
             </div>
-          <td>  {{ item.item }}</td>
-          <td>  {{ item.description }}</td>
+          <td>  {{ item.item|title }}</td>
+          <td>  {{ item.description|lower }}</td>
           <td>€ {{ item.price }}</td>
           <td>€ {{ item.sugg_price }}</td>
           {% if user.is_superuser %}
