@@ -187,6 +187,7 @@ Student Details
                     <tr>
                         <th>{% trans "Faixa" %}</th>
                         <th>{% trans "Grau" %}</th>
+                        <th>{% trans "Professor" %}</th>
                         <th>{% trans "Data" %}</th>
                     </tr>
                 </thead>
@@ -200,6 +201,7 @@ Student Details
                             {% else %}
                             {% endif %}
                         </td>
+                        <td> {{ graduacao.master }}</td>
                         <td>{{ graduacao.time_stamp|date:"d F Y" }}</td>
                         </tr>
                 {% endfor %}

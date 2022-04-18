@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-17 11:27+0000\n"
+"POT-Creation-Date: 2022-04-17 15:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -518,19 +518,16 @@ msgstr "Qty"
 
 #: focusbjj/templates/socialmedia.html:25
 #, fuzzy
-#| msgid "Clique na Imagem para Ampliar"
 msgid "Clique na imagem para download"
-msgstr "Click in the Image to Zoom +"
+msgstr "Click on the image and download it"
 
 #: focusbjj/templates/vendas.html:18 templates/sidebar_template.html:142
 msgid "Histórico de Vendas"
 msgstr "Sales History"
 
 #: templates/sidebar_template.html:69
-#, fuzzy
-#| msgid "Adicionar Venda"
 msgid "Adicionar Social Media"
-msgstr "Add Sale"
+msgstr "Add Social Media"
 
 #: templates/sidebar_template.html:80
 msgid "Produtos"
@@ -538,7 +535,7 @@ msgstr "Products List"
 
 #: templates/sidebar_template.html:89
 msgid "Social Media"
-msgstr ""
+msgstr "Social Media"
 
 #: templates/sidebar_template.html:107
 msgid "Alunos | Adultos"
