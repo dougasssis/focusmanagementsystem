@@ -21,6 +21,7 @@ urlpatterns = [
     path('logout/', auth_view.LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('editaralunos/<int:pk>', views.EditarAluno.as_view(), name='editaralunos'),
     path('editbranch/<int:pk>', views.EditarBranch.as_view(), name='editarstaff'),
+    path('editbranch/super/<int:pk>', views.EditarBranchSuper.as_view(), name='editarstaffsuper'),
     path('editbranch//editpassword/', auth_view.PasswordChangeView.as_view(
         template_name='editarbranch.html', success_url=reverse_lazy('attendance:password_done')),
         name='mudarsenha'),

@@ -159,6 +159,20 @@ class RegisterChampionship(forms.ModelForm):
         }
 
 
+class EditBranchFormSuper(forms.ModelForm):
+    template_name = "editarbranch.html"
+
+    class Meta:
+        model = CustomUser
+        fields = ['contact_name', 'email', 'phone', 'is_active']
+
+        labels = {
+            'contact_name': _('Nome de Contato'),
+            'phone': _('Telefone'),
+            'is_active': _('Usuário Ativo')
+        }
+
+
 class EditBranchForm(forms.ModelForm):
     template_name = "editarbranch.html"
 

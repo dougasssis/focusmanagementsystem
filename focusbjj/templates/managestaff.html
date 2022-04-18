@@ -70,7 +70,7 @@ FOCUS BJJ - {{ request.user.location }}
                                 <td>{{user.phone}}</td>
                                 <td>{{ user.email|lower }}</td>
                                 <td>
-                                    <a href="{% url 'focusbjj:editarstaff' user.pk %}" class="btn btn-success">Edit</a>
+                                    <a href="{% url 'focusbjj:editarstaffsuper' user.pk %}" class="btn btn-success">Edit</a>
                                     <a href="{% url 'focusbjj:branchdetails' user.pk %}" class="btn btn-primary">Details</a>
                                 </td>
                                 </tr>

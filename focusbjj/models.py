@@ -67,6 +67,7 @@ class CustomUser(AbstractUser):
     location = models.CharField(max_length=255)
     phone = models.CharField(max_length=15, help_text='Use only numbers')
     join_date = models.DateTimeField(default=timezone.now)
+    is_active = models.BooleanField(default=True, help_text='Desmarque a caixa para desativar')
 
     def __str__(self):
         return str(self.country) + " - " + str(self.location)

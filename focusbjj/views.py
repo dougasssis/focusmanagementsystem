@@ -337,6 +337,15 @@ class EditarBranch(LoginRequiredMixin, UpdateView):
     form_class = EditBranchForm
 
     def get_success_url(self):
+        return reverse('focusbjj:filiais')
+
+
+class EditarBranchSuper(LoginRequiredMixin, UpdateView):
+    template_name = 'editarbranch.html'
+    model = CustomUser
+    form_class = EditBranchFormSuper
+
+    def get_success_url(self):
         return reverse('focusbjj:managestaff')
 
 
@@ -423,8 +432,6 @@ class Graduate(LoginRequiredMixin, CreateView):
             raise Http404
         data['aluno'] = aluno
         return data
-
-
 
 
 class AddChampionship(LoginRequiredMixin, CreateView):
