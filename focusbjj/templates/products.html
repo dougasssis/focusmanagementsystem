@@ -79,7 +79,7 @@
 
 
         {% else %}
-        {% for item in products %}
+        {% for item in products|dictsort:"item" %}
         <tr>
           <div class="grid">
           <td style="cursor:pointer">
