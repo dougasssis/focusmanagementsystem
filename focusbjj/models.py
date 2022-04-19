@@ -243,3 +243,6 @@ class Posts(models.Model):
 
     def year(self):
         return self.timestamp.year
+
+    class Meta:
+        ordering = ["category", "timestamp",]
