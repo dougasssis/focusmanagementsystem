@@ -50,5 +50,8 @@ urlpatterns = [
         template_name='password_reset_form.html'),name='password_reset_confirm'),
     path('resetpassword_complete/', auth_view.PasswordResetCompleteView.as_view(
         template_name='password_reset_complete.html'), name='password_reset_complete'),
+    path('export/xlsx', views.exportar_alunos_xlsx, name='export_xlsx'),
+    path('export/total_xlsx', views.exportar_alunos_total_xlsx, name='export_total_xlsx'),
 
 ]
+

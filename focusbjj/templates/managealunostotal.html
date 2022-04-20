@@ -13,7 +13,12 @@ FOCUS BJJ - {{ request.user.location }}
 
 <section class="content">
         <div class="container-fluid">
-            <a class="btn btn-sm btn-primary" href="{% url 'focusbjj:add_aluno' %}" role="button">+ Adicionar Aluno</a> <br/>&nbsp;
+            <div style="padding-bottom:10px">
+                <a class="btn btn-sm btn-primary" href="{% url 'focusbjj:add_aluno' %}" role="button"><b>+</b> Adicionar Aluno</a>&nbsp;
+               <!-- <a href="{% url 'focusbjj:export_xlsx' %}" class="btn btn-sm btn-secondary"><i class="fas fa-address-book main-logo-icon"></i> Export DB {{ user.location }}</a>
+                <a href="{% url 'focusbjj:export_total_xlsx' %}" class="btn btn-sm btn-secondary"><i class="fas fa-address-book main-logo-icon"></i> Export DB Total</a><br> -->
+
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <!-- general form elements -->
@@ -137,4 +142,10 @@ FOCUS BJJ - {{ request.user.location }}
         </div><!-- /.container-fluid -->
       </section>
     </header>
+
+    <script>
+    {% for msg in messages %}
+        swal('{{ msg }}');
+    {% endfor %}
+    </script>
 {% endblock %}

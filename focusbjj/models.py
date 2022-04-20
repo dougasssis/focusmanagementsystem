@@ -104,6 +104,9 @@ class Aluno(models.Model):
         idade = today.year - self.dob.year - ((today.month, today.day) < (self.dob.month, self.dob.day))
         return idade
 
+    def unidade(self):
+        return self.location.country + self.location.location
+
     class Meta:
         ordering = ["nome"]
 

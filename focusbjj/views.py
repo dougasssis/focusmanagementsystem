@@ -1,8 +1,7 @@
-from fnmatch import translate
-
+import datetime
 from braces.views import LoginRequiredMixin, SuperuserRequiredMixin
 from django.contrib import messages
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.urls import reverse
 from django.views.generic import FormView, DetailView, ListView, UpdateView, CreateView, TemplateView, DeleteView
 from focusbjj.forms import *
@@ -12,6 +11,9 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from .filter import AlunoFilter, ProductsFilter
 from .templatetags.attendance_tags import current_belt, current_stripe
+import xlwt
+from django.utils.translation import gettext as _
+
 
 
 class Attendance(FormView):
@@ -555,3 +557,76 @@ class ChampionshipDetail(LoginRequiredMixin, ListView):
         context = super(ChampionshipDetail, self).get_context_data(**kwargs)
         context['championships'] = Championship.objects.all()
         return context
+
+
+def export_xlsx(model, filename, queryset, columns):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet(model)
+
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    default_style = xlwt.XFStyle()
+
+    rows = queryset
+    for row, rowdata in enumerate(rows):
+        row_num += 1
+        for col, val in enumerate(rowdata):
+            ws.write(row_num, col, val, default_style)
+
+    wb.save(response)
+
+    return response
+
+
+def exportar_alunos_xlsx(request):
+    mdata = datetime.datetime.now().strftime('%Y-%m-%d')
+    model = 'Aluno'
+    filename = 'alunos.xls'
+    _filename = filename.split('.')
+    filename_final = f'{_filename[0]}_{mdata}.{_filename[1]}'
+
+    queryset = Aluno.objects.filter(location=request.user.id).values_list(
+        'nome',
+        'surname',
+        'email',
+        'phone',
+        'location__location',
+    ).order_by('nome')
+    columns = ('Name', 'Last Name', 'Email', 'Phone', 'Location')
+    response = export_xlsx(model, filename_final, queryset, columns,)
+
+    def get_success_url(self):
+        return reverse('focusbjj:managealunos')
+
+    return response
+
+
+def exportar_alunos_total_xlsx(request):
+    mdata = datetime.datetime.now().strftime('%Y-%m-%d')
+    model = 'Aluno'
+    filename = 'alunos.xls'
+    _filename = filename.split('.')
+    filename_final = f'{_filename[0]}_{mdata}.{_filename[1]}'
+    queryset = Aluno.objects.all().values_list(
+        'nome',
+        'surname',
+        'email',
+        'phone',
+        'location__location',
+    ).order_by('nome')
+    columns = ('Name', 'Last Name', 'Email', 'Phone', 'Location')
+    response = export_xlsx(model, filename_final, queryset, columns,)
+
+    def get_success_url(self):
+        return reverse('focusbjj:managealunostotal')
+
+    return response

@@ -12,7 +12,9 @@ FOCUS BJJ - {{ request.user.location }}
 
 <section class="content">
         <div class="container-fluid">
-            <a class="btn btn-primary btn-sm" href="{% url 'focusbjj:add_aluno' %}" role="button">+ Add Athlete</a> <br/>&nbsp;
+            <a class="btn btn-primary btn-sm" href="{% url 'focusbjj:add_aluno' %}" role="button">+ Add Athlete</a>
+          <!--  <a href="{% url 'focusbjj:export_xlsx' %}" class="btn btn-sm btn-secondary"><i class="fas fa-address-book main-logo-icon"></i> Export DB {{ user.location }} </a> <br/>&nbsp;
+           -->
             <div class="row">
 
                 <div class="col-md-12">
