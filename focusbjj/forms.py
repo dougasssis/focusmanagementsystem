@@ -57,11 +57,12 @@ class RegisterAlunoForm(forms.ModelForm):
 
     class Meta:
         model = Aluno
-        fields = ['photo', 'nome', 'surname', 'email', 'address', 'phone', 'gender', 'dob', 'location',
+        fields = ['photo', 'nome', 'middle_name', 'surname', 'email', 'address', 'phone', 'gender', 'dob', 'location',
                   'belt', 'stripe']
         widgets = {
-            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Primeiro Nome'}),
-            'surname': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Sobrenome'}),
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Primeiro Nome')}),
+            'middle_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Nome do Meio')}),
+            'surname': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Sobrenome')}),
             'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'email@focus.com'}),
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(00)000000000'}),
             'dob': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),

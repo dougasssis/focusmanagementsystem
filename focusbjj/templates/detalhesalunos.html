@@ -39,7 +39,7 @@ Student Details
                             </tr>
                             <tr>
                                 <th>{% trans "Nome" %}</th>
-                                <td>{{ aluno.nome|title }} {{ aluno.surname|title }}</td>
+                                <td>{{ aluno.nome|title }} {{ aluno.middle_name|default_if_none:""|title }} {{ aluno.surname|title }}</td>
                             </tr>
                             <tr>
                                 <th>{% trans "Telefone" %}</th>
