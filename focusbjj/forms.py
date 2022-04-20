@@ -74,6 +74,7 @@ class RegisterAlunoForm(forms.ModelForm):
         labels = {
             'photo': _('Foto'),
             'nome': _('Nome'),
+            'middle_name': _('Nome do Meio'),
             'surname': _('Último Nome'),
             'phone': _('Telefone'),
             'address': _('Endereço'),
@@ -193,10 +194,12 @@ class EditAtlheteForm(forms.ModelForm):
 
     class Meta:
         model = Aluno
-        fields = ['nome', 'email', 'phone', 'address']
+        fields = ['nome', 'middle_name', 'surname', 'email', 'phone', 'address']
 
         labels = {
             'nome': _('Nome de Contato'),
+            'middle_name': _('Nome do Meio'),
+            'surname': _('Último Nome'),
             'phone': _('Telefone'),
             'email': _('E-Mail'),
             'address': _('Endereço'),
