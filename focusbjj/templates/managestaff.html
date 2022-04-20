@@ -67,7 +67,7 @@ FOCUS BJJ - {{ request.user.location }}
                                 <tr>
 
                                 <td> <img src='{{ user.country.flag }}' align="left" class="py-2 px-2" /> </td>
-                                <td>{{ user.country }} {{ user.location|title }}</td>
+                                <td>{{ user.country }} - {{ user.location|title }}</td>
                                 <td>{{ user.contact_name|title }}</td>
                                 <td>{{user.phone}}</td>
                                 <td>{{ user.email|lower }}</td>
