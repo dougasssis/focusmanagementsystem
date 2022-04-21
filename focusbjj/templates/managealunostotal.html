@@ -15,8 +15,8 @@ FOCUS BJJ - {{ request.user.location }}
         <div class="container-fluid">
             <div style="padding-bottom:10px">
                 <a class="btn btn-sm btn-primary" href="{% url 'focusbjj:add_aluno' %}" role="button"><b>+</b> Adicionar Aluno</a>&nbsp;
-               <!-- <a href="{% url 'focusbjj:export_xlsx' %}" class="btn btn-sm btn-secondary"><i class="fas fa-address-book main-logo-icon"></i> Export DB {{ user.location }}</a>
-                <a href="{% url 'focusbjj:export_total_xlsx' %}" class="btn btn-sm btn-secondary"><i class="fas fa-address-book main-logo-icon"></i> Export DB Total</a><br> -->
+                <a href="{% url 'focusbjj:export_xlsx' %}" class="btn btn-sm btn-secondary"><i class="fas fa-address-book main-logo-icon"></i> Export DB {{ user.location }}</a>
+                <a href="{% url 'focusbjj:export_total_xlsx' %}" class="btn btn-sm btn-secondary"><i class="fas fa-address-book main-logo-icon"></i> Export DB Total</a><br>
 
             </div>
             <div class="row">
