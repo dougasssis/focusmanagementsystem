@@ -197,6 +197,18 @@ WEIGHT = (
 )
 
 CATEGORY = (
+    ('pre-mirim1', _('Pré-Mirim 1')),
+    ('pre-mirim2', _('Pré-Mirim 2')),
+    ('pre-mirim3', _('Pré-Mirim 3')),
+    ('mirim1', _('Mirim 1')),
+    ('mirim2', _('Mirim 2')),
+    ('mirim3', _('Mirim 3')),
+    ('infantil1', _('Infantil 1')),
+    ('infantil1', _('Infantil 2')),
+    ('infantil1', _('Infantil 3')),
+    ('infanto_juvenil1', _('Infanto Juvenil 1')),
+    ('infanto_juvenil2', _('Infanto Juvenil 2')),
+    ('infanto_juvenil3', _('Infanto Juvenil 3')),
     ('juvenile', _('Juvenil')),
     ('adult', _('Adulto/Master')),
 )
