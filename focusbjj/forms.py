@@ -132,6 +132,8 @@ class GraduateForm(forms.ModelForm):
 
         widgets = {
             'master': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Professor')}),
+            'time_stamp': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+
         }
 
 
