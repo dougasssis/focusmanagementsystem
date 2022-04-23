@@ -50,6 +50,11 @@ def somavendas(aluno_instance):
 
 
 @register.filter
+def campeonatos_branch(unidade):
+    return Championship.objects.filter(unidade=unidade.id).order_by('-time_stamp')
+
+
+@register.filter
 def vendas_branch(unidade_instance):
     return Venda.objects.filter(unidade_id=unidade_instance.id).order_by('-time_stamp')[:4]
 

@@ -15,7 +15,7 @@ Sales History
     <!-- PIE CHART -->
       <div class="card card-outline card-info">
         <div class="card-header">
-          <h3 class="card-title"></h3>
+          <h3 class="card-title">{% trans "Histórico de Competições" %}</h3>
 
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -38,13 +38,17 @@ Sales History
         </thead>
         <tbody>
         {% for campeonato in championships %}
-        <tr>
-          <td>{{ campeonato.athlete.nome }}</td>
-          <td>{{ campeonato.championship }}</td>
-          <td>{{ campeonato.country.name }}, {{ campeonato.city|title }}</td>
-          <td>{{ campeonato.date|date:"d F Y" }}</td>
-          <td>{{ campeonato.category|title }} - {{ campeonato.weight|title }}</td>
-          <td>{{ campeonato.ranking|title }}</td>
+          {% if campeonato.athlete.location.id == user.id %}
+            <tr>
+              <td>{{ campeonato.athlete.nome|title }}</td>
+              <td>{{ campeonato.championship|title }}</td>
+              <td>{{ campeonato.country.name }}, {{ campeonato.city|title }}</td>
+              <td>{{ campeonato.date|date:"d F Y" }}</td>
+              <td>{{ campeonato.category|title }} - {{ campeonato.weight|title}}</td>
+              <td>{{ campeonato.ranking|title }}</td>
+            </tr>
+          {% else %}
+          {% endif %}
         {% endfor %}
         </tbody>
 

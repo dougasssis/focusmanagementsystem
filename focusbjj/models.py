@@ -237,6 +237,9 @@ class Championship(models.Model):
     def year(self):
         return self.date.year
 
+    def unidade(self):
+        return self.athlete.location
+
 
 class Posts(models.Model):
     CATEGORY = (

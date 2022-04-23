@@ -15,7 +15,6 @@ import xlwt
 from django.utils.translation import gettext as _
 
 
-
 class Attendance(FormView):
     template_name = 'homepage.html'
     model = GetAttendance
@@ -351,7 +350,7 @@ class EditarBranchSuper(LoginRequiredMixin, UpdateView):
 
 
 class DetailALunos(LoginRequiredMixin, DetailView):
-    template_name = 'detalhesalunos.html'
+    template_name = 'detalhesalunos_.html'
     model = Aluno
 
 
