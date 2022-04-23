@@ -128,7 +128,7 @@ class GraduateForm(forms.ModelForm):
 
     class Meta:
         model = Graduation
-        fields = ['belt', 'stripe', 'master']
+        fields = ['belt', 'stripe', 'master', 'time_stamp']
 
         widgets = {
             'master': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Professor')}),

@@ -177,7 +177,7 @@ class Graduation(models.Model):
     master = models.CharField(max_length=15, null=True, verbose_name=_('Professor'))
     belt = models.CharField(max_length=255, choices=BELT, verbose_name=_('Faixa'))
     stripe = models.CharField(max_length=255, choices=GRAU, verbose_name=_('Grau'))
-    time_stamp = models.DateTimeField(default=timezone.now)
+    time_stamp = models.DateTimeField(null=True, verbose_name=_('Data'))
 
     def __str__(self):
         return str(self.belt)
@@ -189,34 +189,34 @@ WEIGHT = (
     ('feather', 'Feather'),
     ('light', 'Light'),
     ('middle', 'Middle'),
-    ('middle_heavy', 'Middle Heavy'),
+    ('middle heavy', 'Middle Heavy'),
     ('heavy', 'Heavy'),
     ('super_heavy', 'Super Heavy'),
-    ('ultra_heavy', 'Ultra Heavy'),
+    ('ultra heavy', 'Ultra Heavy'),
     ('open', 'Open'),
 )
 
 CATEGORY = (
-    ('pre-mirim1', _('Pré-Mirim 1')),
-    ('pre-mirim2', _('Pré-Mirim 2')),
-    ('pre-mirim3', _('Pré-Mirim 3')),
-    ('mirim1', _('Mirim 1')),
-    ('mirim2', _('Mirim 2')),
-    ('mirim3', _('Mirim 3')),
-    ('infantil1', _('Infantil 1')),
-    ('infantil1', _('Infantil 2')),
-    ('infantil1', _('Infantil 3')),
-    ('infanto_juvenil1', _('Infanto Juvenil 1')),
-    ('infanto_juvenil2', _('Infanto Juvenil 2')),
-    ('infanto_juvenil3', _('Infanto Juvenil 3')),
-    ('juvenile', _('Juvenil')),
-    ('adult', _('Adulto/Master')),
+    ('Pré-Mirim 1', _('Pré-Mirim 1')),
+    ('Pré-Mirim 2', _('Pré-Mirim 2')),
+    ('Pré-Mirim 3', _('Pré-Mirim 3')),
+    ('Mirim 1', _('Mirim 1')),
+    ('Mirim 2', _('Mirim 2')),
+    ('Mirim 3', _('Mirim 3')),
+    ('infantil 1', _('Infantil 1')),
+    ('infantil 1', _('Infantil 2')),
+    ('infantil 1', _('Infantil 3')),
+    ('Infanto Juvenil 1', _('Infanto Juvenil 1')),
+    ('Infanto Juvenil 2', _('Infanto Juvenil 2')),
+    ('Infanto Juvenil 3', _('Infanto Juvenil 3')),
+    ('Juvenil', _('Juvenil')),
+    ('Adulto/Master', _('Adulto/Master')),
 )
 
 RANKING = (
-    ('first place', _('Primeiro Lugar')),
-    ('second place', _('Segundo Lugar')),
-    ('third place', _('Teceiro Lugar')),
+    ('#1 place', _('#1 Lugar')),
+    ('#2 place', _('#2 Lugar')),
+    ('#3 place', _('#3 Lugar')),
 )
 
 
@@ -233,6 +233,9 @@ class Championship(models.Model):
 
     def __str__(self):
         return str(self.athlete) + " - " + str(self.championship)
+
+    def year(self):
+        return self.date.year
 
 
 class Posts(models.Model):
