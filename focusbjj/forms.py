@@ -58,7 +58,7 @@ class RegisterAlunoForm(forms.ModelForm):
     class Meta:
         model = Aluno
         fields = ['photo', 'nome', 'middle_name', 'surname', 'email', 'address', 'phone', 'gender', 'dob', 'location',
-                  'belt', 'stripe']
+                  'belt', 'stripe', 'join_date']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Primeiro Nome')}),
             'middle_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Nome do Meio')}),
@@ -66,7 +66,8 @@ class RegisterAlunoForm(forms.ModelForm):
             'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'email@focus.com'}),
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(00)000000000'}),
             'dob': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
-            'address': forms.DateInput(format='%Y-%m-%d', attrs={'class': 'form-control',
+            'join_date': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+            'address': forms.TextInput(attrs={'class': 'form-control',
                                                                  'placeholder': 'R. da Alegria, 123, Matosinhos, Portugal',
                                                                  }),
         }
@@ -82,6 +83,7 @@ class RegisterAlunoForm(forms.ModelForm):
             'location': _('Unidade'),
             'belt': _('Faixa'),
             'stripe': _('Grau'),
+            'join_date': _('Data de Início')
         }
 
 
@@ -194,9 +196,10 @@ class EditAtlheteForm(forms.ModelForm):
 
     class Meta:
         model = Aluno
-        fields = ['nome', 'middle_name', 'surname', 'email', 'phone', 'address']
+        fields = ['photo', 'nome', 'middle_name', 'surname', 'email', 'phone', 'address']
 
         labels = {
+            'photo': _('Foto'),
             'nome': _('Nome de Contato'),
             'middle_name': _('Nome do Meio'),
             'surname': _('Último Nome'),

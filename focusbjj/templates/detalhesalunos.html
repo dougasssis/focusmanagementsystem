@@ -12,7 +12,7 @@ Student Details
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-6"> <!--FIRST COLUMN  -->
+            <div class="col-lg-5"> <!--FIRST COLUMN  -->
                 <div class="card-body table-responsive p-0">
                 <div class="card card-outline card-info">
                 <div class="card-header">
@@ -82,11 +82,11 @@ Student Details
             </div> <!--FINISH FIRST COLUMN  -->
 
 
-    <div class="col-lg-6"> <!-- SECOND COLUMN  -->
+    <div class="col-lg-7"> <!-- SECOND COLUMN  -->
         <div class="card-body table-responsive p-0">
         <div class="card card-outline card-info">
         <div class="card-header">
-            <h3 class="card-title">{% trans "Histórico de Compras" %}<strong>  </strong></h3>
+            <h3 class="card-title">{% trans "Campeonatos" %}<strong>  </strong></h3>
 
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -95,6 +95,55 @@ Student Details
         </div>
         <div class="card-body"><!-- /.card-body -->
             <table class="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>{% trans "Campeonatos" %}</th>
+                                <th>{% trans "Categoria" %}</th>
+                                <th>{% trans "Peso" %}</th>
+                                <th>{% trans "Colocação" %}</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for champ in aluno|campeonatos %}
+                            <tr>
+
+                                <td>{{ champ.championship|title }}</td>
+                                <td>{{ champ.category|title }}</td>
+                                <td>{{ champ.weight|title }}</td>
+                                <td>{{ champ.ranking|title }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+
+
+
+
+
+        </div>
+        </div>
+        </div>
+        </div> <!--FINISH SECOND COLUMN  -->
+        </div>
+    </div> <!--FINISH FIRST ROW  -->
+
+
+            <div class="row">
+            <div class="col-lg-6"> <!--FIRST COLUMN  -->
+                <div class="card-body table-responsive p-0">
+                <div class="card card-outline card-info">
+                <div class="card-header">
+                <h3 class="card-title">{% trans "Histórico de Compras" %} <strong></strong></h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                </div>
+                </div>
+                <div class="card-body"><!-- /.card-body -->
+                                <table class="table table-hover text-nowrap">
                 <thead>
                     <tr>
                         <th>{% trans "Data" %}</th>
@@ -122,50 +171,6 @@ Student Details
                 </thead>
             </table>
 
-        </div>
-        </div>
-        </div>
-        </div> <!--FINISH SECOND COLUMN  -->
-        </div>
-    </div> <!--FINISH FIRST ROW  -->
-
-
-            <div class="row">
-            <div class="col-lg-6"> <!--FIRST COLUMN  -->
-                <div class="card-body table-responsive p-0">
-                <div class="card card-outline card-info">
-                <div class="card-header">
-                <h3 class="card-title">{% trans "Campeonatos" %} <strong></strong></h3>
-
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                </div>
-                </div>
-                <div class="card-body"><!-- /.card-body -->
-                    <table class="table table-hover text-nowrap">
-                        <thead>
-                            <tr>
-                                <th>{% trans "Campeonatos" %}</th>
-                                <th>{% trans "Categoria" %}</th>
-                                <th>{% trans "Peso" %}</th>
-                                <th>{% trans "Colocação" %}</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for champ in aluno|campeonatos %}
-                            <tr>
-
-                                <td>{{ champ.championship|title }}</td>
-                                <td>{{ champ.category|title }}</td>
-                                <td>{{ champ.weight|title }}</td>
-                                <td>{{ champ.ranking|title }}</td>
-                            </tr>
-                        {% endfor %}
-
-                        </tbody>
-                    </table>
                 </div>
                 </div>
                 </div>

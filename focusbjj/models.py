@@ -66,7 +66,7 @@ class CustomUser(AbstractUser):
     country = CountryField()
     location = models.CharField(max_length=255)
     phone = models.CharField(max_length=15, help_text=_('Use somente números. Código do País + Telefone'))
-    join_date = models.DateTimeField(default=timezone.now)
+    join_date = models.DateTimeField()
     is_active = models.BooleanField(default=True, help_text='Desmarque a caixa para desativar')
 
     def __str__(self):
@@ -191,7 +191,7 @@ WEIGHT = (
     ('middle', 'Middle'),
     ('middle heavy', 'Middle Heavy'),
     ('heavy', 'Heavy'),
-    ('super_heavy', 'Super Heavy'),
+    ('super heavy', 'Super Heavy'),
     ('ultra heavy', 'Ultra Heavy'),
     ('open', 'Open'),
 )

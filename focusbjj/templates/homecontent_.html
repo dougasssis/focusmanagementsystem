@@ -38,9 +38,13 @@
                   <p>{% trans "Total de Filiais" %}</p>
                 </div>
                 <div class="icon">
+                    {
                   <i class="ion ion-stats-bars"></i>
                 </div>
+                  {% if user.is_superuser %}
                 <a href="{% url 'focusbjj:managestaff' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                {% else %}
+                  {% endif %}
               </div>
             </div>
             <!-- ./col -->
@@ -55,7 +59,11 @@
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="{% url 'focusbjj:managealunostotal' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                {% if user.is_superuser %}
+
+                    <a href="{% url 'focusbjj:managealunostotal' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                {% else %}
+                {% endif %}
               </div>
             </div>
                 &nbsp;
