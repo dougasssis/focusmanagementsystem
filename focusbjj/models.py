@@ -65,7 +65,7 @@ class CustomUser(AbstractUser):
     contact_name = models.CharField(max_length=255)
     country = CountryField()
     location = models.CharField(max_length=255)
-    phone = models.CharField(max_length=15, help_text='Use only numbers')
+    phone = models.CharField(max_length=15, help_text=_('Use somente números. Código do País + Telefone'))
     join_date = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True, help_text='Desmarque a caixa para desativar')
 
@@ -173,10 +173,10 @@ class Product(models.Model):
 
 class Graduation(models.Model):
     objects = None
-    aluno = models.ForeignKey(Aluno, related_name='graduacao', on_delete=models.CASCADE, verbose_name='Athlete')
-    master = models.CharField(max_length=15, null=True)
-    belt = models.CharField(max_length=255, choices=BELT)
-    stripe = models.CharField(max_length=255, choices=GRAU)
+    aluno = models.ForeignKey(Aluno, related_name='graduacao', on_delete=models.CASCADE, verbose_name='_(Aluno')
+    master = models.CharField(max_length=15, null=True, verbose_name=_('Professor'))
+    belt = models.CharField(max_length=255, choices=BELT, verbose_name=_('Faixa'))
+    stripe = models.CharField(max_length=255, choices=GRAU, verbose_name=_('Grau'))
     time_stamp = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

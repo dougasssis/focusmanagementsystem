@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-23 00:49+0000\n"
+"POT-Creation-Date: 2022-04-23 09:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,7 +77,8 @@ msgstr "Birth of Date"
 msgid "Unidade"
 msgstr "Local"
 
-#: focusbjj/forms.py:83 focusbjj/templates/detalhesalunos.html:188
+#: focusbjj/forms.py:83 focusbjj/models.py:178
+#: focusbjj/templates/detalhesalunos.html:188
 #: focusbjj/templates/managealunos.html:43
 #: focusbjj/templates/managealunos_kids.html:44
 #: focusbjj/templates/managealunostotal.html:48
@@ -85,7 +86,8 @@ msgstr "Local"
 msgid "Faixa"
 msgstr "Belt"
 
-#: focusbjj/forms.py:84 focusbjj/templates/detalhesalunos.html:189
+#: focusbjj/forms.py:84 focusbjj/models.py:179
+#: focusbjj/templates/detalhesalunos.html:189
 #: focusbjj/templates/managegraduationtotal.html:39
 msgid "Grau"
 msgstr "Stripe"
@@ -136,7 +138,8 @@ msgstr "Payment Method"
 msgid "Valor Total"
 msgstr "Total Ammount"
 
-#: focusbjj/forms.py:134 focusbjj/templates/detalhesalunos.html:190
+#: focusbjj/forms.py:134 focusbjj/models.py:177
+#: focusbjj/templates/detalhesalunos.html:190
 msgid "Professor"
 msgstr "Master"
 
@@ -210,6 +213,10 @@ msgstr "Cash"
 msgid "Outros"
 msgstr "Others"
 
+#: focusbjj/models.py:68
+msgid "Use somente números. Código do País + Telefone"
+msgstr "Use only numbers. Country code + number"
+
 #: focusbjj/models.py:137
 msgid "Gi"
 msgstr ""
@@ -240,39 +247,39 @@ msgstr ""
 
 #: focusbjj/models.py:200
 msgid "Pré-Mirim 1"
-msgstr ""
+msgstr "Pre-Child 1"
 
 #: focusbjj/models.py:201
 msgid "Pré-Mirim 2"
-msgstr ""
+msgstr "Pre-Child 2"
 
 #: focusbjj/models.py:202
 msgid "Pré-Mirim 3"
-msgstr ""
+msgstr "Pre-Child 3"
 
 #: focusbjj/models.py:203
 msgid "Mirim 1"
-msgstr ""
+msgstr "Child 1"
 
 #: focusbjj/models.py:204
 msgid "Mirim 2"
-msgstr ""
+msgstr "Child 2"
 
 #: focusbjj/models.py:205
 msgid "Mirim 3"
-msgstr ""
+msgstr "Child 3"
 
 #: focusbjj/models.py:206
 msgid "Infantil 1"
-msgstr ""
+msgstr "Kids 1"
 
 #: focusbjj/models.py:207
 msgid "Infantil 2"
-msgstr ""
+msgstr "Kids 2"
 
 #: focusbjj/models.py:208
 msgid "Infantil 3"
-msgstr ""
+msgstr "Kids 3"
 
 #: focusbjj/models.py:209
 msgid "Infanto Juvenil 1"
