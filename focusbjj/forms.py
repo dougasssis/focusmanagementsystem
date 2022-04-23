@@ -134,12 +134,6 @@ class GraduateForm(forms.ModelForm):
             'master': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Professor')}),
         }
 
-        label = {
-            'belt': 'Faixa',
-            'stripe': 'Grau',
-            'master': 'Professor',
-        }
-
 
 class RegisterChampionship(forms.ModelForm):
     template_name = "campeonatos.html"
