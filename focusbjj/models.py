@@ -122,7 +122,7 @@ class GetAttendance(models.Model):
 
 class Venda(models.Model):
     objects = None
-    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE, blank=True, null=True)
     price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Total', help_text='Use (.) to decimals')
     time_stamp = models.DateField(default=timezone.now)
     unidade = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
