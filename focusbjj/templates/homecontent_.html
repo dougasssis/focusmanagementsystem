@@ -43,6 +43,8 @@
                   {% if user.is_superuser %}
                 <a href="{% url 'focusbjj:managestaff' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 {% else %}
+                  <a href="#" class="small-box-footer"> <i class="fas fa-arrow-circle-right"></i></a>
+
                   {% endif %}
               </div>
             </div>
@@ -61,6 +63,7 @@
                 {% if user.is_superuser %}
                     <a href="{% url 'focusbjj:managealunostotal' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 {% else %}
+                      <a href="{% url 'focusbjj:managealunos' %}" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
                 {% endif %}
               </div>
             </div>
