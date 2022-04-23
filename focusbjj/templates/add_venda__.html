@@ -29,7 +29,7 @@ Sales
                 {% csrf_token %}
                 <fieldset class="form-group ">
                     <legend class="border-bottom mb-4">{% trans "Registrar Venda" %}<strong> | Focus Jiu-Jitsu</strong> </legend>
-                        {{ form|crispy }}
+
                     {% if formset %}
                         {{ formset.management_form }}
                     <div id="items-list">
@@ -46,6 +46,7 @@ Sales
                     </div>
                     <a href="#" id="add-item" class="btn btn-primary btn-sm add-item">{% trans "Adicionar Item" %}</a>
                     {% endif %}
+                    {{ form|crispy }}
                 </fieldset>
                 <br>
                 <button class="bg-primary py-1 px-3 text-white w-full md:text-lg rounded-md" type="submit">{% trans "Adicionar Venda" %}</button>
