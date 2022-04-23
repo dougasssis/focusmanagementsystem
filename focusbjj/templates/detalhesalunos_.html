@@ -15,7 +15,6 @@ Student Details
 
 <div align="center"><!-- COMECA DIV -->
    <div class="row col-lg-4" align="center"><!-- INFORMAÇÕES DO ALUNO -->
-
        <div class="box "><!-- INICIO DA CAIXA -->
             <div style="padding: 15px 0px 5px 0px"><!-- DIV FOTO ALUNO -->
                 {% if aluno.photo %}
@@ -27,7 +26,7 @@ Student Details
             <div > <!-- DIV INFORMAÇÕES ALUNO -->
                 <h3 style="padding-bottom:10px"><strong>{{ aluno.nome|title }} {{ aluno.middle_name|default_if_none:""|title }} {{ aluno.surname|title }}</strong></h3>
                 <div><!--TABELA COM INFO -->
-                    <table class="table text-nowrap">
+                    <table class="table table-hover text-nowrap">
                        <tr>
                             <th width="40px">{% trans "ID" %}</th>
                             <td>{{ aluno.id }}</td>
