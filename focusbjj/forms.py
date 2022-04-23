@@ -130,10 +130,14 @@ class GraduateForm(forms.ModelForm):
         model = Graduation
         fields = ['belt', 'stripe', 'master']
 
+        widgets = {
+            'master': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Professor')}),
+        }
+
         label = {
-            'belt': _('Faixa'),
-            'stripe': _('Grau'),
-            'master': _('Professor'),
+            'belt': 'Faixa',
+            'stripe': 'Grau',
+            'master': 'Professor',
         }
 
 
