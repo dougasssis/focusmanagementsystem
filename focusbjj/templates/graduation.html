@@ -18,8 +18,8 @@ Sales
                 {% csrf_token %}
                 <fieldset class="form-group ">
                     <legend class="border-bottom mb-4">{% trans "Graduar Aluno" %}<strong> | Focus Jiu-Jitsu</strong> </legend>
-                        <p><b>Aluno:</b> {{ aluno.nome }} {{ aluno.surname }}</p>
-                        <p><b>Faixa:</b> {{ aluno|current_belt }} {{ aluno|current_stripe }}</p><br>
+                        <p><b>{% trans "Aluno:" %}</b> {{ aluno.nome }} {{ aluno.surname }}</p>
+                        <p><b>{% trans "Faixa" %}:</b> {{ aluno|current_belt }} {{ aluno|current_stripe }}</p><br>
                         {{ form|crispy }}
                 </fieldset>
                 <br>

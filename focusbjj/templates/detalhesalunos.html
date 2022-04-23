@@ -154,13 +154,15 @@ Student Details
                             </tr>
                         </thead>
                         <tbody>
+                        {% for champ in aluno|campeonatos %}
                             <tr>
-                                {% for champ in aluno|campeonatos %}
+
                                 <td>{{ champ.championship|title }}</td>
                                 <td>{{ champ.category|title }}</td>
                                 <td>{{ champ.weight|title }}</td>
                                 <td>{{ champ.ranking|title }}</td>
-                                {% endfor %}
+                            </tr>
+                        {% endfor %}
 
                         </tbody>
                     </table>
