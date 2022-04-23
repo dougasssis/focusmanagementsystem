@@ -66,7 +66,7 @@ class CustomUser(AbstractUser):
     country = CountryField()
     location = models.CharField(max_length=255)
     phone = models.CharField(max_length=15, help_text=_('Use somente números. Código do País + Telefone'))
-    join_date = models.DateTimeField()
+    join_date = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True, help_text='Desmarque a caixa para desativar')
 
     def __str__(self):
@@ -90,7 +90,7 @@ class Aluno(models.Model):
     address = models.CharField(max_length=255, blank=True, null=True)
     belt = models.CharField(max_length=255, choices=BELT)
     stripe = models.CharField(max_length=255, choices=GRAU)
-    join_date = models.DateTimeField(default=timezone.now)
+    join_date = models.DateTimeField()
     gender = models.CharField(max_length=255, choices=GENDER)
     dob = models.DateField(verbose_name='Date of Birth')
 
