@@ -196,7 +196,7 @@ class EditAtlheteForm(forms.ModelForm):
 
     class Meta:
         model = Aluno
-        fields = ['photo', 'nome', 'middle_name', 'surname', 'email', 'phone', 'address']
+        fields = ['photo', 'nome', 'middle_name', 'surname', 'dob', 'email', 'phone', 'address']
 
         labels = {
             'photo': _('Foto'),
@@ -206,6 +206,7 @@ class EditAtlheteForm(forms.ModelForm):
             'phone': _('Telefone'),
             'email': _('E-Mail'),
             'address': _('Endereço'),
+            'dob': _('Data de Nascimento')
         }
 
 

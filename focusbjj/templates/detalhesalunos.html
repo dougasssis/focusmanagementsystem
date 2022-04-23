@@ -12,7 +12,7 @@ Student Details
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-5"> <!--FIRST COLUMN  -->
+            <div class="col-lg-4"> <!--FIRST COLUMN  -->
                 <div class="card-body table-responsive p-0">
                 <div class="card card-outline card-info">
                 <div class="card-header">
@@ -82,7 +82,7 @@ Student Details
             </div> <!--FINISH FIRST COLUMN  -->
 
 
-    <div class="col-lg-7"> <!-- SECOND COLUMN  -->
+    <div class="col-lg-8"> <!-- SECOND COLUMN  -->
         <div class="card-body table-responsive p-0">
         <div class="card card-outline card-info">
         <div class="card-header">
@@ -98,6 +98,7 @@ Student Details
                         <thead>
                             <tr>
                                 <th>{% trans "Campeonatos" %}</th>
+                                <th>{% trans "Ano" %}</th>
                                 <th>{% trans "Categoria" %}</th>
                                 <th>{% trans "Peso" %}</th>
                                 <th>{% trans "Colocação" %}</th>
@@ -107,8 +108,8 @@ Student Details
                         <tbody>
                         {% for champ in aluno|campeonatos %}
                             <tr>
-
-                                <td>{{ champ.championship|title }}</td>
+                                <td>{{ champ.championship|title|slice:25 }}</td>
+                                <td>{{ champ.year }}</td>
                                 <td>{{ champ.category|title }}</td>
                                 <td>{{ champ.weight|title }}</td>
                                 <td>{{ champ.ranking|title }}</td>
