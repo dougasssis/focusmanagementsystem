@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qnbe3i2m3olfkx-meh%^q(%4y+-is%jx#)3)nvac^d&5-3xt%g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'focusjiujitsu.herokuapp.com']
 
@@ -91,7 +91,7 @@ DATABASES = {
 }
 
 import dj_database_url
-#DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True) #FAZER HEROKU MIGRATE
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True) #FAZER HEROKU MIGRATE
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
