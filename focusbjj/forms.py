@@ -112,7 +112,7 @@ class VendaForm(forms.ModelForm):
         model = Venda
         fields = ['aluno', 'method', 'price']
         widgets = {
-            'aluno': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Insert Member ID'}),
+            'aluno': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Insira o ID do Aluno')}),
         }
         labels = {
             'aluno': _('Aluno'),
