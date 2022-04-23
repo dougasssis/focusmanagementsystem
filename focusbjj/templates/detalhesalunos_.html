@@ -88,7 +88,7 @@ Student Details
                    <tbody>
                    {% for champ in aluno|campeonatos %}
                         <tr>
-                            <td>{{ champ.championship|title|slice:30 }}</td>
+                            <td>{{ champ.championship|title }}</td>
                             <td>{{ champ.year }}</td>
                             <td>{{ champ.country }} - {{ champ.city }}</td>
                             <td>{{ champ.category|title }}</td>
@@ -124,16 +124,20 @@ Student Details
                     </tr>
                    </thead>
                    <tbody>
-                   {% for champ in aluno|campeonatos %}
-                        <tr>
-                            <td>{{ champ.championship|title|slice:30 }}</td>
-                            <td>{{ champ.year }}</td>
-                            <td>{{ champ.country }} - {{ champ.city }}</td>
-                            <td>{{ champ.category|title }}</td>
-
-                        </tr>
-                    {% endfor %}
-                   </tbody>
+                       {% for graduacao in aluno|graduacoes %}
+                            <tr>
+                            <td>{{ graduacao.belt }}</td>
+                            <td>
+                                {% if graduacao.stripe %}
+                                {{ graduacao.stripe }}
+                                {% else %}
+                                {% endif %}
+                            </td>
+                            <td> {{ graduacao.master }}</td>
+                            <td>{{ graduacao.time_stamp|date:"d F Y" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
                </table>
            </div><!-- CORPO DA BOX -->
     </div>
