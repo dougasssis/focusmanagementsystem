@@ -1,21 +1,26 @@
 {% extends 'base_template.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
 {% load attendance_tags %}
 {% load i18n %}
 
+
 {% block titulo %}
-Student Details
+FOCUS BJJ - {{ request.user.location }}
 {% endblock %}
+
 {% block content %}
 <link rel="stylesheet" href="http://cdnjs.cloudfare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 <link rel="stylesheet" href="{% static 'style_aluno.css' %}">
-
-
+<section class="content">
 
 <div align="center"><!-- COMECA DIV -->
    <div class="row col-lg-6" align="center"><!-- INFORMAÇÕES DO ALUNO -->
        <div class="box "><!-- INICIO DA CAIXA -->
+           <div class="card-header">
+                            <h3 class="card-title"></h3>
+                            <p> <b>{% trans "Informações do Aluno" %}</b></p>
+                        </div>
+
             <div style="padding: 15px 0px 5px 0px"><!-- DIV FOTO ALUNO -->
                 {% if aluno.photo %}
                     <td colspan="2" align=center><img width="200px" src="{{ aluno.photo.url }}"> </td>
@@ -66,16 +71,71 @@ Student Details
        </div><!-- FIM DA CAIXA -->
 </div><!-- TERMINA DIV -->
 
-<div align="center" class="container table-responsive"><!-- COMECA DIV DE CAMPEONATOS -->
-   <div class="row " align="center"><!--  -->
-        <div class="card-body  p-0">
-        <div class="card card-outline card-info">
-        <div class="card-header"><!-- TITULO DA BOX -->
-                <h3 class="card-title"> {% trans "Campeonatos"%} </h3>
-           </div>
-           <div class="card-body"><!-- CORPO DA BOX -->
-               <table class="table table-hover text-nowrap col-lg-12">
-                   <thead>
+
+            <div class="row"> <!-- TABLE GRADUATION -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"></h3>
+                            <p> <b>{% trans "Histórico de Graduação" %}</b></p>
+                        </div>
+                        <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                <thead>
+                    <tr>
+                        <th width="250px">{% trans "Faixa"%}</th>
+                        <th width="50px">{% trans "Grau"%}</th>
+                        <th width="50px">{% trans "Professor"%}</th>
+                        <th width="50px">{% trans "Data"%}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for graduacao in aluno|graduacoes %}
+                            <tr>
+                            <td>{{ graduacao.belt }}</td>
+                            <td>
+                                {% if graduacao.stripe %}
+                                {{ graduacao.stripe }}
+                                {% else %}
+                                {% endif %}
+                            </td>
+                            <td> {{ graduacao.master }}</td>
+                            <td>{{ graduacao.time_stamp|date:"d F Y" }}</td>
+                            </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+                    </div>
+                    <!-- /.card-body -->
+                    </div>
+                <!-- /.card -->
+                </div>
+
+            </div> <!-- FIM TABELA  GRADUAÇÃO -->
+
+
+
+
+    <div class="row "> <!-- TABLE CAMPEONATOS -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"></h3>
+                            <p> <b>{% trans "Campeonatos" %}</b></p>
+                            <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <div class="input-group-append">
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                <thead>
                    <tr>
                     <th width="250px">{% trans "Campeonato"%}</th>
                     <th width="50px">{% trans "Ano"%}</th>
@@ -97,55 +157,15 @@ Student Details
                         </tr>
                     {% endfor %}
                    </tbody>
-               </table>
-           </div><!-- CORPO DA BOX -->
-    </div>
-    </div>
-    </div>
-   </div>
-</div><!-- TERMINA DIV DE CAMPEONATOS -->
+                </table>
+                    </div>
+                    <!-- /.card-body -->
+                    </div>
+                <!-- /.card -->
+                </div>
+            </div>
+</section>
 
 
-<div align="center" class="container table-responsive"><!-- COMECA DIV DE GRADUACAO -->
-   <div class="row " align="center"><!--  -->
-        <div class="card-body table-responsive p-0">
-        <div class="card card-outline card-info">
-        <div class="card-header"><!-- TITULO DA BOX -->
-            <h3 class="card-title"> {% trans "Histórico de Graduação"%} </h3>
-       </div>
-           <div class="card-body"><!-- CORPO DA BOX -->
-               <table class="table table-hover text-nowrap col-lg-12">
-                   <thead>
-                   <tr>
-                    <th width="250px">{% trans "Faixa"%}</th>
-                    <th width="50px">{% trans "Grau"%}</th>
-                    <th width="50px">{% trans "Professor"%}</th>
-                    <th width="50px">{% trans "Data"%}</th>
-                    </tr>
-                   </thead>
-                   <tbody>
-                       {% for graduacao in aluno|graduacoes %}
-                            <tr>
-                            <td>{{ graduacao.belt }}</td>
-                            <td>
-                                {% if graduacao.stripe %}
-                                {{ graduacao.stripe }}
-                                {% else %}
-                                {% endif %}
-                            </td>
-                            <td> {{ graduacao.master }}</td>
-                            <td>{{ graduacao.time_stamp|date:"d F Y" }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-               </table>
-           </div><!-- CORPO DA BOX -->
-    </div>
-    </div>
-    </div>
-   </div>
-</div><!-- TERMINA DIV DE GRADUCAO -->
 
 {% endblock %}
-
-

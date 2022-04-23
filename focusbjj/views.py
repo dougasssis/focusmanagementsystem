@@ -350,7 +350,7 @@ class EditarBranchSuper(LoginRequiredMixin, UpdateView):
 
 
 class DetailALunos(LoginRequiredMixin, DetailView):
-    template_name = 'detalhesalunos_.html'
+    template_name = 'details_alunos.html'
     model = Aluno
 
 
