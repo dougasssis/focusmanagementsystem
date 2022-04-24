@@ -17,15 +17,15 @@ FOCUS BJJ - {{ request.user.location }}
    <div class="row col-lg-6" align="center"><!-- INFORMAÇÕES DO ALUNO -->
        <div class="box "><!-- INICIO DA CAIXA -->
            <div class="card-header">
-                            <h3 class="card-title"></h3>
-                            <p> <b>{% trans "Informações do Aluno" %}</b></p>
-                        </div>
+                <h3 class="card-title"></h3>
+                <p> <b>{% trans "Informações do Aluno" %}</b></p>
+            </div>
 
             <div style="padding: 15px 0px 5px 0px"><!-- DIV FOTO ALUNO -->
                 {% if aluno.photo %}
-                    <td colspan="2" align=center><img width="200px" src="{{ aluno.photo.url }}"> </td>
+                    <td colspan="2" align=center><img width="300px" src="{{ aluno.photo.url }}"> </td>
                 {% else %}
-                    <td colspan="2" align=center><img width="200px" src="{% static 'images/defaultuser.jpeg' %}"> </td>
+                    <td colspan="2" align=center><img width="300px" src="{% static 'images/defaultuser.jpeg' %}"> </td>
                 {% endif %}
             </div><!-- FIM DIV FOTO ALUNO -->
             <div> <!-- DIV TABELA INFORMAÇÕES ALUNO -->
@@ -69,6 +69,7 @@ FOCUS BJJ - {{ request.user.location }}
                 </div><!--FIM TABELA COM INFO -->
             </div> <!-- FIM DIV FOTO ALUNO -->
        </div><!-- FIM DA CAIXA -->
+    </div>
 </div><!-- TERMINA DIV -->
 
 

@@ -284,7 +284,7 @@ class RegisterAlunoView(FormView):
             'id': id,
             'country': country,
         }
-        subject = f' Welcome to Focus BJJ, {nome}'
+        subject = f' Welcome to Focus JJ, {nome}'
         html_message = render_to_string('email_template_EN.html', {'context': context, 'nome': nome, 'id': id})
         html_message_pt = render_to_string('email_template_PT.html', {'context': context, 'nome': nome, 'id': id})
         from_email = settings.EMAIL_HOST_USER
