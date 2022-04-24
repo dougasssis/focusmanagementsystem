@@ -306,7 +306,7 @@ class RegisterAlunoView(FormView):
         return reverse('focusbjj:add_aluno')
 
     def get_success_message(self, cleaned_data):
-        aluno = Aluno.objects.order_by('-join_date')[0]
+        aluno = Aluno.objects.order_by('-time_stamp')[0]
         return self.success_msg + aluno.nome + self.success_msg2 + aluno.id % cleaned_data
 
 
