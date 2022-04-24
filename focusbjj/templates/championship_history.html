@@ -1,0 +1,77 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load i18n %}
+
+
+{% load attendance_tags %}
+
+{% block titulo %}
+FOCUS BJJ - {{ request.user.location }}
+{% endblock %}
+
+{% block content %}
+
+<section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">{% trans "Histórico de Competições" %}</h3>
+                            <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                               <!-- <input type="text" name="table_search" class="form-control float-right" placeholder="Search"> -->
+                                <div class="input-group-append align-left">
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
+                            <thead>
+                              <tr>
+                                <th>{% trans "Aluno" %}</th>
+                                <th>{% trans "Campeonato" %}</th>
+                                <th>{% trans "Local" %}</th>
+                                <th>{% trans "Data" %}</th>
+                                <th>{% trans "Categoria" %}</th>
+                                <th>{% trans "Colocação" %}</th>
+                                <th></th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              {% for campeonato in championships %}
+                                {% if campeonato.athlete.location.id == user.id %}
+                                  <tr>
+                                    <td>{{ campeonato.athlete.nome|title }}</td>
+                                    <td>{{ campeonato.championship|title }}</td>
+                                    <td>{{ campeonato.country.name }}, {{ campeonato.city|title }}</td>
+                                    <td>{{ campeonato.date|date:"d F Y" }}</td>
+                                    <td>{{ campeonato.category|title }} - {{ campeonato.weight|title}}</td>
+                                    <td>{{ campeonato.ranking|title }}</td>
+                                  </tr>
+                                {% else %}
+                                {% endif %}
+                              {% endfor %}
+                              </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+    </header>
+
+    <script>
+    {% for msg in messages %}
+        swal('{{ msg }}');
+    {% endfor %}
+    </script>
+{% endblock %}

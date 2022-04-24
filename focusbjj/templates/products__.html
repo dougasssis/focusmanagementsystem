@@ -1,23 +1,19 @@
 {% extends 'base_template.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% load attendance_tags %}
 {% load i18n %}
 
-
-{% load attendance_tags %}
-
-{% block titulo %}
-FOCUS BJJ - {{ request.user.location }}
+{% block head %}
 {% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'styles.css' %}" xmlns:padding="http://www.w3.org/1999/xhtml">
+<script defer src="{% static 'script.js' %}"></script>
 
-<section class="content">
-
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- general form elements -->
-        <div class="container-fluid">
-            <div class="card card-outline card-info">
+<div class="col-lg-12">
+    <!-- PIE CHART -->
+      <div class="card card-outline card-info">
         <div class="card-header">
           <h3 class="card-title">Store |&nbsp;<b>Focus JJ</b><br><small>{% trans "Clique na Imagem para Ampliar" %}</small></h3>
         <div class="card-tools">
@@ -27,10 +23,9 @@ FOCUS BJJ - {{ request.user.location }}
             </form>
         </div>
       </div>
-<!-- /.card-header -->
-<div class="card-body table-responsive p-0">
-    <table class="table table-hover text-nowrap">
-    <thead>
+      <div class="card-body">
+        <table class="table table-hover text-nowrap">
+        <thead>
         <tr>
           <th>{% trans "Fotos" %}</th>
          <th></th>
@@ -43,9 +38,8 @@ FOCUS BJJ - {{ request.user.location }}
           <th></th>
         </tr>
         </thead>
-    <tbody>
-        <tr>
-         {% if filter.qs %}
+        <tbody>
+        {% if filter.qs %}
             {% for item in filter.qs %}
         <tr>
           <div class="grid">
@@ -68,7 +62,7 @@ FOCUS BJJ - {{ request.user.location }}
             </td>
           </div>
           <td>  {{ item.item|title }}</td>
-          <td>  {{ item.description|default_if_none:""|lower|capfirst }}</td>
+          <td>  {{ item.description|lower|capfirst }}</td>
           <td>€ {{ item.price }}</td>
           <td>€ {{ item.sugg_price }}</td>
           {% if user.is_superuser %}
@@ -104,7 +98,7 @@ FOCUS BJJ - {{ request.user.location }}
             </td>
           </div>
           <td>  {{ item.item|title }}</td>
-          <td>  {{ item.description|default_if_none:""|lower|capfirst }}</td>
+          <td>  {{ item.description|lower|capfirst }}</td>
           <td>€ {{ item.price }}</td>
           <td>€ {{ item.sugg_price }}</td>
           {% if user.is_superuser %}
@@ -117,23 +111,15 @@ FOCUS BJJ - {{ request.user.location }}
         </tr>
         {% endfor %}
           {% endif %}
-                            </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                        </div>
-                    <!-- /.card -->
+        </tbody>
 
-                </div>
-            </div>
 
-        </div><!-- /.container-fluid -->
-      </section>
-    </header>
+        </table>
+      </div>
+    <!-- /.card-body -->
+    </div>
+  </div>
 
-    <script>
-    {% for msg in messages %}
-        swal('{{ msg }}');
-    {% endfor %}
-    </script>
+
+
 {% endblock %}

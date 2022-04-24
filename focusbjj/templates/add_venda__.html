@@ -44,9 +44,11 @@ Sales
                             </div>
                         </div>
                     </div>
-                    <a href="#" id="add-item" class="btn btn-primary btn-sm add-item">{% trans "Adicionar Item" %}</a>
+                    <a href="#" id="add-item" class="btn btn-primary btn-sm add-item">{% trans "Adicionar Item" %}</a><br>
                     {% endif %}
+                    <div style="padding-top:10px">
                     {{ form|crispy }}
+                        </div>
                 </fieldset>
                 <br>
                 <button class="bg-primary py-1 px-3 text-white w-full md:text-lg rounded-md" type="submit">{% trans "Adicionar Venda" %}</button>

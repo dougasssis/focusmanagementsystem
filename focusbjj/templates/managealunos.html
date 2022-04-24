@@ -14,18 +14,13 @@ FOCUS BJJ - {{ request.user.location }}
         <div class="container-fluid">
             <a class="btn btn-primary btn-sm" href="{% url 'focusbjj:add_aluno' %}" role="button">{% trans "+ Adicionar Aluno" %}</a>
             <a href="{% url 'focusbjj:export_xlsx' %}" class="btn btn-sm btn-secondary"><i class="fas fa-address-book main-logo-icon"></i> Export DB {{ user.location }}</a> <br/>&nbsp;
-
             <div class="row">
-
                 <div class="col-md-12">
                     <!-- general form elements -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"></h3>
-                              <!--      <form method="get">
-                                        {{ filter.form}}
-                                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                                    </form> -->
+                            <p>{% trans "Alunos" %} | <b>{% trans "Categoria Adulto" %}</b></p>
+
                             <div class="card-tools">
                             <div class="input-group input-group-sm" style="width: 150px;">
                                 <div class="input-group-append">

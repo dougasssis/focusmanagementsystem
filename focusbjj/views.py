@@ -549,7 +549,7 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class ChampionshipDetail(LoginRequiredMixin, ListView):
-    template_name = 'campeonato_list.html'
+    template_name = 'championship_history.html'
     model = Championship
 
     def get_context_data(self, **kwargs):

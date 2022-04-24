@@ -265,7 +265,7 @@ msgstr ""
 
 #: focusbjj/templates/detalhesalunos.html:53
 msgid "Gênero"
-msgstr ""
+msgstr "Género"
 
 #: focusbjj/templates/detalhesalunos.html:57
 msgid "Primeira Faixa"
@@ -366,7 +366,7 @@ msgstr ""
 
 #: focusbjj/templates/homecontent_.html:123
 msgid "Alunos por Gênero"
-msgstr ""
+msgstr "Alunos por Género"
 
 #: focusbjj/templates/homecontent_.html:140
 msgid "Alunos por Idade"
@@ -468,7 +468,7 @@ msgstr ""
 
 #: focusbjj/templates/password_reset_confirm.html:19
 msgid "Redefinir Senha"
-msgstr ""
+msgstr "Redefinir Palavra-passe"
 
 #: focusbjj/templates/password_reset_done.html:16
 msgid "Redefinição de senha enviada com sucesso!"

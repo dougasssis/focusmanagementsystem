@@ -119,6 +119,10 @@ class VendaForm(forms.ModelForm):
             'method': _('Método de Pagamento'),
             'price': _('Valor Total'),
         }
+        help_texts = {
+            'aluno': _('Opcional'),
+            'price': _('Use " . "(ponto) para separar decimais.'),
+        }
 
 
 ProductFormset = inlineformset_factory(Venda, Product, form=ProductForm, fields=['product', 'qtd'], extra=1,
