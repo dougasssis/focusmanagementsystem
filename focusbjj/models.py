@@ -91,6 +91,7 @@ class Aluno(models.Model):
     belt = models.CharField(max_length=255, choices=BELT)
     stripe = models.CharField(max_length=255, choices=GRAU)
     join_date = models.DateTimeField()
+    time_stamp = models.DateTimeField(auto_now=True, null=True)
     gender = models.CharField(max_length=255, choices=GENDER)
     dob = models.DateField(verbose_name='Date of Birth')
 

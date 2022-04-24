@@ -274,7 +274,7 @@ class RegisterAlunoView(FormView):
 
     def form_valid(self, form):
         form.save()
-        alunos = Aluno.objects.order_by('-join_date')
+        alunos = Aluno.objects.order_by('-time_stamp')
         nome = alunos[0].nome
         email = alunos[0].email
         country = alunos[0].location.country
