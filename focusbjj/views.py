@@ -277,6 +277,7 @@ class RegisterAlunoView(FormView):
         alunos = Aluno.objects.order_by('-time_stamp')
         nome = alunos[0].nome
         email = alunos[0].email
+        copy_to = alunos[0].location.email
         country = alunos[0].location.country
         id = alunos[0].id
         context = {
@@ -284,11 +285,11 @@ class RegisterAlunoView(FormView):
             'id': id,
             'country': country,
         }
-        subject = f' Welcome to Focus JJ, {nome}'
+        subject = f' Welcome to Focus JJ, {nome} {alunos[0].surname}'
         html_message = render_to_string('email_template_EN.html', {'context': context, 'nome': nome, 'id': id})
         html_message_pt = render_to_string('email_template_PT.html', {'context': context, 'nome': nome, 'id': id})
         from_email = settings.EMAIL_HOST_USER
-        recipient = [email]
+        recipient = [email, copy_to]
         if country == 'BR' or country == 'PT' or country == 'AO' or country == 'CV':
             message = EmailMessage(subject, html_message_pt, from_email, recipient)
             message.content_subtype = 'html'
