@@ -65,11 +65,11 @@ class Attendance(FormView):
                 if errormsg2:
                     messages.error(self.request, errormsg2)
                     form.save(False)
-        else:
-            form.save()
-            success_msg = self.get_success_message(form.cleaned_data)
-            if success_msg:
-                messages.success(self.request, success_msg)
+            else:
+                form.save()
+                success_msg = self.get_success_message(form.cleaned_data)
+                if success_msg:
+                    messages.success(self.request, success_msg)
         return super().form_valid(form)
 
     def get_success_message(self, cleaned_data):
