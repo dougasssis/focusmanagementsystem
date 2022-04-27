@@ -7,7 +7,6 @@ from django import template
 from shortuuid.django_fields import ShortUUIDField
 from django.utils.translation import gettext as _
 
-
 register = template.Library()
 
 BELT = (
@@ -94,6 +93,7 @@ class Aluno(models.Model):
     time_stamp = models.DateTimeField(auto_now=True, null=True)
     gender = models.CharField(max_length=255, choices=GENDER)
     dob = models.DateField(verbose_name='Date of Birth')
+    is_blocked = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'id'
 
@@ -134,10 +134,10 @@ class Venda(models.Model):
 
 
 class ProductsList(models.Model):
-    CATEGORY=(
+    CATEGORY = (
         ('kimono', _('Gi')),
         ('belt', _('Belt')),
-        ('camisetas',_('T-Shirt')),
+        ('camisetas', _('T-Shirt')),
         ('casaco', _('Hoodie')),
         ('rash', _('Rash Guard')),
         ('short', _('Short')),
@@ -184,44 +184,42 @@ class Graduation(models.Model):
         return str(self.belt)
 
 
-WEIGHT = (
-    ('rooster', 'Rooster'),
-    ('light feather', 'Light Feather'),
-    ('feather', 'Feather'),
-    ('light', 'Light'),
-    ('middle', 'Middle'),
-    ('middle heavy', 'Middle Heavy'),
-    ('heavy', 'Heavy'),
-    ('super heavy', 'Super Heavy'),
-    ('ultra heavy', 'Ultra Heavy'),
-    ('open', 'Open'),
-)
-
-CATEGORY = (
-    ('Pré-Mirim 1', _('Pré-Mirim 1')),
-    ('Pré-Mirim 2', _('Pré-Mirim 2')),
-    ('Pré-Mirim 3', _('Pré-Mirim 3')),
-    ('Mirim 1', _('Mirim 1')),
-    ('Mirim 2', _('Mirim 2')),
-    ('Mirim 3', _('Mirim 3')),
-    ('infantil 1', _('Infantil 1')),
-    ('infantil 1', _('Infantil 2')),
-    ('infantil 1', _('Infantil 3')),
-    ('Infanto Juvenil 1', _('Infanto Juvenil 1')),
-    ('Infanto Juvenil 2', _('Infanto Juvenil 2')),
-    ('Infanto Juvenil 3', _('Infanto Juvenil 3')),
-    ('Juvenil', _('Juvenil')),
-    ('Adulto/Master', _('Adulto/Master')),
-)
-
-RANKING = (
-    ('#1 place', _('#1 Lugar')),
-    ('#2 place', _('#2 Lugar')),
-    ('#3 place', _('#3 Lugar')),
-)
-
-
 class Championship(models.Model):
+    WEIGHT = (
+        ('rooster', 'Rooster'),
+        ('light feather', 'Light Feather'),
+        ('feather', 'Feather'),
+        ('light', 'Light'),
+        ('middle', 'Middle'),
+        ('middle heavy', 'Middle Heavy'),
+        ('heavy', 'Heavy'),
+        ('super heavy', 'Super Heavy'),
+        ('ultra heavy', 'Ultra Heavy'),
+        ('open', 'Open'),
+    )
+
+    CATEGORY = (
+        ('Pré-Mirim 1', _('Pré-Mirim 1')),
+        ('Pré-Mirim 2', _('Pré-Mirim 2')),
+        ('Pré-Mirim 3', _('Pré-Mirim 3')),
+        ('Mirim 1', _('Mirim 1')),
+        ('Mirim 2', _('Mirim 2')),
+        ('Mirim 3', _('Mirim 3')),
+        ('infantil 1', _('Infantil 1')),
+        ('infantil 1', _('Infantil 2')),
+        ('infantil 1', _('Infantil 3')),
+        ('Infanto Juvenil 1', _('Infanto Juvenil 1')),
+        ('Infanto Juvenil 2', _('Infanto Juvenil 2')),
+        ('Infanto Juvenil 3', _('Infanto Juvenil 3')),
+        ('Juvenil', _('Juvenil')),
+        ('Adulto/Master', _('Adulto/Master')),
+    )
+
+    RANKING = (
+        ('#1 place', _('#1 Lugar')),
+        ('#2 place', _('#2 Lugar')),
+        ('#3 place', _('#3 Lugar')),
+    )
     objects = None
     athlete = models.ForeignKey(Aluno, related_name='campeonato', on_delete=models.CASCADE)
     championship = models.CharField(max_length=50)
@@ -267,4 +265,4 @@ class Posts(models.Model):
         return self.timestamp.year
 
     class Meta:
-        ordering = ["category", "timestamp",]
+        ordering = ["category", "timestamp", ]

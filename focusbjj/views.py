@@ -15,7 +15,7 @@ import xlwt
 from django.utils.translation import gettext as _
 
 
-class Attendance(FormView):
+'''class Attendance(FormView):
     template_name = 'homepage.html'
     model = GetAttendance
     form_class = AttendForm
@@ -35,7 +35,58 @@ class Attendance(FormView):
         return str(aluno) + " was " + str(self.success_msg) + " at " + str(attendance) % cleaned_data
 
     def get_success_url(self):
+        return reverse('focusbjj:homepage')'''
+
+
+#NOVA VIEW ATTENDANCE COM FUNÇÕES DE BLOQUEIO DE ALUNO E CHECK IN SOMENTE A CADA 3 HORAS
+
+class Attendance(FormView):
+    template_name = 'homepage.html'
+    model = GetAttendance
+    form_class = AttendForm
+    success_msg = _("Check in efetuado com sucesso")
+    errormsg = _("Aluno está bloqueado. Procure a gerência.")
+    errormsg2 = _("Check in já efetuado. Você poderá fazer novo check in na próxima aula ou em 3 horas.")
+
+    def form_valid(self, form):
+        form.save(commit=False)
+        aluno = form.instance.aluno
+        att = GetAttendance.objects.filter(aluno=aluno.id).order_by('-attendance')
+
+        if aluno.is_blocked:
+            errormsg = self.error_msg()
+            if errormsg:
+                messages.error(self.request, errormsg)
+                form.save(False)
+        elif att:
+            last_attendance = att[0].attendance
+            if last_attendance + timedelta(hours=3) > timezone.now():
+                errormsg2 = self.error_msg2()
+                if errormsg2:
+                    messages.error(self.request, errormsg2)
+                    form.save(False)
+        else:
+            form.save()
+            success_msg = self.get_success_message(form.cleaned_data)
+            if success_msg:
+                messages.success(self.request, success_msg)
+        return super().form_valid(form)
+
+    def get_success_message(self, cleaned_data):
+        att = GetAttendance.objects.order_by('-attendance')[0]
+        aluno = att.aluno.nome
+        attendance = att.attendance
+        data = attendance.strftime('%d/%m/%Y %H:%M:%S')
+        return str(aluno) + " " + str(self.success_msg) + " at " + str(data) % cleaned_data
+
+    def get_success_url(self):
         return reverse('focusbjj:homepage')
+
+    def error_msg(self):
+        return self.errormsg
+
+    def error_msg2(self):
+        return self.errormsg2
 
 
 class AddProduct(LoginRequiredMixin, CreateView):
@@ -276,6 +327,7 @@ class RegisterAlunoView(FormView):
         form.save()
         alunos = Aluno.objects.order_by('-time_stamp')
         nome = alunos[0].nome
+        surname = alunos[0].surname
         email = alunos[0].email
         copy_to = alunos[0].location.email
         country = alunos[0].location.country
@@ -285,7 +337,7 @@ class RegisterAlunoView(FormView):
             'id': id,
             'country': country,
         }
-        subject = f' Welcome to Focus JJ, {nome} {alunos[0].surname}'
+        subject = f' Welcome to Focus JJ, {nome} {surname}'
         html_message = render_to_string('email_template_EN.html', {'context': context, 'nome': nome, 'id': id})
         html_message_pt = render_to_string('email_template_PT.html', {'context': context, 'nome': nome, 'id': id})
         from_email = settings.EMAIL_HOST_USER
@@ -308,7 +360,7 @@ class RegisterAlunoView(FormView):
 
     def get_success_message(self, cleaned_data):
         aluno = Aluno.objects.order_by('-time_stamp')[0]
-        return self.success_msg + aluno.nome + self.success_msg2 + aluno.id % cleaned_data
+        return self.success_msg + aluno.nome + " " + aluno.surname + self.success_msg2 + aluno.id % cleaned_data
 
 
 class LoginView(FormView):

@@ -86,6 +86,10 @@ class RegisterAlunoForm(forms.ModelForm):
             'join_date': _('Data de Início')
         }
 
+        help_texts = {
+            'email': _('Digite o endereço corretamente.')
+        }
+
 
 class ProductForm(forms.ModelForm):
     template_name = "add_product"
