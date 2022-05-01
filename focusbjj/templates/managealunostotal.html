@@ -86,9 +86,13 @@ FOCUS BJJ - {{ request.user.location }}
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <ion-icon name="warning"></ion-icon>
-                                    <strong class="text-red"> &nbsp; {{ aluno|alert|default_if_none:"" }} </strong>
-                                </td>                                 <td>
+                                    {% if aluno|alert %}
+                                <ion-icon name="warning"></ion-icon>
+                                <strong class="text-red"> &nbsp; {{ aluno|alert|default_if_none:"" }} </strong>
+                                {% else %}
+                                {% endif %}
+                                {% endif %}
+                                </td><td>
                                     <a href="{% url 'focusbjj:editaralunos' aluno.pk %}" class="btn btn-success">Edit</a>
                                     <a href="{% url 'focusbjj:graduation' aluno.pk %}" class="btn btn-warning text-white">Graduate</a>
                                     <a href="{% url 'focusbjj:alunos' aluno.pk %}" class="btn btn-primary">Details</a>

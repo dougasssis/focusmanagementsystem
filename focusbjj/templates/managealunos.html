@@ -79,8 +79,12 @@ FOCUS BJJ - {{ request.user.location }}
                     </td>
                     <td>{{ aluno|last_graduation|date:"d/m/Y" }}</td>
                     <td>
+                        {% if aluno|alert %}
                         <ion-icon name="warning"></ion-icon>
                         <strong class="text-red"> &nbsp; {{ aluno|alert|default_if_none:"" }} </strong>
+                        {% else %}
+                        {% endif %}
+                        {% endif %}
                     </td>
 
 
