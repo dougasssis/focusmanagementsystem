@@ -100,11 +100,12 @@ class Aluno(models.Model):
     def __str__(self):
         return self.nome + " - " + str(self.location.location)
 
-    def idade(self):
+    def idade(self): #POR ANO DE NASCIMENTO
         today = date.today()
         idade = today.year - self.dob.year #- ((today.month, today.day) < (self.dob.month, self.dob.day))
         return idade
 
+    @property
     def unidade(self):
         return self.location.country + self.location.location
 

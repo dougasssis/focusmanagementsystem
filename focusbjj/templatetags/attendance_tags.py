@@ -116,6 +116,7 @@ def new_attendance(aluno_instance):
         return attendance
 
 #GENDER TAGS
+
 @register.filter
 def male_total(gender_instance):
     men = Aluno.objects.filter(gender='Male').annotate(male=Count('pk', filter=Q(gender='Male')))
@@ -149,13 +150,36 @@ def female(location_instance):
 
 # END GENDER TAGS
 
+
 @register.filter
 def white(location_instance):
     alunos = Aluno.objects.filter(location_id=location_instance.id)
     white = 0
     for aluno in alunos:
         belt = current_belt(aluno)
-        if belt == 'White Belt' and aluno.idade() > 13:
+        if belt == 'White Belt' and aluno.idade() > 17:
+            white += 1
+    return white
+
+
+@register.filter
+def white_GENERAL(location_instance):
+    alunos = Aluno.objects.all()
+    white = 0
+    for aluno in alunos:
+        belt = current_belt(aluno)
+        if belt == 'White Belt' and aluno.idade() > 17:
+            white += 1
+    return white
+
+
+@register.filter
+def white_kids_GENERAL(location_instance):
+    alunos = Aluno.objects.all()
+    white = 0
+    for aluno in alunos:
+        belt = current_belt(aluno)
+        if belt == 'White Belt' and aluno.idade() <= 17:
             white += 1
     return white
 

@@ -141,8 +141,7 @@
             {% if user.is_superuser %}
                 <canvas id="genderChartTotal"  height="260"></canvas>
             {% else %}
-
-                <canvas id="genderChart2"  height="260"></canvas>
+                <canvas id="genderChart"  height="260"></canvas>
             {% endif %}
        </div>
         </div>
@@ -160,14 +159,14 @@
         </div>
         </div>
         <div class="card-body"><!-- /.card-body -->
-        <canvas id="ageChart"  height="260"></canvas>
+        <canvas id="ageChart" height="260"></canvas>
         </div>
         </div>
         </div>
         </div> <!--FINISH third COLUMN  -->
         </div>
 
-</section> <!--FINISH FIRST ROW  -->
+    </section> <!--FINISH FIRST ROW  -->
     <div class="row">
             <div class="col-lg-6"> <!--ADULTS BELTS  -->
                 <div class="card-body table-responsive p-0">
@@ -232,7 +231,7 @@
             },
            {
                 label: 'Focus',
-                data: [{{ belts.white }} ,{{ belts.blue }},{{ belts.purple }}, {{ belts.brown }}, {{ belts.black }}],
+                data: [{{ user|white_GENERAL }} ,{{ belts.blue }},{{ belts.purple }}, {{ belts.brown }}, {{ belts.black }}],
             backgroundColor: [
                 'rgba(250, 250, 250)',
                 'rgba(0, 0, 255)',
@@ -315,7 +314,7 @@
           },
           {
                 label: 'Focus',
-                data: [{{ belts.white }} ,{{ belts.gray_white }},{{ belts.gray }},{{ belts.gray_black }},{{ belts.yellow_white }},{{ belts.yellow }},{{ belts.yellow_black }},
+                data: [{{ user|white_kids_GENERAL }} ,{{ belts.gray_white }},{{ belts.gray }},{{ belts.gray_black }},{{ belts.yellow_white }},{{ belts.yellow }},{{ belts.yellow_black }},
                  {{ belts.green_white }}, {{ belts.green }} , {{ belts.green_black }}  ,{{ belts.orange_white }},{{ belts.orange }},{{ belts.orange_black }}],
             backgroundColor: [
                 'rgb(255, 250, 240)',
@@ -428,7 +427,7 @@
 
     // GENDER CONFIG TOTAL
         const configgendertotal = {
-        type: 'pie',
+        type: 'doughnut',
         data: datagendertotal,
         options: {
             maintainAspectRatio:false,
@@ -447,22 +446,35 @@
         // AGE DATA LOCAL
      const data_age = {
         labels: ['4 a 6 anos', '7 a 10 anos', '11 a 13 anos','14 a 17 anos' ,'Adulto'],
-        datasets: [{
-            label: 'Focus',
-            data: [{{ user|under7 }}, {{ user|under10 }}, {{ user|under13 }} , {{ user|under17 }}, {{ user|adulto }}],
-        backgroundColor: [
+            datasets: [{
+                label: 'Focus {{ user.location }}, {{ user.country.name }}',
+                data: [{{ user|under7 }}, {{ user|under10 }}, {{ user|under13 }} , {{ user|under17 }}, {{ user|adulto }}],
+            backgroundColor: [
             'rgb(255, 0, 0)',
             'rgb(153, 102, 204)',
             'rgb(0, 204, 0)',
             'rgb(0, 128, 255)',
             'rgb(255, 223, 0)',
-           ],
-      }]
-};
+               ],
+               borderWidth: 2,
+            },
+           {
+                label: 'Focus',
+            data: [{{ user|under7TOTAL }}, {{ user|under10TOTAL }}, {{ user|under13TOTAL }} , {{ user|under17TOTAL }}, {{ user|adultoTOTAL }}],
+            backgroundColor: [
+            'rgba(255, 0, 0, .6)',
+            'rgba(153, 102, 204, .6)',
+            'rgba(0, 204, 0, .6)',
+            'rgba(0, 128, 255, .6)',
+            'rgba(255, 223, 0, .6)',
+               ],
+               borderWidth: 2,
+            }]
+    };
 
     // AGE CONFIG
         const configage = {
-        type: 'doughnut',
+        type: 'pie',
         data: data_age,
         options: {
             maintainAspectRatio:false,

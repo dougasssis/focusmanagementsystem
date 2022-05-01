@@ -15,31 +15,6 @@ import xlwt
 from django.utils.translation import gettext as _
 
 
-'''class Attendance(FormView):
-    template_name = 'homepage.html'
-    model = GetAttendance
-    form_class = AttendForm
-    success_msg = "checked in successfully"
-
-    def form_valid(self, form):
-        form.save()
-        success_msg = self.get_success_message(form.cleaned_data)
-        if success_msg:
-            messages.success(self.request, success_msg)
-        return super().form_valid(form)
-
-    def get_success_message(self, cleaned_data):
-        att = GetAttendance.objects.order_by('-attendance')[0]
-        aluno = att.aluno.nome
-        attendance = att.attendance
-        return str(aluno) + " was " + str(self.success_msg) + " at " + str(attendance) % cleaned_data
-
-    def get_success_url(self):
-        return reverse('focusbjj:homepage')'''
-
-
-#NOVA VIEW ATTENDANCE COM FUNÇÕES DE BLOQUEIO DE ALUNO E CHECK IN SOMENTE A CADA 3 HORAS
-
 class Attendance(FormView):
     template_name = 'homepage.html'
     model = GetAttendance
@@ -172,10 +147,11 @@ class HomeView(LoginRequiredMixin, TemplateView):
         dict_belt = {'white': 0, 'gray_white': 0, 'gray': 0, 'gray_black': 0,
                      'yellow_white': 0, 'yellow': 0, 'yellow_black': 0,
                      'green_white': 0, 'green': 0, 'green_black': 0,
+                     'orange_white': 0, 'orange': 0, 'orange_black': 0,
                      'blue': 0, 'purple': 0, 'brown': 0, 'black': 0}
         for aluno in alunos:
             belt = current_belt(aluno)
-            if belt == 'White Belt' and aluno.idade() > 18:
+            if belt == 'White Belt':
                 dict_belt['white'] += 1
             elif belt == 'Gray/White Belt':
                 dict_belt['gray_white'] += 1
@@ -195,6 +171,14 @@ class HomeView(LoginRequiredMixin, TemplateView):
                 dict_belt['green'] += 1
             elif belt == 'Green/Black Belt':
                 dict_belt['green_black'] += 1
+
+            elif belt == 'Orange/White Belt':
+                dict_belt['orange_white'] += 1
+            elif belt == 'Orange Belt':
+                dict_belt['orange'] += 1
+            elif belt == 'Orange/Black Belt':
+                dict_belt['orange_black'] += 1
+
             elif belt == 'Blue Belt':
                 dict_belt['blue'] += 1
             elif belt == 'Purple Belt':
@@ -435,8 +419,6 @@ class DetailBranch(SuperuserRequiredMixin, DetailView):
             belt = current_belt(aluno)
             if belt == 'White Belt':
                 dict_belt['white'] += 1
-           # if belt == 'White Belt' and alunos.idade < 18:
-           #     dict_belt['whitekids'] += 1
             elif belt == 'Gray/White Belt':
                 dict_belt['gray_white'] += 1
             elif belt == 'Gray Belt':
