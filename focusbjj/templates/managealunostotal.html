@@ -86,11 +86,10 @@ FOCUS BJJ - {{ request.user.location }}
                                     {% endif %}
                                 </td>
                                 <td>
-                                    {% if aluno|alert %}
+                                {% if aluno|alert %}
                                 <ion-icon name="warning"></ion-icon>
                                 <strong class="text-red"> &nbsp; {{ aluno|alert|default_if_none:"" }} </strong>
                                 {% else %}
-                                {% endif %}
                                 {% endif %}
                                 </td><td>
                                     <a href="{% url 'focusbjj:editaralunos' aluno.pk %}" class="btn btn-success">Edit</a>
