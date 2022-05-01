@@ -102,7 +102,7 @@ class Aluno(models.Model):
 
     def idade(self):
         today = date.today()
-        idade = today.year - self.dob.year - ((today.month, today.day) < (self.dob.month, self.dob.day))
+        idade = today.year - self.dob.year #- ((today.month, today.day) < (self.dob.month, self.dob.day))
         return idade
 
     def unidade(self):

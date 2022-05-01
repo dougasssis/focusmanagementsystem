@@ -1,6 +1,7 @@
 {% extends 'base_template.html' %}
 {% load static %}
 {% load i18n %}
+{% load alerta_tags %}
 
 
 {% load attendance_tags %}
@@ -49,6 +50,7 @@ FOCUS BJJ - {{ request.user.location }}
                                 <th>{% trans "Aulas" %}</th>
                                 <th>{% trans "Aulas Totais" %}</th>
                                 <th>{% trans "Dias Ausentes" %}</th>
+                                <th>{% trans "Graduação" %}</th>
                                 <th></th>
                                 </tr>
                             </thead>
@@ -83,8 +85,10 @@ FOCUS BJJ - {{ request.user.location }}
                                     {% endif %}
                                     {% endif %}
                                 </td>
-                             <!--   <td>{{ aluno|last_graduation|date:"d F Y" }}</td> -->
                                 <td>
+                                    <ion-icon name="warning"></ion-icon>
+                                    <strong class="text-red"> &nbsp; {{ aluno|alert }} </strong>
+                                </td>                                 <td>
                                     <a href="{% url 'focusbjj:editaralunos' aluno.pk %}" class="btn btn-success">Edit</a>
                                     <a href="{% url 'focusbjj:graduation' aluno.pk %}" class="btn btn-warning text-white">Graduate</a>
                                     <a href="{% url 'focusbjj:alunos' aluno.pk %}" class="btn btn-primary">Details</a>
@@ -119,7 +123,10 @@ FOCUS BJJ - {{ request.user.location }}
                                     {% endif %}
                                     {% endif %}
                                 <td>
-                                <!--   <td>{{ aluno|last_graduation|date:"d F Y" }}</td> -->
+                                <td>
+                                    <ion-icon name="warning"></ion-icon>
+                                    <strong class="text-red"> &nbsp; {{ aluno|alert }} </strong>
+                                </td>
                                 <td>
                                     <a href="{% url 'focusbjj:editaralunos' aluno.pk %}" class="btn btn-success">Edit</a>
                                     <a href="{% url 'focusbjj:graduation' aluno.pk %}" class="btn btn-warning text-white">Graduate</a>

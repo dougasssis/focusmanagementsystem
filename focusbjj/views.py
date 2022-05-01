@@ -175,7 +175,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
                      'blue': 0, 'purple': 0, 'brown': 0, 'black': 0}
         for aluno in alunos:
             belt = current_belt(aluno)
-            if belt == 'White Belt' and aluno.idade() > 13:
+            if belt == 'White Belt' and aluno.idade() > 18:
                 dict_belt['white'] += 1
             elif belt == 'Gray/White Belt':
                 dict_belt['gray_white'] += 1
@@ -204,6 +204,8 @@ class HomeView(LoginRequiredMixin, TemplateView):
             elif belt == 'Black Belt':
                 dict_belt['black'] += 1
         return dict_belt
+
+
 
 
 class ManageStaff(SuperuserRequiredMixin, TemplateView):
@@ -647,7 +649,7 @@ def export_xlsx(model, filename, queryset, columns):
 def exportar_alunos_xlsx(request):
     mdata = datetime.datetime.now().strftime('%Y-%m-%d')
     model = 'Aluno'
-    filename = 'alunos.xls'
+    filename = 'athletes.xls'
     _filename = filename.split('.')
     filename_final = f'{_filename[0]}_{mdata}.{_filename[1]}'
 
@@ -657,8 +659,10 @@ def exportar_alunos_xlsx(request):
         'email',
         'phone',
         'location__location',
+        'dob__year',
+
     ).order_by('nome')
-    columns = ('Name', 'Last Name', 'Email', 'Phone', 'Location')
+    columns = ('Name', 'Last Name', 'Email', 'Phone', 'Location', 'Year of Birth')
     response = export_xlsx(model, filename_final, queryset, columns,)
 
     def get_success_url(self):
@@ -679,8 +683,9 @@ def exportar_alunos_total_xlsx(request):
         'email',
         'phone',
         'location__location',
+        'dob__year',
     ).order_by('nome')
-    columns = ('Name', 'Last Name', 'Email', 'Phone', 'Location')
+    columns = ('Name', 'Last Name', 'Email', 'Phone', 'Location', 'Year of Birth')
     response = export_xlsx(model, filename_final, queryset, columns,)
 
     def get_success_url(self):

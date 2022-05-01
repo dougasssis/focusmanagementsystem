@@ -11,7 +11,7 @@ def alert(aluno_instance):
     current_stripe_ = current_stripe(aluno_instance)
     if new_attendance_ and current_belt_ and current_stripe_:
         #GRADUAÇÃO WHITE BELT
-        if new_attendance_ >= 25 and current_belt_ == 'White Belt' and current_stripe_ == 'No Stripes':
+        if new_attendance_ >= 1 and current_belt_ == 'White Belt' and current_stripe_ == 'No Stripes':
             return 'Graduar Aluno Iº Stripe'
         elif new_attendance_ >= 25 and current_belt_ == 'White Belt' and current_stripe_ == 'Iº Stripe':
             return 'Graduar Aluno IIº Stripe'

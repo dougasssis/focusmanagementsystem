@@ -1,6 +1,8 @@
 {% extends 'base_template.html' %}
 {% load static %}
 {% load attendance_tags %}
+{% load alerta_tags %}
+
 {% load i18n %}
 
 
@@ -40,6 +42,8 @@ FOCUS BJJ - {{ request.user.location }}
                     <th>{% trans "Aulas Totais" %}</th>
                     <th>{% trans "Dias Ausentes" %}</th>
                     <th>{% trans "Última Graduação" %}</th>
+                    <th>{% trans "Próxima Graduação" %}</th>
+
                     <th></th>
                     </tr>
                 </thead>
@@ -74,7 +78,10 @@ FOCUS BJJ - {{ request.user.location }}
                         {% endif %}
                     </td>
                     <td>{{ aluno|last_graduation|date:"d/m/Y" }}</td>
-
+                    <td>
+                        <ion-icon name="warning"></ion-icon>
+                        <strong class="text-red"> &nbsp; {{ aluno|alert }} </strong>
+                    </td>
 
 
                     <td>

@@ -1,6 +1,8 @@
 {% extends 'base_template.html' %}
 {% load static %}
 {% load attendance_tags %}
+{% load age_tags %}
+
 {% load i18n %}
 
 
@@ -136,7 +138,12 @@
         </div>
         </div>
         <div class="card-body"><!-- /.card-body -->
-            <canvas id="genderChart"  height="260"></canvas>
+            {% if user.is_superuser %}
+                <canvas id="genderChartTotal"  height="260"></canvas>
+            {% else %}
+
+                <canvas id="genderChart2"  height="260"></canvas>
+            {% endif %}
        </div>
         </div>
         </div>
@@ -153,17 +160,16 @@
         </div>
         </div>
         <div class="card-body"><!-- /.card-body -->
-            <canvas id="ageChart"  height="260"></canvas>
-
-
+        <canvas id="ageChart"  height="260"></canvas>
         </div>
         </div>
         </div>
         </div> <!--FINISH third COLUMN  -->
         </div>
+
 </section> <!--FINISH FIRST ROW  -->
     <div class="row">
-            <div class="col-lg-6"> <!--FIRST COLUMN  -->
+            <div class="col-lg-6"> <!--ADULTS BELTS  -->
                 <div class="card-body table-responsive p-0">
                 <div class="card card-outline card-info">
                 <div class="card-header">
@@ -182,9 +188,9 @@
                 </div>
                 </div>
             </div>
-        </div> <!--FINISH FIRST COLUMN  -->
+        </div> <!--FINISH ADULTS BELTS  -->
 
-        <div class="col-lg-6"> <!--FIRST COLUMN  -->
+        <div class="col-lg-6"> <!--KIDS BELT CHART -->
             <div class="card-body table-responsive p-0">
             <div class="card card-outline card-info">
             <div class="card-header">
@@ -203,7 +209,7 @@
             </div>
             </div>
 
-        </div> <!--FINISH FIRST COLUMN  -->
+        </div> <!--FINISH KDIS BELT -->
     </div>
         
 
@@ -306,7 +312,50 @@
                ],
                borderWidth: 10,
 
-          }]
+          },
+          {
+                label: 'Focus',
+                data: [{{ belts.white }} ,{{ belts.gray_white }},{{ belts.gray }},{{ belts.gray_black }},{{ belts.yellow_white }},{{ belts.yellow }},{{ belts.yellow_black }},
+                 {{ belts.green_white }}, {{ belts.green }} , {{ belts.green_black }}  ,{{ belts.orange_white }},{{ belts.orange }},{{ belts.orange_black }}],
+            backgroundColor: [
+                'rgb(255, 250, 240)',
+
+                'rgb(250, 250, 250)',
+                'rgb(169, 169, 169)',
+                'rgb(0, 0, 0)',
+
+                'rgb(250, 250, 250)',
+                'rgb(255, 215, 0)',
+                'rgb(0, 0, 0)',
+
+                'rgb(250, 250, 250)',
+                'rgb(0, 128, 128)',
+                'rgb(0, 0, 0)',
+
+                'rgb(250, 250, 250)',
+                'rgb(255, 69, 0)',
+                'rgb(0, 0, 0)',
+               ],
+               borderColor: [
+                    'rgb(255, 250, 240)',
+                    'rgb(169, 169, 169)',
+                    'rgb(169, 169, 169)',
+                    'rgb(169, 169, 169)',
+                    'rgb(255, 215, 0)',
+                    'rgb(255, 215, 0)',
+                    'rgb(255, 215, 0)',
+                    'rgb(0, 128, 128)',
+                    'rgb(0, 128, 128)',
+                    'rgb(0, 128, 128)',
+                    'rgb(255, 69, 0)',
+                    'rgb(255, 69, 0)',
+                    'rgb(255, 69, 0)',
+               ],
+               borderWidth: 10,
+
+          },
+
+          ]
     };
 
 
@@ -364,25 +413,56 @@
         configgender
     );
 
-        // AGE DATA
-     const data_age = {
-        labels: ['4 a 6 anos', '7 a 10 anos', '11 a 13 anos', 'Adulto'],
+        // GENDER DATA TOTAL
+     const datagendertotal = {
+        labels: ['Masculino', 'Feminino'],
         datasets: [{
-            label: 'Focus',
-            data: [{{ user|under7 }}, {{ user|under10 }}, {{ user|under13 }} ,{{ user|adulto }}],
+            label: 'Focus {{ user.location }}, {{ user.country.name }}',
+            data: [{{ user|male_total }} ,{{ user|female_total }}],
         backgroundColor: [
-            'rgb(255, 0, 0)',
-            'rgb(0, 204, 0)',
-            'rgb(0, 128, 255)',
-            'rgb(255, 223, 0)',
-
+            'rgb(0, 0, 255)',
+            'rgb(255, 0, 157)',
            ],
       }]
 };
 
-    // GENDER CONFIG
-        const configage = {
+    // GENDER CONFIG TOTAL
+        const configgendertotal = {
         type: 'pie',
+        data: datagendertotal,
+        options: {
+            maintainAspectRatio:false,
+            scales: {
+
+           }
+        }
+     };
+
+    //RENDER GENDER BLOCK TOTAL
+        const genderChartTotal = new Chart(
+        document.getElementById('genderChartTotal'),
+        configgendertotal
+    );
+
+        // AGE DATA LOCAL
+     const data_age = {
+        labels: ['4 a 6 anos', '7 a 10 anos', '11 a 13 anos','14 a 17 anos' ,'Adulto'],
+        datasets: [{
+            label: 'Focus',
+            data: [{{ user|under7 }}, {{ user|under10 }}, {{ user|under13 }} , {{ user|under17 }}, {{ user|adulto }}],
+        backgroundColor: [
+            'rgb(255, 0, 0)',
+            'rgb(153, 102, 204)',
+            'rgb(0, 204, 0)',
+            'rgb(0, 128, 255)',
+            'rgb(255, 223, 0)',
+           ],
+      }]
+};
+
+    // AGE CONFIG
+        const configage = {
+        type: 'doughnut',
         data: data_age,
         options: {
             maintainAspectRatio:false,
@@ -392,11 +472,12 @@
         }
      };
 
-    //RENDER GENDER BLOCK
+    //RENDER AGE BLOCK
         const ageChart = new Chart(
         document.getElementById('ageChart'),
         configage
     );
+
 </script>
 
 {% endblock  %}
