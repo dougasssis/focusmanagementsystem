@@ -166,7 +166,7 @@ def white_kids(location_instance):
     white = 0
     for aluno in alunos:
         belt = current_belt(aluno)
-        if belt == 'White Belt' and aluno.idade() <= 13:
+        if belt == 'White Belt' and aluno.idade() <= 17:
             white += 1
     return white
 

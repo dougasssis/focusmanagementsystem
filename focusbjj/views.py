@@ -427,14 +427,16 @@ class DetailBranch(SuperuserRequiredMixin, DetailView):
 
     def get_belts(self):
         alunos = Aluno.objects.all()
-        dict_belt = {'white': 0, 'gray_white': 0, 'gray': 0, 'gray_black': 0,
+        dict_belt = {'white': 0, 'whitekids':0, 'gray_white': 0, 'gray': 0, 'gray_black': 0,
                      'yellow_white': 0, 'yellow': 0, 'yellow_black': 0,
                      'green_white': 0, 'green': 0, 'green_black': 0,
                      'blue': 0, 'purple': 0, 'brown': 0, 'black': 0}
         for aluno in alunos:
             belt = current_belt(aluno)
-            if belt == 'White Belt':
+            if belt == 'White Belt' and alunos.idade > 17:
                 dict_belt['white'] += 1
+            if belt == 'White Belt' and alunos.idade < 18:
+                dict_belt['whitekids'] += 1
             elif belt == 'Gray/White Belt':
                 dict_belt['gray_white'] += 1
             elif belt == 'Gray Belt':
