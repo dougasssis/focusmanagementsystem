@@ -448,7 +448,7 @@
         labels: ['4 a 6 anos', '7 a 10 anos', '11 a 13 anos','14 a 17 anos' ,'Adulto'],
             datasets: [{
                 label: 'Focus {{ user.location }}, {{ user.country.name }}',
-                data: [{{ user|under7 }}, {{ user|under10 }}, {{ user|under13 }} , {{ user|under17 }}, {{ user|adulto }}],
+            data: [{{ user|under7TOTAL }}, {{ user|under10TOTAL }}, {{ user|under13TOTAL }} , {{ user|under17TOTAL }}, {{ user|adultoTOTAL }}],
             backgroundColor: [
             'rgb(255, 0, 0)',
             'rgb(153, 102, 204)',
@@ -459,8 +459,9 @@
                borderWidth: 2,
             },
            {
-                label: 'Focus',
-            data: [{{ user|under7TOTAL }}, {{ user|under10TOTAL }}, {{ user|under13TOTAL }} , {{ user|under17TOTAL }}, {{ user|adultoTOTAL }}],
+            label: 'Focus',
+            data: [{{ user|under7 }}, {{ user|under10 }}, {{ user|under13 }} , {{ user|under17 }}, {{ user|adulto }}],
+
             backgroundColor: [
             'rgba(255, 0, 0, .6)',
             'rgba(153, 102, 204, .6)',
