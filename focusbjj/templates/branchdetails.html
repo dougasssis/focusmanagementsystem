@@ -342,7 +342,7 @@
 
         // AGE DATA
      const data_age = {
-        labels: ['4 a 6 anos', '7 a 10 anos', '11 a 13 anos', 'Adulto'],
+        labels: ['4 a 6 anos', '7 a 10 anos', '11 a 13 anos', '14 a 17 anos', 'Adulto'],
         datasets: [{
             label: 'Focus',
             data: [{{ afiliado|under7 }}, {{ afiliado|under10 }}, {{ afiliado|under13 }} , {{ user|under17 }}, {{ afiliado|adulto }}],
@@ -357,9 +357,9 @@
       }]
 };
 
-    // GENDER CONFIG
+    // DATA AGE CONFIG
         const configage = {
-        type: 'pie',
+        type: 'doughnut',
         data: data_age,
         options: {
             maintainAspectRatio:false,
@@ -369,7 +369,7 @@
         }
      };
 
-    //RENDER GENDER BLOCK
+    //DATA AGE BLOCK
         const ageChart = new Chart(
         document.getElementById('ageChart'),
         configage
