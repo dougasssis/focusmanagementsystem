@@ -98,7 +98,9 @@
         </div>
         </div> <!--FINISH third COLUMN  -->
         </div>
-</section> <!--FINISH FIRST ROW  -->
+    </div>
+</section><!--FINISH FIRST ROW  -->
+
     <div class="row">
             <div class="col-lg-6"> <!--FIRST COLUMN  -->
                 <div class="card-body table-responsive p-0">
@@ -147,7 +149,7 @@
                 <div class="card-body table-responsive p-0">
                 <div class="card card-outline card-info">
                 <div class="card-header">
-                <h3 class="card-title">Histórico de Vendas <strong></strong></h3>
+                <h3 class="card-title"><strong>Histórico de Vendas</strong></h3>
 
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -157,31 +159,30 @@
                 </div>
                 <div class="card-body"><!-- /.card-body -->
                    <table class="table table-hover text-nowrap">
-                    <tr>
-                        <th>Aluno</th>
-                        <th>Data</th>
-                        <th>Valor</th>
-                    </tr>
-                    <tr>
+                        <tr>
+                            <th>Aluno</th>
+                            <th>Data</th>
+                            <th>Valor</th>
+                        </tr>
+                        <tr>
                         {% for venda in afiliado|vendas_branch %}
-                        <td>{{ venda.aluno.nome }}</td>
-                        <td>{{ venda.time_stamp|date:"d F Y" }}</td>
-                        <td>{{ venda.price }}</td>
-                        <td><a href="{% url 'focusbjj:saledetails' venda.pk %}" class="btn btn-primary">Details</a></td>                </tbody>
+                            <td>{{ venda.aluno.nome }}</td>
+                            <td>{{ venda.time_stamp|date:"d F Y" }}</td>
+                            <td>€ {{ venda.price|floatformat:2 }}</td>
+                            <td>
+                                <a href="{% url 'focusbjj:saledetails' venda.pk %}" class="btn btn-primary">Details</a>
+                            </td>
+                        </tr>
                         {% endfor %}
                         <td></td>
-                        <td></td>
-                        <td>{{afiliado|somavendas_branch|floatformat:2}}</td>
-                    </tr>
-            </table>
+                        <td><b>Total</b></td>
+                        <td>€ {{afiliado|somavendas_branch|floatformat:2}}</td>
+                    </table>
 
                 </div>
                 </div>
             </div>
             </div> <!--FINISH FIRST COLUMN  -->
-
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
