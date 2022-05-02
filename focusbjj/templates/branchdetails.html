@@ -50,6 +50,10 @@
                               <th>Alunos</th>
                               <td>{{ afiliado.alunos.count }}</td>
                             </tr>
+                            <tr>
+                              <th>Vendas</th>
+                              <td>€ {{afiliado|somavendas_branch|floatformat:2}}</td>
+                            </tr>
                         </tbody>
                         </table>
                     </div>
@@ -71,7 +75,7 @@
         </div>
         </div>
         <div class="card-body"><!-- /.card-body -->
-            <canvas id="genderChart"  height="260"></canvas>
+            <canvas id="genderChart"  height="288"></canvas>
        </div>
         </div>
         </div>
@@ -90,7 +94,7 @@
         </div>
         </div>
         <div class="card-body"><!-- /.card-body -->
-            <canvas id="ageChart"  height="260"></canvas>
+            <canvas id="ageChart" height="288"></canvas>
 
 
         </div>
@@ -160,13 +164,13 @@
                 <div class="card-body"><!-- /.card-body -->
                    <table class="table table-hover text-nowrap">
                         <tr>
-                            <th>Aluno</th>
-                            <th>Data</th>
-                            <th>Valor</th>
+                            <th>{% trans "Aluno" %}</th>
+                            <th>{% trans "Date" %}</th>
+                            <th>{% trans "Valor" %}</th>
                         </tr>
                         <tr>
                         {% for venda in afiliado|vendas_branch %}
-                            <td>{{ venda.aluno.nome }}</td>
+                            <td>{{ venda.aluno.nome|default_if_none:'Focus' }} {{ venda.aluno.surname|default_if_none:"Jiu-Jitsu" }}</td>
                             <td>{{ venda.time_stamp|date:"d F Y" }}</td>
                             <td>€ {{ venda.price|floatformat:2 }}</td>
                             <td>

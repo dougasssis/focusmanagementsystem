@@ -56,7 +56,7 @@ def campeonatos_branch(unidade):
 
 @register.filter
 def vendas_branch(unidade_instance):
-    return Venda.objects.filter(unidade_id=unidade_instance.id).order_by('-time_stamp')[:4]
+    return Venda.objects.filter(unidade_id=unidade_instance.id).order_by('-time_stamp')[:10]
 
 
 @register.filter

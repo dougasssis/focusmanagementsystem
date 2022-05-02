@@ -190,8 +190,6 @@ class HomeView(LoginRequiredMixin, TemplateView):
         return dict_belt
 
 
-
-
 class ManageStaff(SuperuserRequiredMixin, TemplateView):
     template_name = 'managestaff.html'
     model = CustomUser, Aluno
