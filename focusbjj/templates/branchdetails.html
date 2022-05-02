@@ -345,15 +345,17 @@
         labels: ['4 a 6 anos', '7 a 10 anos', '11 a 13 anos', '14 a 17 anos', 'Adulto'],
         datasets: [{
             label: 'Focus',
-            data: [{{ afiliado|under7 }}, {{ afiliado|under10 }}, {{ afiliado|under13 }} , {{ user|under17 }}, {{ afiliado|adulto }}],
+            data: [{{ afiliado|under7 }}, {{ afiliado|under10 }}, {{ afiliado|under13 }} , {{ afiliado|under17 }}, {{ afiliado|adulto }}],
         backgroundColor: [
             'rgb(255, 0, 0)',
             'rgb(0, 204, 0)',
             'rgb(0, 128, 255)',
             'rgb(153, 102, 204)',
             'rgb(255, 223, 0)',
+
            ],
-      }];
+      }]
+};
 
     // DATA AGE CONFIG
         const configage = {
