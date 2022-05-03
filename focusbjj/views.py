@@ -218,6 +218,15 @@ class ManageAlunos(LoginRequiredMixin, ListView):
         return context
 
 
+class AlunotDeleteView(LoginRequiredMixin, DeleteView):
+    template_name = 'deletaraluno.html'
+    model = Aluno
+    context_object_name = 'aluno'
+
+    def get_success_url(self):
+        return reverse('focusbjj:managealunos')
+
+
 class ManageAlunosKids(LoginRequiredMixin, ListView):
     template_name = 'managealunos_kids.html'
     model = Aluno

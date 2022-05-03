@@ -11,6 +11,7 @@ urlpatterns = [
     path('add_aluno/', views.RegisterAlunoView.as_view(), name='add_aluno'),
     path('managealunos/<int:pk>', views.DetailALunos.as_view(), name='alunos'),
     path('managealunos/', views.ManageAlunos.as_view(), name='managealunos'),
+    path('managealunos/delete/<int:pk>', views.AlunotDeleteView.as_view(), name='deletealunos'),
     path('managealunos/kids', views.ManageAlunosKids.as_view(), name='managealunoskids'),
     path('managealunos/total', views.ManageAlunosTotal.as_view(), name='managealunostotal'),
     path('managealunos/graduation', views.ManageGraduationTotal.as_view(), name='managegraduation'),

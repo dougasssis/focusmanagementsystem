@@ -80,6 +80,7 @@ FOCUS BJJ - {{ request.user.location }}
 
 
                     <td>
+                        <a href="{% url 'focusbjj:deletealunos' aluno.pk %}" class="btn btn-danger">Delete</a>
                         <a href="{% url 'focusbjj:editaralunos' aluno.pk %}" class="btn btn-success">Editar</a>
                         <a href="{% url 'focusbjj:graduation' aluno.pk %}" class="btn btn-warning text-white">Graduar</a>
                         <a href="{% url 'focusbjj:alunos' aluno.pk %}" class="btn btn-primary">Detalhes</a>
