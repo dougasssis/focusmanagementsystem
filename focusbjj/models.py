@@ -84,7 +84,7 @@ class Aluno(models.Model):
     middle_name = models.CharField(max_length=20, verbose_name='Middle Name', blank=True, null=True)
     surname = models.CharField(max_length=15, verbose_name='Last Name', null=True)
     phone = models.CharField(max_length=15, help_text='Use only numbers')
-    email = models.EmailField(max_length=128, unique=True)
+    email = models.EmailField(max_length=128)
     location = models.ForeignKey(CustomUser, related_name="alunos", on_delete=models.CASCADE)
     address = models.CharField(max_length=255, blank=True, null=True)
     belt = models.CharField(max_length=255, choices=BELT)
