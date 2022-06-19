@@ -58,7 +58,7 @@ class RegisterAlunoForm(forms.ModelForm):
     class Meta:
         model = Aluno
         fields = ['photo', 'nome', 'middle_name', 'surname', 'email', 'address', 'phone', 'gender', 'dob', 'location',
-                  'belt', 'stripe', 'join_date']
+                  'belt', 'stripe', 'join_date', 'agreement']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Primeiro Nome')}),
             'middle_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Nome do Meio')}),
@@ -83,11 +83,13 @@ class RegisterAlunoForm(forms.ModelForm):
             'location': _('Unidade'),
             'belt': _('Faixa'),
             'stripe': _('Grau'),
-            'join_date': _('Data de Início')
+            'join_date': _('Data de Início'),
+            'agreement':_(' Li e aceito a Política de Privacidade e de Proteção de Dados pessoais'),
         }
 
         help_texts = {
-            'email': _('Digite o endereço corretamente.')
+            'email': _('Digite o endereço corretamente.'),
+            'agreement':_('Ao marcar esta caixa eu concordo em compartilhar \n meus dados com a empresa Focus Jiu Jitsu'),
         }
 
 
@@ -204,7 +206,7 @@ class EditAtlheteForm(forms.ModelForm):
 
     class Meta:
         model = Aluno
-        fields = ['photo', 'nome', 'middle_name', 'surname', 'dob', 'email', 'phone', 'address']
+        fields = ['photo', 'nome', 'middle_name', 'surname', 'dob', 'email', 'phone', 'address', 'location']
 
         labels = {
             'photo': _('Foto'),
@@ -214,7 +216,8 @@ class EditAtlheteForm(forms.ModelForm):
             'phone': _('Telefone'),
             'email': _('E-Mail'),
             'address': _('Endereço'),
-            'dob': _('Data de Nascimento')
+            'dob': _('Data de Nascimento'),
+            'location': _('Unidade'),
         }
 
 

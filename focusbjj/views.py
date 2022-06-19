@@ -13,6 +13,7 @@ from .filter import AlunoFilter, ProductsFilter
 from .templatetags.attendance_tags import current_belt, current_stripe
 import xlwt
 from django.utils.translation import gettext as _
+from django.core.exceptions import ValidationError
 
 
 class Attendance(FormView):
@@ -243,6 +244,10 @@ class ManageAlunosKids(LoginRequiredMixin, ListView):
         return context
 
 
+class Agreemnet(TemplateView):
+    template_name = "terms.html"
+
+
 class ManageAlunosTotal(SuperuserRequiredMixin, ListView):
     template_name = 'managealunostotal.html'
     model = Aluno
@@ -320,38 +325,50 @@ class RegisterAlunoView(FormView):
     template_name = 'add_aluno.html'
     success_msg = "Athlete: "
     success_msg2 = " - Member ID  "
+    errormsg = "Você precisa concordar com os termos para continuar."
 
     def form_valid(self, form):
-        form.save()
-        alunos = Aluno.objects.order_by('-time_stamp')
-        nome = alunos[0].nome
-        surname = alunos[0].surname
-        email = alunos[0].email
-        copy_to = alunos[0].location.email
-        country = alunos[0].location.country
-        id = alunos[0].id
-        context = {
-            'nome': nome,
-            'id': id,
-            'country': country,
-        }
-        subject = f' Welcome to Focus JJ, {nome} {surname}'
-        html_message = render_to_string('email_template_EN.html', {'context': context, 'nome': nome, 'id': id})
-        html_message_pt = render_to_string('email_template_PT.html', {'context': context, 'nome': nome, 'id': id})
-        from_email = settings.EMAIL_HOST_USER
-        recipient = [email, copy_to]
-        if country == 'BR' or country == 'PT' or country == 'AO' or country == 'CV':
-            message = EmailMessage(subject, html_message_pt, from_email, recipient)
-            message.content_subtype = 'html'
-            message.send(fail_silently=False)
+        form.save(commit=False)
+        agreement = form.instance.agreement
+        if not agreement:
+            errormsg = self.error_msg()
+            if errormsg:
+                form.save(commit=False)
+                messages.error(self.request, errormsg)
         else:
-            message = EmailMessage(subject, html_message, from_email, recipient)
-            message.content_subtype = 'html'
-            message.send(fail_silently=False)
-        success_msg = self.get_success_message(form.cleaned_data)
-        if success_msg:
-            messages.success(self.request, success_msg)
+            form.save()
+            alunos = Aluno.objects.order_by('-time_stamp')
+            nome = alunos[0].nome
+            surname = alunos[0].surname
+            email = alunos[0].email
+            copy_to = alunos[0].location.email
+            country = alunos[0].location.country
+            id = alunos[0].id
+            context = {
+                'nome': nome,
+                'id': id,
+                'country': country,
+            }
+            subject = f' Welcome to Focus JJ, {nome} {surname}'
+            html_message = render_to_string('email_template_EN.html', {'context': context, 'nome': nome, 'id': id})
+            html_message_pt = render_to_string('email_template_PT.html', {'context': context, 'nome': nome, 'id': id})
+            from_email = settings.EMAIL_HOST_USER
+            recipient = [email, copy_to]
+            if country == 'BR' or country == 'PT' or country == 'AO' or country == 'CV':
+                message = EmailMessage(subject, html_message_pt, from_email, recipient)
+                message.content_subtype = 'html'
+                message.send(fail_silently=False)
+            else:
+                message = EmailMessage(subject, html_message, from_email, recipient)
+                message.content_subtype = 'html'
+                message.send(fail_silently=False)
+            success_msg = self.get_success_message(form.cleaned_data)
+            if success_msg:
+                messages.success(self.request, success_msg)
         return super().form_valid(form)
+
+    def error_msg(self):
+        return self.errormsg
 
     def get_success_url(self):
         return reverse('focusbjj:add_aluno')

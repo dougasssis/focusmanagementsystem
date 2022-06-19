@@ -18,6 +18,7 @@ Criar Conta de Aluno
                     <legend class="border-bottom mb-4">{% trans "Registrar Aluno" %}<strong> | Focus Jiu-Jitsu</strong> </legend>
                    {{ form|crispy }}
                 </fieldset>
+                <a href="{% url 'focusbjj:terms' %}" class="nav-link" target="_blank">{% trans "Clique aqui para ler a Política de Privacidade" %}</a>
                 <br>
                 <button class="bg-primary py-1 px-3 text-white w-full md:text-lg rounded-md" type="submit">{% trans "Adicionar Aluno" %}</button>
             </form>

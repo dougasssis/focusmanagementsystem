@@ -1,4 +1,6 @@
 from datetime import date, timedelta
+
+import required as required
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
@@ -92,8 +94,9 @@ class Aluno(models.Model):
     join_date = models.DateTimeField()
     time_stamp = models.DateTimeField(auto_now=True, null=True)
     gender = models.CharField(max_length=255, choices=GENDER)
-    dob = models.DateField(verbose_name='Date of Birth')
+    dob = models.DateField(verbose_name='Date of Birth',)
     is_blocked = models.BooleanField(default=False)
+    agreement = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'id'
 
