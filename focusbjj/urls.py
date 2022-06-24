@@ -53,7 +53,7 @@ urlpatterns = [
         template_name='password_reset_complete.html'), name='password_reset_complete'),
     path('export/xlsx', views.exportar_alunos_xlsx, name='export_xlsx'),
     path('export/total_xlsx', views.exportar_alunos_total_xlsx, name='export_total_xlsx'),
-    path('terms/', views.Agreemnet.as_view(), name='terms'),
+    path('terms/', views.Agreement.as_view(), name='terms'),
 
 ]
 

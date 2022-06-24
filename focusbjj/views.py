@@ -244,7 +244,7 @@ class ManageAlunosKids(LoginRequiredMixin, ListView):
         return context
 
 
-class Agreemnet(TemplateView):
+class Agreement(TemplateView):
     template_name = "terms.html"
 
 
