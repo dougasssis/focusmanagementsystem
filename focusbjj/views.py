@@ -29,12 +29,12 @@ class Attendance(FormView):
         aluno = form.instance.aluno
         att = GetAttendance.objects.filter(aluno=aluno.id).order_by('-attendance')
 
-        if aluno.is_blocked:
-            errormsg = self.error_msg()
-            if errormsg:
-                messages.error(self.request, errormsg)
-                form.save(False)
-        elif att:
+       # if aluno.is_blocked:
+       #     errormsg = self.error_msg()
+       #     if errormsg:
+       #         messages.error(self.request, errormsg)
+       #         form.save(False)
+        if att:
             last_attendance = att[0].attendance
             if last_attendance + timedelta(hours=3) > timezone.now():
                 errormsg2 = self.error_msg2()
