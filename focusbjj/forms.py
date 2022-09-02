@@ -206,7 +206,11 @@ class EditAtlheteForm(forms.ModelForm):
 
     class Meta:
         model = Aluno
-        fields = ['photo', 'nome', 'middle_name', 'surname', 'dob', 'email', 'phone', 'address', 'location']
+        fields = ['photo', 'nome', 'middle_name', 'surname', 'dob', 'email', 'phone', 'address', 'location', 'join_date']
+        widgets = {
+            'join_date': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+          }
+
 
         labels = {
             'photo': _('Foto'),
@@ -218,6 +222,7 @@ class EditAtlheteForm(forms.ModelForm):
             'address': _('Endereço'),
             'dob': _('Data de Nascimento'),
             'location': _('Unidade'),
+            'join_date': _('Data de Inicio')
         }
 
 
