@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-19 17:19+0000\n"
+"POT-Creation-Date: 2023-01-07 13:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +36,7 @@ msgstr ""
 msgid "Primeiro Nome"
 msgstr "First Place"
 
-#: focusbjj/forms.py:64 focusbjj/forms.py:78 focusbjj/forms.py:214
+#: focusbjj/forms.py:64 focusbjj/forms.py:78 focusbjj/forms.py:218
 msgid "Nome do Meio"
 msgstr "Middle Name"
 
@@ -44,7 +44,7 @@ msgstr "Middle Name"
 msgid "Sobrenome"
 msgstr "Last Name"
 
-#: focusbjj/forms.py:76 focusbjj/forms.py:212
+#: focusbjj/forms.py:76 focusbjj/forms.py:216
 msgid "Foto"
 msgstr "Photo"
 
@@ -56,33 +56,33 @@ msgstr "Photo"
 msgid "Nome"
 msgstr "Name"
 
-#: focusbjj/forms.py:79 focusbjj/forms.py:215
+#: focusbjj/forms.py:79 focusbjj/forms.py:219
 msgid "Último Nome"
 msgstr "Last Name"
 
 #: focusbjj/forms.py:80 focusbjj/forms.py:186 focusbjj/forms.py:200
-#: focusbjj/forms.py:216 focusbjj/templates/details_alunos.html:40
+#: focusbjj/forms.py:220 focusbjj/templates/details_alunos.html:40
 #: focusbjj/templates/detalhesalunos.html:45
 #: focusbjj/templates/detalhesalunos_.html:35
 msgid "Telefone"
 msgstr "Phone"
 
-#: focusbjj/forms.py:81 focusbjj/forms.py:218
+#: focusbjj/forms.py:81 focusbjj/forms.py:222
 msgid "Endereço"
 msgstr "Address"
 
-#: focusbjj/forms.py:82 focusbjj/forms.py:219
+#: focusbjj/forms.py:82 focusbjj/forms.py:223
 #: focusbjj/templates/details_alunos.html:60
 #: focusbjj/templates/detalhesalunos.html:62
 #: focusbjj/templates/detalhesalunos_.html:55
 msgid "Data de Nascimento"
 msgstr "Birth of Date"
 
-#: focusbjj/forms.py:83 focusbjj/forms.py:220
+#: focusbjj/forms.py:83 focusbjj/forms.py:224
 msgid "Unidade"
 msgstr "Local"
 
-#: focusbjj/forms.py:84 focusbjj/models.py:183
+#: focusbjj/forms.py:84 focusbjj/models.py:181
 #: focusbjj/templates/details_alunos.html:52
 #: focusbjj/templates/details_alunos.html:89
 #: focusbjj/templates/detalhesalunos.html:187
@@ -96,7 +96,7 @@ msgstr "Local"
 msgid "Faixa"
 msgstr "Belt"
 
-#: focusbjj/forms.py:85 focusbjj/models.py:184
+#: focusbjj/forms.py:85 focusbjj/models.py:182
 #: focusbjj/templates/details_alunos.html:90
 #: focusbjj/templates/detalhesalunos.html:188
 #: focusbjj/templates/detalhesalunos_.html:121
@@ -113,7 +113,8 @@ msgstr "Birth of Date"
 
 #: focusbjj/forms.py:87
 msgid " Li e aceito a Política de Privacidade e de Proteção de Dados pessoais"
-msgstr "I have read and accepted the Privacy and Personal Data Protection Policy "
+msgstr ""
+"I have read and accepted the Privacy and Personal Data Protection Policy "
 
 #: focusbjj/forms.py:91
 #, fuzzy
@@ -126,7 +127,9 @@ msgstr "Make sure the e-mail address is correct."
 msgid ""
 "Ao marcar esta caixa eu concordo em compartilhar \n"
 " meus dados com a empresa Focus Jiu Jitsu"
-msgstr "By checking this box I agree to share my data with the company Focus Jiu Jitsu/Academia Workout"
+msgstr ""
+"By checking this box I agree to share my data with the company Focus Jiu "
+"Jitsu/Academia Workout"
 
 #: focusbjj/forms.py:104
 #, fuzzy
@@ -193,14 +196,14 @@ msgstr "Optional"
 msgid "Use \" . \"(ponto) para separar decimais."
 msgstr "User '.' (dot) to separate decimals"
 
-#: focusbjj/forms.py:146 focusbjj/models.py:182
+#: focusbjj/forms.py:146 focusbjj/models.py:180
 #: focusbjj/templates/details_alunos.html:91
 #: focusbjj/templates/detalhesalunos.html:189
 #: focusbjj/templates/detalhesalunos_.html:122
 msgid "Professor"
 msgstr "Master"
 
-#: focusbjj/forms.py:167 focusbjj/models.py:185
+#: focusbjj/forms.py:167 focusbjj/models.py:183
 #: focusbjj/templates/campeonato_list.html:32
 #: focusbjj/templates/championship_history.html:38
 #: focusbjj/templates/details_alunos.html:92
@@ -220,11 +223,11 @@ msgstr "Date"
 msgid "Campeonato"
 msgstr "Championships List"
 
-#: focusbjj/forms.py:169 focusbjj/templates/homecontent_.html:111
+#: focusbjj/forms.py:169 focusbjj/templates/homecontent_.html:121
 msgid "País"
 msgstr "Country"
 
-#: focusbjj/forms.py:170 focusbjj/templates/homecontent_.html:115
+#: focusbjj/forms.py:170 focusbjj/templates/homecontent_.html:125
 msgid "Cidade"
 msgstr "City"
 
@@ -242,7 +245,7 @@ msgstr "Weight"
 msgid "Colocação"
 msgstr "Place"
 
-#: focusbjj/forms.py:185 focusbjj/forms.py:199 focusbjj/forms.py:213
+#: focusbjj/forms.py:185 focusbjj/forms.py:199 focusbjj/forms.py:217
 #, fuzzy
 #| msgid "Contato"
 msgid "Nome de Contato"
@@ -254,162 +257,168 @@ msgstr "Contact"
 msgid "Usuário Ativo"
 msgstr "Username"
 
-#: focusbjj/forms.py:217 focusbjj/templates/details_alunos.html:44
+#: focusbjj/forms.py:221 focusbjj/templates/details_alunos.html:44
 #: focusbjj/templates/detalhesalunos_.html:39
 msgid "E-Mail"
 msgstr ""
 
-#: focusbjj/models.py:51
+#: focusbjj/forms.py:225
+#, fuzzy
+#| msgid "Data de Nascimento"
+msgid "Data de Inicio"
+msgstr "Birth of Date"
+
+#: focusbjj/models.py:49
 msgid "Feminino"
 msgstr "Female"
 
-#: focusbjj/models.py:52
+#: focusbjj/models.py:50
 msgid "Masculino"
 msgstr "Male"
 
-#: focusbjj/models.py:56
+#: focusbjj/models.py:54
 msgid "Cartão de Crédito"
 msgstr "Credit Card"
 
-#: focusbjj/models.py:57
+#: focusbjj/models.py:55
 msgid "Cartão de Débito"
 msgstr "Debt Card"
 
-#: focusbjj/models.py:58
+#: focusbjj/models.py:56
 msgid "Dinheiro"
 msgstr "Cash"
 
-#: focusbjj/models.py:59 focusbjj/models.py:256
+#: focusbjj/models.py:57 focusbjj/models.py:254
 msgid "Outros"
 msgstr "Others"
 
-#: focusbjj/models.py:69
+#: focusbjj/models.py:67
 msgid "Use somente números. Código do País + Telefone"
 msgstr "Use only numbers. Country code + number"
 
-#: focusbjj/models.py:142
+#: focusbjj/models.py:140
 msgid "Gi"
 msgstr ""
 
-#: focusbjj/models.py:143
+#: focusbjj/models.py:141
 msgid "Belt"
 msgstr ""
 
-#: focusbjj/models.py:144
+#: focusbjj/models.py:142
 msgid "T-Shirt"
 msgstr ""
 
-#: focusbjj/models.py:145
+#: focusbjj/models.py:143
 msgid "Hoodie"
 msgstr ""
 
-#: focusbjj/models.py:146
+#: focusbjj/models.py:144
 msgid "Rash Guard"
 msgstr ""
 
-#: focusbjj/models.py:147
+#: focusbjj/models.py:145
 msgid "Short"
 msgstr ""
 
-#: focusbjj/models.py:148
+#: focusbjj/models.py:146
 msgid "Others"
 msgstr ""
 
-#: focusbjj/models.py:206
+#: focusbjj/models.py:204
 msgid "Pré-Mirim 1"
 msgstr "Pre-Child 1"
 
-#: focusbjj/models.py:207
+#: focusbjj/models.py:205
 msgid "Pré-Mirim 2"
 msgstr "Pre-Child 2"
 
-#: focusbjj/models.py:208
+#: focusbjj/models.py:206
 msgid "Pré-Mirim 3"
 msgstr "Pre-Child 3"
 
-#: focusbjj/models.py:209
+#: focusbjj/models.py:207
 msgid "Mirim 1"
 msgstr "Child 1"
 
-#: focusbjj/models.py:210
+#: focusbjj/models.py:208
 msgid "Mirim 2"
 msgstr "Child 2"
 
-#: focusbjj/models.py:211
+#: focusbjj/models.py:209
 msgid "Mirim 3"
 msgstr "Child 3"
 
-#: focusbjj/models.py:212
+#: focusbjj/models.py:210
 msgid "Infantil 1"
 msgstr "Kids 1"
 
-#: focusbjj/models.py:213
+#: focusbjj/models.py:211
 msgid "Infantil 2"
 msgstr "Kids 2"
 
-#: focusbjj/models.py:214
+#: focusbjj/models.py:212
 msgid "Infantil 3"
 msgstr "Kids 3"
 
-#: focusbjj/models.py:215
+#: focusbjj/models.py:213
 msgid "Infanto Juvenil 1"
 msgstr ""
 
-#: focusbjj/models.py:216
+#: focusbjj/models.py:214
 msgid "Infanto Juvenil 2"
 msgstr ""
 
-#: focusbjj/models.py:217
+#: focusbjj/models.py:215
 msgid "Infanto Juvenil 3"
 msgstr ""
 
-#: focusbjj/models.py:218
+#: focusbjj/models.py:216
 msgid "Juvenil"
 msgstr "Juvenile"
 
-#: focusbjj/models.py:219
+#: focusbjj/models.py:217
 #, fuzzy
 #| msgid "Adultos"
 msgid "Adulto/Master"
 msgstr "Adults/Master"
 
-#: focusbjj/models.py:223
+#: focusbjj/models.py:221
 msgid "#1 Lugar"
 msgstr "#1 Place"
 
-#: focusbjj/models.py:224
+#: focusbjj/models.py:222
 msgid "#2 Lugar"
 msgstr "#2 Place"
 
-#: focusbjj/models.py:225
+#: focusbjj/models.py:223
 msgid "#3 Lugar"
 msgstr "#3 Place"
 
-#: focusbjj/models.py:249
+#: focusbjj/models.py:247
 msgid "Ano Novo"
 msgstr "New Year"
 
-#: focusbjj/models.py:250
+#: focusbjj/models.py:248
 msgid "Natal"
 msgstr "Christmas"
 
-#: focusbjj/models.py:251
+#: focusbjj/models.py:249
 msgid "Páscoa"
 msgstr "Easter"
 
-#: focusbjj/models.py:252
+#: focusbjj/models.py:250
 msgid "Dia dos Pais"
 msgstr "Father's Day"
 
-#: focusbjj/models.py:253
+#: focusbjj/models.py:251
 msgid "Dia das Mães"
 msgstr "Mother's Day"
 
-#: focusbjj/models.py:254
+#: focusbjj/models.py:252
 msgid "Dia das Crianças"
 msgstr "Kid's Day"
 
-#: focusbjj/models.py:255
+#: focusbjj/models.py:253
 msgid "Dia da Mulher"
 msgstr "Women's Day"
 
@@ -569,50 +578,56 @@ msgstr "Athlete:"
 msgid "Total de Alunos Focus"
 msgstr "Athletes"
 
-#: focusbjj/templates/homecontent_.html:40
-msgid "Total de Filiais"
-msgstr "Afiliates"
+#: focusbjj/templates/homecontent_.html:41
+#: focusbjj/templates/homecontent_.html:44
+#, fuzzy
+#| msgid "Total de Alunos"
+msgid "Total Infantil"
+msgstr "Total Athletes Kids"
 
-#: focusbjj/templates/homecontent_.html:60
-msgid "Total de Alunos"
-msgstr "Athletes Focus JJ World"
+#: focusbjj/templates/homecontent_.html:66
+#: focusbjj/templates/homecontent_.html:69
+#, fuzzy
+#| msgid "Total de Alunos Focus"
+msgid "Total de Adultos"
+msgstr "Total Athletes Adults"
 
-#: focusbjj/templates/homecontent_.html:87
+#: focusbjj/templates/homecontent_.html:97
 msgid "Informações do Afiliado"
 msgstr "Personal Info"
 
-#: focusbjj/templates/homecontent_.html:99
+#: focusbjj/templates/homecontent_.html:109
 msgid "Contato"
 msgstr "Contact"
 
-#: focusbjj/templates/homecontent_.html:103
+#: focusbjj/templates/homecontent_.html:113
 msgid "Fone"
 msgstr "Phone"
 
-#: focusbjj/templates/homecontent_.html:119
+#: focusbjj/templates/homecontent_.html:129
 #: focusbjj/templates/managealunos.html:24
 #: focusbjj/templates/managealunos_kids.html:24
 msgid "Alunos"
 msgstr "Athletes"
 
-#: focusbjj/templates/homecontent_.html:134
+#: focusbjj/templates/homecontent_.html:144
 msgid "Alunos por Gênero"
 msgstr "Gender"
 
-#: focusbjj/templates/homecontent_.html:155
+#: focusbjj/templates/homecontent_.html:165
 msgid "Alunos por Idade"
 msgstr "Age"
 
-#: focusbjj/templates/homecontent_.html:175
-#: focusbjj/templates/homecontent_.html:196
+#: focusbjj/templates/homecontent_.html:185
+#: focusbjj/templates/homecontent_.html:206
 msgid "Alunos por Faixa "
 msgstr "Athlete vs. Belt"
 
-#: focusbjj/templates/homecontent_.html:175
+#: focusbjj/templates/homecontent_.html:185
 msgid "Adultos"
 msgstr "Adults"
 
-#: focusbjj/templates/homecontent_.html:196
+#: focusbjj/templates/homecontent_.html:206
 msgid "Kids"
 msgstr "Kids"
 
@@ -679,7 +694,7 @@ msgstr "Last Graduation"
 
 #: focusbjj/templates/managealunos_kids.html:24
 msgid "Categoria Infantil"
-msgstr "Kids - Under 13"
+msgstr "Kids"
 
 #: focusbjj/templates/managealunostotal.html:53
 #: templates/sidebar_template.html:123
@@ -816,6 +831,9 @@ msgstr "Add Championship"
 #: templates/sidebar_template.html:169
 msgid "Editar Perfil"
 msgstr "Edit Profile"
+
+#~ msgid "Total de Filiais"
+#~ msgstr "Afiliates"
 
 #~ msgid "Primeiro Lugar"
 #~ msgstr "First Place"

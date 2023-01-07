@@ -172,14 +172,12 @@ class HomeView(LoginRequiredMixin, TemplateView):
                 dict_belt['green'] += 1
             elif belt == 'Green/Black Belt':
                 dict_belt['green_black'] += 1
-
             elif belt == 'Orange/White Belt':
                 dict_belt['orange_white'] += 1
             elif belt == 'Orange Belt':
                 dict_belt['orange'] += 1
             elif belt == 'Orange/Black Belt':
                 dict_belt['orange_black'] += 1
-
             elif belt == 'Blue Belt':
                 dict_belt['blue'] += 1
             elif belt == 'Purple Belt':
@@ -189,6 +187,15 @@ class HomeView(LoginRequiredMixin, TemplateView):
             elif belt == 'Black Belt':
                 dict_belt['black'] += 1
         return dict_belt
+
+    def get_age(self):
+        alunos = Aluno.objects.all()
+        dict = {'kids': 0, 'adults': 0}
+        for aluno in alunos:
+            if aluno.idade() <= 17:
+                dict['kids'] += 1
+            else:
+                dict['adults'] += 1
 
 
 class ManageStaff(SuperuserRequiredMixin, TemplateView):

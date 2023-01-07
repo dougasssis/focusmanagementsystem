@@ -43,6 +43,15 @@ def under17(location_instance):
             age += 1
     return age
 
+@register.filter
+def kidsByBranch(location_instance):
+    alunos = Aluno.objects.filter(location_id=location_instance.id)
+    age = 0
+    for aluno in alunos:
+        if aluno.idade() <= 17:
+            age += 1
+    return age
+
 
 @register.filter
 def adulto(location_instance):
@@ -90,6 +99,15 @@ def under17TOTAL(location_instance):
     age = 0
     for aluno in alunos:
         if 14 <= aluno.idade() <= 17:
+            age += 1
+    return age
+
+@register.filter
+def kidsTOTAL(location_instance):
+    alunos = Aluno.objects.all()
+    age = 0
+    for aluno in alunos:
+        if aluno.idade() <= 17:
             age += 1
     return age
 

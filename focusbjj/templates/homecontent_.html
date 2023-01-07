@@ -36,16 +36,21 @@
               <!-- small box -->
               <div class="small-box bg-gradient-gray">
                 <div class="inner">
-                  <h3>{{ unidades_count }}</h3>
-                  <p>{% trans "Total de Filiais" %}</p>
+                  {% if user.is_superuser %}
+                        <h3>{{ user|kidsTOTAL }}</h3>
+                        <p>{% trans "Total Infantil" %} <b>Focus BJJ</b></p>
+                    {% else %}
+                        <h3>{{ user|kidsByBranch }}</h3>
+                        <p>{% trans "Total Infantil" %}</p>
+                    {% endif %}
                 </div>
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
                   {% if user.is_superuser %}
-                <a href="{% url 'focusbjj:managestaff' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{% url 'focusbjj:managealunoskids' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 {% else %}
-                  <a href="#" class="small-box-footer">&nbsp;</a>
+                <a href="{% url 'focusbjj:managealunoskids' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
 
                   {% endif %}
               </div>
@@ -56,8 +61,13 @@
               <!-- small box -->
               <div class="small-box bg-gradient-warning">
                 <div class="inner">
-                  <h3>{{ alunos.count }}</h3>
-                    <p>{% trans "Total de Alunos" %} <b>Focus BJJ</b></p>
+                    {% if user.is_superuser %}
+                        <h3>{{ user|adultoTOTAL }}</h3>
+                        <p>{% trans "Total de Adultos" %} <b>Focus BJJ</b></p>
+                    {% else %}
+                        <h3>{{ user|adulto }}</h3>
+                        <p>{% trans "Total de Adultos" %}</p>
+                    {% endif %}
                 </div>
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
@@ -65,7 +75,7 @@
                 {% if user.is_superuser %}
                     <a href="{% url 'focusbjj:managealunostotal' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 {% else %}
-                      <a href="{% url 'focusbjj:managealunos' %}" class="small-box-footer">&nbsp;</a>
+                    <a href="{% url 'focusbjj:managealunos' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 {% endif %}
               </div>
             </div>
