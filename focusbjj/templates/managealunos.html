@@ -49,7 +49,7 @@ FOCUS BJJ - {{ request.user.location }}
                 </thead>
                 <tbody>
                     {% for aluno in request.user.alunos.all|dictsort:"nome" %}
-                   {% if aluno.idade > 17 %}
+                   {% if aluno.idade >= 14 %}
                     <tr>
                     <td>{{ aluno.id }}</td>
                     <td>{{ aluno.nome|title }} {{ aluno.surname|title }}</td>
