@@ -49,12 +49,8 @@ FOCUS BJJ - {{ request.user.location }}
                             <td>{{ aluno.gender }}</td>
                         </tr>
                         <tr>
-                            <th>{% trans "Faixa" %}</th>
-                            {% if aluno|current_stripe == 'No Stripes' %}
-                            <td>{{ aluno|current_belt }}</td>
-                            {% else %}
-                            <td>{{ aluno|current_belt }} {{ aluno|current_stripe }}</td>
-                            {% endif %}
+                            <th>{% trans "Graduação" %}</th>
+                            <td>{{ aluno|current_belt }} - {{ aluno|current_stripe }}</td>
                         </tr>
                         <tr>
                             <th>{% trans "Data de Nascimento" %}</th>
