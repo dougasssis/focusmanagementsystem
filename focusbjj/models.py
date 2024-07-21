@@ -35,7 +35,6 @@ GRAU = (
     ('IIº Stripe', 'IIº Stripe'),
     ('IIIº Stripe', 'IIIº Stripe'),
     ('IVº Stripe', 'IVº Stripe'),
-    ('-------------', '-------------'),
     ('Vº Stripe', 'Vº Stripe'),
     ('VIº Stripe', 'VIº Stripe'),
     ('VIIº Stripe', 'VIIº Stripe'),
@@ -88,7 +87,7 @@ class Aluno(models.Model):
     location = models.ForeignKey(CustomUser, related_name="alunos", on_delete=models.CASCADE)
     address = models.CharField(max_length=255, blank=True, null=True)
     belt = models.CharField(max_length=255, choices=BELT)
-    stripe = models.CharField(max_length=255, choices=GRAU)
+    stripe = models.CharField(max_length=255, choices=GRAU, default= 'No Stripes')
     join_date = models.DateTimeField()
     time_stamp = models.DateTimeField(auto_now=True, null=True)
     gender = models.CharField(max_length=255, choices=GENDER)
