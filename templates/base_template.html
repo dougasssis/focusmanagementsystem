@@ -78,9 +78,12 @@
       <!-- Messages Dropdown Menu -->
         {% if user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'focusbjj:logout' %}">
-          Logout
-        </a>
+          <form action="{% url 'focusbjj:logout' %}"  method="post" class="nav-link">
+              <p>
+                  {% csrf_token %}
+                  <button type="submit"> Logout</button>
+              </p>
+          </form>
       </li>
         {% else %}
     <div class="mr-2">

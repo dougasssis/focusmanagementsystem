@@ -173,12 +173,13 @@
 
 
           <li class="nav-item">
-             <a href="{% url 'focusbjj:logout' %}" class="nav-link">
+             <form action="{% url 'focusbjj:logout' %}"  method="post" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Logout
+                {% csrf_token %}
+                <button type="submit"> Logout</button> 
               </p>
-            </a>
+            </form>
           </li>
 
         </ul>
