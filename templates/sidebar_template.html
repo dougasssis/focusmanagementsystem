@@ -136,33 +136,6 @@
           </li>
 
            <li class="nav-item">
-            <a href="{% url 'focusbjj:vendas' user.pk %}" class="nav-link ">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                {% trans "Histórico de Vendas" %}
-              </p>
-            </a>
-          </li>
-
-
-          <li class="nav-item">
-            <a href="{% url 'focusbjj:championship' %}" class="nav-link {% if request.path == manage_student %} active {% endif %} {% if request.path == edit_student %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                {% trans "Adicionar Campeonato" %}
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'focusbjj:championshipdetails' %}" class="nav-link {% if request.path == manage_student %} active {% endif %} {% if request.path == edit_student %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                {% trans "Campeonatos" %}
-              </p>
-            </a>
-          </li>
-
-           <li class="nav-item">
             <a href="{% url 'focusbjj:editarstaff' request.user.pk %}" class="nav-link ">
               <i class="nav-icon fas fa-th"></i>
               <p>
@@ -170,7 +143,6 @@
               </p>
             </a>
           </li>
-
 
           <li class="nav-item">
              <form action="{% url 'focusbjj:logout' %}"  method="post" class="nav-link">
