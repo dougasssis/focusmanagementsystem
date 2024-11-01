@@ -112,12 +112,6 @@ class Aluno(models.Model):
     class Meta:
         ordering = ["nome"]
 
-    def save(self, *args, **kwargs):
-        if self.photo:
-            photo_url = self.photo.url
-            print("Photo URL: ", photo_url)
-        super(Aluno, self).save(*args, **kwargs)
-
 class GetAttendance(models.Model):
     objects = None
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE, verbose_name='Athlete')
