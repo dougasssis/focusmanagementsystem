@@ -6,6 +6,8 @@ from django_countries.fields import CountryField
 from django import template
 from shortuuid.django_fields import ShortUUIDField
 from django.utils.translation import gettext as _
+from cloudinary.models import CloudinaryField
+
 
 register = template.Library()
 
@@ -78,7 +80,7 @@ class Aluno(models.Model):
     DoesNotExist = None
     objects = None
     id = ShortUUIDField(primary_key=True, editable=False, alphabet="0123456789", length=4)
-    photo = models.URLField(max_length=200, null=True, blank=True)
+    photo = CloudinaryField('photo', blank=True, null=True)
     nome = models.CharField(max_length=15, verbose_name='Name')
     middle_name = models.CharField(max_length=20, verbose_name='Middle Name', blank=True, null=True)
     surname = models.CharField(max_length=15, verbose_name='Last Name', null=True)

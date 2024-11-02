@@ -412,8 +412,7 @@ class EditarAluno(LoginRequiredMixin, UpdateView):
         if self.request.FILES.get('photo'):
             image = self.request.FILES['photo']
             upload_result = cloudinary.uploader.upload(image)
-            form.instance.photo = upload_result['url']  # Ensure the URL is correctly assigned to the photo field
-        form.save()
+            form.instance.photo = upload_result['url']  # Save Cloudinary URL
         return super().form_valid(form)
 
     def get_success_url(self):
