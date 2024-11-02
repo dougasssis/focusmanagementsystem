@@ -1,1 +1,19 @@
 venv
+
+db.sqlite3
+
+# Ignore Django migration files
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.pdb
+
+# Ignore IDE settings and project files
+.idea/
+.vscode/
+*.iml
+
+# Ignore environment variables and system files
+.env
+*.log

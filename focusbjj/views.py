@@ -14,7 +14,13 @@ from .templatetags.attendance_tags import current_belt, current_stripe
 import xlwt
 from django.utils.translation import gettext as _
 from django.core.exceptions import ValidationError
+import cloudinary
 
+cloudinary.config(
+    cloud_name="holwfsrwh",
+    api_key="751324248687953",
+    api_secret="cWnCSmjPRk6p4-2vqX3_0V6957g"
+)
 
 class Attendance(FormView):
     template_name = 'homepage.html'
@@ -401,6 +407,14 @@ class EditarAluno(LoginRequiredMixin, UpdateView):
     template_name = 'editaralunos.html'
     model = Aluno
     form_class = EditAtlheteForm
+
+    def form_valid(self, form):
+        if self.request.FILES.get('photo'):
+            image = self.request.FILES['photo']
+            upload_result = cloudinary.uploader.upload(image)
+            form.instance.photo = upload_result['url']  # Ensure the URL is correctly assigned to the photo field
+        form.save()
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('focusbjj:managealunos')
