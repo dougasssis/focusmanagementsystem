@@ -18,9 +18,8 @@ packaging==24.1
 pillow==11.0.0
 psycopg2==2.9.10
 requests==2.32.3
-self==2020.12.3
-shortuuid==1.0.13
 six==1.16.0
+shortuuid==1.0.13
 sqlparse==0.5.1
 typing_extensions==4.12.2
 urllib3==2.2.3

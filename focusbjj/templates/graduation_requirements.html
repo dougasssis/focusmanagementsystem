@@ -1,0 +1,233 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load i18n %}
+
+
+
+{% block content %}
+<section class="content">
+  <div class="container-fluid">
+    <!-- Success message for graduation requirements update -->
+    {% for message in messages %}
+      {% if 'graduation_req_update' in message.tags %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endif %}
+    {% endfor %}
+    
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="card card-outline card-light shadow-sm">
+          <div class="card-header bg-light">
+            <h3 class="card-title">{% trans "Graduation Requirements" %}</h3>
+          </div>
+          <div class="card-body">
+            <p>
+              <strong>{% trans "Below are the minimum class attendance requirements for belt promotions and stripes." %}</strong>
+            </p>
+            
+            {% if user.is_superuser %}
+            <div class="mb-4 mt-4">
+              <a href="{% url 'focusbjj:update_graduation_requirements' %}" class="btn btn-dark btn-sm">
+                <i class="fas fa-edit"></i> {% trans "Update Requirements" %}
+              </a>
+            </div>
+            {% endif %}
+            
+            <div class="row">
+              <div class="col-12">
+                <div class="card card-outline card-light shadow-sm">
+                 
+                  <div class="card-body p-0">
+                    <table class="table table-striped">
+                      <thead class="bg-dark text-white">
+                        <tr>
+                          <th>{% trans "Belt" %}</th>
+                          <th>{% trans "Stripes" %}</th>
+                          <th>{% trans "Required Classes" %}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for req in requirements %}
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center">
+                              {% with belt_slug=req.belt|lower|slugify %}
+                              <div class="belt-block {{ belt_slug }}-belt mr-2"></div>
+                              <span class="text-dark">{{ req.belt }}</span>
+                              {% endwith %}
+                            </div>
+                          </td>
+                          <td class="text-dark">{{ req.stripes }}</td>
+                          <td class="text-danger">{{ req.required_classes }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .belt-block {
+    width: 60px;
+    height: 20px;
+    border-radius: 2px;
+    border: 1px solid #999;
+  }
+  
+  /* Basic belt colors */
+  .white-belt {
+    background-color: #ffffff;
+    border: 1px solid #999;
+  }
+  
+  .blue-belt {
+    background-color: #3490dc;
+    color: white !important;
+  }
+  
+  .purple-belt {
+    background-color: #9561e2;
+    color: white !important;
+  }
+  
+  .brown-belt {
+    background-color: #8a6d3b;
+    color: white !important;
+  }
+  
+  .black-belt {
+    background-color: #2a2a2a;
+    color: white !important;
+  }
+  
+  .gray-belt {
+    background-color: #a9a9a9;
+    color: white !important;
+  }
+  
+  .yellow-belt {
+    background-color: #ffd700;
+    color: #333 !important;
+  }
+  
+  .orange-belt {
+    background-color: #ff8c00;
+    color: white !important;
+  }
+  
+  .green-belt {
+    background-color: #008000;
+    color: white !important;
+  }
+  
+  /* Mixed belt colors */
+  .graywhite-belt {
+    background: linear-gradient(to right, #a9a9a9 50%, #ffffff 50%);
+    color: #333 !important;
+  }
+  
+  .grayblack-belt {
+    background: linear-gradient(to right, #a9a9a9 50%, #2a2a2a 50%);
+    color: white !important;
+  }
+  
+  .yellowwhite-belt {
+    background: linear-gradient(to right, #ffd700 50%, #ffffff 50%);
+    color: #333 !important;
+  }
+  
+  .yellowblack-belt {
+    background: linear-gradient(to right, #ffd700 50%, #2a2a2a 50%);
+    color: #333 !important;
+  }
+  
+  .orangewhite-belt {
+    background: linear-gradient(to right, #ff8c00 50%, #ffffff 50%);
+    color: #333 !important;
+  }
+  
+  .orangeblack-belt {
+    background: linear-gradient(to right, #ff8c00 50%, #2a2a2a 50%);
+    color: white !important;
+  }
+  
+  .greenwhite-belt {
+    background: linear-gradient(to right, #008000 50%, #ffffff 50%);
+    color: #333 !important;
+  }
+  
+  .greenblack-belt {
+    background: linear-gradient(to right, #008000 50%, #2a2a2a 50%);
+    color: white !important;
+  }
+  
+  /* Dark theme support */
+  .dark-theme .text-dark {
+    color: #f8f9fa !important;
+  }
+
+  /* Minimalist styling */
+  .text-danger {
+    color: #dc3545 !important;
+    font-weight: 500;
+  }
+  
+  .card-light {
+    border-color: #dee2e6 !important;
+    border-top: 4px solid #dc3545 !important;
+  }
+  
+  .shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+  }
+  
+  /* Superuser update button styling */
+  .btn-dark {
+    background-color: #343a40 !important;
+    border-color: #343a40 !important;
+    color: white !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 4px 8px rgba(52,58,64,0.3) !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .btn-dark:hover {
+    background-color: #23272b !important;
+    border-color: #23272b !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 12px rgba(52,58,64,0.4) !important;
+  }
+  
+  .btn-dark:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 4px rgba(52,58,64,0.3) !important;
+  }
+  
+  /* Dark theme button enhancement */
+  .dark-theme .btn-dark {
+    background-color: #495057 !important;
+    border-color: #495057 !important;
+    box-shadow: 0 4px 8px rgba(73,80,87,0.4) !important;
+  }
+  
+  .dark-theme .btn-dark:hover {
+    background-color: #343a40 !important;
+    border-color: #343a40 !important;
+    box-shadow: 0 6px 12px rgba(73,80,87,0.5) !important;
+  }
+</style>
+{% endblock content %} 

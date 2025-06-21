@@ -1,32 +1,55 @@
 {% extends 'base_template.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block titulo %}
-Criar Conta de Aluno
+{% trans "Register Affiliate" %}
 {% endblock%}
 {% block content %}
 
-<section >
-    <header   class="bg-no-repeat bg-cover" style="background-image: url('#');">
-        <div class="z-10 h-full py-5 md:py-30 text-dark-100 text-center flex items-center flex-col ">
-            <form method="post" >
-                {% csrf_token %}
-                <fieldset class="form-group ">
-                    <legend class="border-bottom mb-4 ">Registrar Afiliado <strong>| Focus JJ</legend></strong>
-                   {{ form|crispy }}
-                </fieldset>
-                <br>
-                <button class="bg-primary py-1 px-3 text-white w-full md:text-lg rounded-md" type="submit">Criar Conta</button>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="card card-outline card-light shadow-sm">
+          <div class="card-header bg-light">
+            <h3 class="card-title">{% trans "Register New Affiliate" %}</h3>
+          </div>
+          <div class="card-body">
+            <!-- Info banner for superusers only -->
+            <div class="alert alert-info mb-4">
+              <i class="fas fa-info-circle mr-2"></i> {% trans "Creating a new affiliate account for the Focus JJ network" %}
+            </div>
+            
+            <form method="post">
+              {% csrf_token %}
+              <div class="mb-4">
+                {{ form|crispy }}
+              </div>
+              
+              <div class="mb-4">
+                <button type="submit" class="btn btn-danger">
+                  <i class="fas fa-user-plus"></i> {% trans "Create Account" %}
+                </button>
+                <a href="{% url 'focusbjj:managestaff' %}" class="btn btn-outline-secondary">
+                  <i class="fas fa-arrow-left"></i> {% trans "Back" %}
+                </a>
+              </div>
             </form>
+          </div>
         </div>
-    </header>
+      </div>
+    </div>
+  </div>
 </section>
-<script>
-    {% for msg in messages %}
-        swal('{{ msg }}');
-    {% endfor %}
-</script>
 
+<script>
+{% for msg in messages %}
+  {% if 'graduation_req_update' not in msg.tags %}
+    swal('{{ msg }}');
+  {% endif %}
+{% endfor %}
+</script>
 
 {% endblock %}

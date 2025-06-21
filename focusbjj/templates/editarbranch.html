@@ -8,24 +8,47 @@
 Edit Branch
 {% endblock%}
 {% block content %}
-
-<header class="min-h-screen bg-black bg-opacity-75 bg-blend-overlay showcase border-gray-600 border-b-8 flex justify-center items-center bg-no-repeat bg-cover"  style="background-image: url('{% static 'images/background_netflix.jpg' %}');">
-        <div class="z-10 h-full py-5 md:py-0 text-gray-100 text-center flex items-center flex-col">
-            <h2 class="text-2xl"></h2>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="card card-outline card-danger shadow-sm">
+          <div class="card-header bg-light">
+            <h3 class="card-title">{% trans "Edit Branch" %}</h3>
+          </div>
+          <div class="card-body">
             <form method="post">
-                {% csrf_token %}
-                <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">{% trans "Editar Afiliado" %} <strong>| Focus BJJ</strong></legend>
-                    {{ form|crispy }}
-                </fieldset>
-                <button class="bg-red-600 py-1 px-3 text-white md:text-lg rounded-md" type="submit">{% trans "Editar" %}</button>
-            </form><br>
-            <a class="nav-link" href="{% url 'focusbjj:password_reset' %}">{% trans "Quer mudar sua senha?" %}<p>{% trans "Clique Aqui." %}</p></a>
+              {% csrf_token %}
+              <div class="mb-4">
+                {{ form|crispy }}
+              </div>
+              
+              {% if user.is_superuser and object.id != user.id %}
+              <div class="mb-4 custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" {% if object.is_active %}checked{% endif %}>
+                <label class="custom-control-label" for="is_active">{% trans "Active" %}</label>
+              </div>
+              {% endif %}
+              
+              <div class="mb-4">
+                <button type="submit" class="btn btn-outline-primary">
+                  <i class="fas fa-save"></i> {% trans "Save Changes" %}
+                </button>
+                <a href="{% url 'focusbjj:managestaff' %}" class="btn btn-outline-secondary">
+                  <i class="fas fa-arrow-left"></i> {% trans "Back" %}
+                </a>
+              </div>
+            </form>
+            
+            <div class="mt-4 border-top pt-3">
+              <a href="{% url 'focusbjj:password_reset' %}" class="text-muted">
+                <i class="fas fa-key"></i> {% trans "Want to change your password?" %} {% trans "Click here." %}
+              </a>
+            </div>
+          </div>
         </div>
-</header>
-<script>
-
-</script>
-
-
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

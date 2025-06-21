@@ -1,161 +1,654 @@
 {% extends 'base_template.html' %}
 {% load static %}
-{% load i18n %}
-{% load alerta_tags %}
-
-
 {% load attendance_tags %}
+{% load alerta_tags %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load dashboard_tags %}
 
 {% block titulo %}
-FOCUS BJJ - {{ request.user.location }}
+FOCUS BJJ - {% if request.GET.location %}{{ request.GET.location }}{% else %}All Locations{% endif %}
 {% endblock %}
 
 {% block content %}
 
-<section class="content">
-        <div class="container-fluid">
-            <div style="padding-bottom:10px">
-                <a class="btn btn-sm btn-primary" href="{% url 'focusbjj:add_aluno' %}" role="button"><b>+</b> Adicionar Aluno</a>&nbsp;
-                <a href="{% url 'focusbjj:export_xlsx' %}" class="btn btn-sm btn-secondary"><i class="fas fa-address-book main-logo-icon"></i> Export DB {{ user.location }}</a>
-                <a href="{% url 'focusbjj:export_total_xlsx' %}" class="btn btn-sm btn-secondary"><i class="fas fa-address-book main-logo-icon"></i> Export DB Total</a><br>
+<!-- Add styles to the student table rows based on eligibility -->
+<style>
+  .graduation-eligible {
+    background-color: rgba(76, 175, 80, 0.15);
+  }
+  
+  .graduation-eligible:hover {
+    background-color: rgba(76, 175, 80, 0.25);
+  }
+  
+  .graduation-badge {
+    background-color: #4caf50;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    display: inline-block;
+    margin-left: 8px;
+  }
+  
+  .table th, .table td {
+    vertical-align: middle;
+  }
+  
+  .category-badge {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 5px;
+  }
+  
+  .category-adult {
+    background-color: #17a2b8;
+    color: white;
+  }
+  
+  .category-kid {
+    background-color: #ffc107;
+    color: #212529;
+  }
 
+  .unified-filter-container {
+    background: #2d3748;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #4a5568;
+  }
+
+  .filter-section {
+    margin-bottom: 15px;
+  }
+
+  .filter-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .filter-section-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #4a5568;
+    padding-bottom: 3px;
+  }
+
+  .filter-tabs-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 15px;
+  }
+
+  .filter-group-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    white-space: nowrap;
+  }
+
+  .filter-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .filter-tab:hover {
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .filter-tab.active {
+    border-color: #007bff;
+    background: #007bff;
+    color: white;
+  }
+
+  .filter-tab:not(.active) {
+    background: #4a5568;
+    color: #e2e8f0;
+    border-color: #718096;
+  }
+
+  .filter-badge {
+    font-size: 0.6rem;
+    padding: 1px 4px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+
+  .status-active {
+    background-color: #28a745;
+    color: white;
+  }
+
+  .status-inactive {
+    background-color: #ffc107;
+    color: #212529;
+  }
+
+  .status-all {
+    background-color: #6c757d;
+    color: white;
+  }
+
+  .category-adults {
+    background-color: #17a2b8;
+    color: white;
+  }
+
+  .category-kids {
+    background-color: #fd7e14;
+    color: white;
+  }
+
+  .category-all {
+    background-color: #6c757d;
+    color: white;
+  }
+
+  .search-filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: end;
+  }
+
+  .search-filter-group {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .search-filter-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .search-filter-group input,
+  .search-filter-group select {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #4a5568;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    background: #4a5568;
+    color: #e2e8f0;
+    transition: border-color 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e2e8f0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 16px;
+    padding-right: 32px;
+  }
+
+  .search-filter-group input:focus,
+  .search-filter-group select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+
+  .search-filter-group input::placeholder {
+    color: #a0aec0;
+  }
+
+  .search-filter-group select option {
+    background: #4a5568;
+    color: #e2e8f0;
+    padding: 8px;
+  }
+
+  .filter-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .active-filters-display {
+    background: #1a202c;
+    border: 1px solid #4a5568;
+    border-radius: 4px;
+    padding: 8px;
+    margin-top: 10px;
+    display: none;
+  }
+
+  .active-filters-display.show {
+    display: block;
+  }
+
+  .active-filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #007bff;
+    color: white;
+    padding: 3px 6px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    margin: 1px;
+  }
+
+  .active-filter-tag .remove-filter {
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 2px;
+  }
+
+  .active-filter-tag .remove-filter:hover {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 768px) {
+    .filter-tabs-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .filter-tab {
+      justify-content: center;
+    }
+
+    .search-filters-row {
+      flex-direction: column;
+    }
+
+    .search-filter-group {
+      min-width: 100%;
+    }
+  }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Actions Row -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <a class="btn btn-primary" href="{% url 'focusbjj:add_aluno' %}" role="button">
+                    <i class="fas fa-user-plus"></i> {% trans "Add Student" %}
+                </a>
+                <a href="{% url 'focusbjj:export_xlsx' %}" class="btn btn-secondary">
+                    <i class="fas fa-file-excel"></i> {% trans "Export Database" %}
+                </a>
+                <a href="{% url 'focusbjj:export_total_xlsx' %}" class="btn btn-secondary">
+                    <i class="fas fa-file-excel"></i> {% trans "Export Total Database" %}
+                </a>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"></h3>
-                                    <form method="get">
-                                        {{ filter.form }}
-                                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                                    </form>
-                            <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                               <!-- <input type="text" name="table_search" class="form-control float-right" placeholder="Search"> -->
-                                <div class="input-group-append align-left">
-                                </div>
-                            </div>
-                            </div>
+        </div>
+        
+        <!-- Unified Filter Container -->
+        <div class="unified-filter-container">
+            <form method="get" id="filterForm">
+                <!-- Combined Status and Category Filters -->
+                <div class="filter-section">
+                    <div class="filter-section-title">
+                        <i class="fas fa-filter"></i> {% trans "Quick Filters" %}
+                    </div>
+                    <div class="filter-tabs-row">
+                        <!-- Status Filters -->
+                        <div class="filter-group">
+                            <span class="filter-group-label">{% trans "Status:" %}</span>
+                            <a class="filter-tab {% if attendance_status == 'all' %}active{% endif %}" 
+                               href="#" onclick="updateFilter('attendance_status', 'all'); return false;">
+                               <i class="fas fa-users"></i> {% trans "All" %}
+                               <span class="filter-badge status-all">{% trans "All" %}</span>
+                            </a>
+                            
+                            <a class="filter-tab {% if attendance_status == 'active' %}active{% endif %}" 
+                               href="#" onclick="updateFilter('attendance_status', 'active'); return false;">
+                               <i class="fas fa-check-circle"></i> {% trans "Active" %}
+                               <span class="filter-badge status-active">{% trans "Active" %}</span>
+                            </a>
+                            
+                            <a class="filter-tab {% if attendance_status == 'inactive' %}active{% endif %}" 
+                               href="#" onclick="updateFilter('attendance_status', 'inactive'); return false;">
+                               <i class="fas fa-exclamation-triangle"></i> {% trans "Inactive" %}
+                               <span class="filter-badge status-inactive">{% trans "Inactive" %}</span>
+                            </a>
                         </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-hover text-nowrap">
-                            <thead>
+                        
+                        <!-- Category Filters -->
+                        <div class="filter-group">
+                            <span class="filter-group-label">{% trans "Category:" %}</span>
+                            <a class="filter-tab {% if category == '' %}active{% endif %}" 
+                               href="#" onclick="updateFilter('category', ''); return false;">
+                               <i class="fas fa-layer-group"></i> {% trans "All" %}
+                               <span class="filter-badge category-all">{% trans "All" %}</span>
+                            </a>
+                            
+                            <a class="filter-tab {% if category == 'adults' %}active{% endif %}" 
+                               href="#" onclick="updateFilter('category', 'adults'); return false;">
+                               <i class="fas fa-user"></i> {% trans "Adults" %}
+                               <span class="filter-badge category-adults">{% trans "Adults" %}</span>
+                            </a>
+                            
+                            <a class="filter-tab {% if category == 'kids' %}active{% endif %}" 
+                               href="#" onclick="updateFilter('category', 'kids'); return false;">
+                               <i class="fas fa-child"></i> {% trans "Kids" %}
+                               <span class="filter-badge category-kids">{% trans "Kids" %}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Search Filters -->
+                <div class="filter-section">
+                    <div class="filter-section-title">
+                        <i class="fas fa-search"></i> {% trans "Search Filters" %}
+                    </div>
+                    <div class="search-filters-row">
+                        <div class="search-filter-group">
+                            <label for="nome">{% trans "Name" %}</label>
+                            <input type="text" id="nome" name="nome" value="{{ request.GET.nome|default:'' }}" 
+                                   placeholder="{% trans 'Search by name...' %}">
+                        </div>
+                        
+                        <div class="search-filter-group">
+                            <label for="belt">{% trans "Belt" %}</label>
+                            <select id="belt" name="belt">
+                                <option value="">{% trans "All Belts" %}</option>
+                                {% for choice in filter.form.belt.field.choices %}
+                                    {% if choice.0 %}
+                                        <option value="{{ choice.0 }}" {% if request.GET.belt == choice.0 %}selected{% endif %}>
+                                            {{ choice.1 }}
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        {% if request.user.is_superuser %}
+                        <div class="search-filter-group">
+                            <label for="location">{% trans "Location" %}</label>
+                            <select id="location" name="location">
+                                <option value="">{% trans "All Locations" %}</option>
+                                {% for choice in filter.form.location.field.choices %}
+                                    {% if choice.0 %}
+                                        <option value="{{ choice.0 }}" {% if request.GET.location == choice.0 %}selected{% endif %}>
+                                            {{ choice.1 }}
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="filter-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i> {% trans "Apply" %}
+                            </button>
+                            <a href="{% url 'focusbjj:managealunostotal' %}" class="btn btn-secondary">
+                                <i class="fas fa-sync-alt"></i> {% trans "Reset" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Active Filters Display -->
+                <div class="active-filters-display" id="activeFiltersDisplay">
+                    <strong>{% trans "Active Filters:" %}</strong>
+                    <div id="activeFiltersList"></div>
+                </div>
+                
+                <!-- Hidden inputs to preserve filter state -->
+                <input type="hidden" name="attendance_status" id="attendance_status" value="{{ attendance_status|default:'all' }}">
+                <input type="hidden" name="category" id="category" value="{{ category|default:'' }}">
+            </form>
+        </div>
+        
+        <!-- Students Table -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow">
+                    <div class="card-header bg-light">
+                        <h3 class="card-title text-primary">
+                            <i class="fas fa-users"></i> {% trans "Students" %}
+                            {% if category == 'adults' %}
+                                <span class="badge badge-info ml-2">{% trans "Adults" %}</span>
+                            {% elif category == 'kids' %}
+                                <span class="badge badge-warning ml-2">{% trans "Kids" %}</span>
+                            {% endif %}
+                            
+                            {% if attendance_status == 'active' %}
+                                <span class="badge badge-success ml-2">{% trans "Active" %}</span>
+                            {% elif attendance_status == 'inactive' %}
+                                <span class="badge badge-warning ml-2">{% trans "Absent 30+ Days" %}</span>
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead class="thead-light">
                                 <tr>
-                                <th>ID</th>
-                                <th>{% trans "Nome" %}</th>
-                                <th>Filial</th>
-                                <th>{% trans "Faixa" %}</th>
-                                <th>{% trans "Aulas" %}</th>
-                                <th>{% trans "Aulas Totais" %}</th>
-                                <th>{% trans "Dias Ausentes" %}</th>
-                                <th>{% trans "Graduação" %}</th>
-                                <th></th>
+                                    <th>{% trans "ID" %}</th>
+                                    <th>{% trans "Name" %}</th>
+                                    <th>{% trans "Belt" %}</th>
+                                    <th>{% trans "Stripe" %}</th>
+                                    <th>{% trans "Age" %}</th>
+                                    <th>{% trans "Classes to Next Graduation" %}</th>
+                                    <th>{% trans "Status" %}</th>
+                                    <th>{% trans "Actions" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                        {% if filter.qs %}
-                            {% for aluno in filter.qs %}
-                                <td>{{ aluno.id }}</td>
-                                <td>{{ aluno.nome|title }} {{ aluno.surname|title }}</td>
-                                <td>{{ aluno.location }}</td>
-                                <td>
-                                {% if aluno|current_belt %}
-                                {{ aluno|current_belt }}
-                                {% else %}
-                                {{ aluno.belt }}
-                                {% endif %}
-                                </td>
-                                <td>
-                                    {% if aluno|new_attendance == None %}
-                                    {{ aluno|get_count_att_aluno }}
-                                    {% else %}
-                                    {{ aluno|new_attendance }}
-                                    {% endif %}
-                                </td>
-                                <td>{{ aluno|get_count_att_aluno }}</td>
-                                <td>
-                                    {% if aluno|get_count_att_aluno %}
-                                    {% if aluno|last_att_aluno %}
-                                        <ion-icon name="warning"></ion-icon>
-                                        <strong class="text-red"> &nbsp; {{ aluno|last_att_aluno|cut:"," |slice:"7"}}</strong>
-                                    {% else %}
-                                    {% endif %}
-                                    {% endif %}
-                                </td>
-                                <td>
-                                {% if aluno|alert %}
-                                <ion-icon name="warning"></ion-icon>
-                                <strong class="text-red"> &nbsp; {{ aluno|alert|default_if_none:"" }} </strong>
-                                {% else %}
-                                {% endif %}
-                                </td><td>
-                                    <a href="{% url 'focusbjj:editaralunos' aluno.pk %}" class="btn btn-success">Edit</a>
-                                    <a href="{% url 'focusbjj:graduation' aluno.pk %}" class="btn btn-warning text-white">Graduate</a>
-                                    <a href="{% url 'focusbjj:alunos' aluno.pk %}" class="btn btn-primary">Details</a>
-                                </td>
-                                </tr>
-
-                                    {% endfor %}
-                                {% else %}
-
-                                {% for aluno in alunos|dictsort:"nome" %}
-                                <td>{{ aluno.id }}</td>
-                                <td>{{ aluno.nome|title }} {{ aluno.surname|title }}</td>
-                                <td>{{ aluno.location }}</td>
-                                <td>
-                                {{ aluno|current_belt }}
-
-                                </td>
-                                <td>
-                                    {% if aluno|new_attendance == None %}
-                                    {{ aluno|get_count_att_aluno }}
-                                    {% else %}
-                                    {{ aluno|new_attendance }}
-                                    {% endif %}
-                                </td>
-                                <td>{{ aluno|get_count_att_aluno }}</td>
-                                <td>
-                                    {% if aluno|get_count_att_aluno %}
-                                    {% if aluno|last_att_aluno %}
-                                        <ion-icon name="warning"></ion-icon>
-                                        <strong class="text-red"> &nbsp; {{ aluno|last_att_aluno|cut:"," |slice:"7"}}</strong>
-                                    {% else %}
-                                    {% endif %}
-                                    {% endif %}
-                                <td>
-                                <td>
-                                    <ion-icon name="warning"></ion-icon>
-                                    <strong class="text-red"> &nbsp; {{ aluno|alert }} </strong>
-                                </td>
-                                <td>
-                                    <a href="{% url 'focusbjj:editaralunos' aluno.pk %}" class="btn btn-success">Edit</a>
-                                    <a href="{% url 'focusbjj:graduation' aluno.pk %}" class="btn btn-warning text-white">Graduate</a>
-                                    <a href="{% url 'focusbjj:alunos' aluno.pk %}" class="btn btn-primary">Details</a>
-                                </td>
-                                </tr>
+                                {% for aluno in filter.qs %}
+                                    {% with eligibility=aluno|is_eligible_for_graduation %}
+                                        <tr {% if aluno.is_blocked %}class="table-danger"{% elif attendance_status == 'inactive' %}class="table-warning"{% endif %}>
+                                            <td>{{ aluno.id }}</td>
+                                            <td>
+                                                <a href="{% url 'focusbjj:alunos' aluno.pk %}" style="color: inherit; text-decoration: none;">
+                                                    {{ aluno.nome|title }} {{ aluno.surname|title }}
+                                                    {% if eligibility.eligible %}
+                                                        <span class="graduation-badge">
+                                                            <i class="fas fa-graduation-cap"></i> {% trans "Eligible" %}
+                                                        </span>
+                                                    {% endif %}
+                                                    
+                                                    {% if aluno.idade >= 14 %}
+                                                        <span class="category-badge category-adult">
+                                                            <i class="fas fa-user"></i> {% trans "Adult" %}
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="category-badge category-kid">
+                                                            <i class="fas fa-child"></i> {% trans "Kid" %}
+                                                        </span>
+                                                    {% endif %}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {{ aluno|current_belt }}
+                                            </td>
+                                            <td>
+                                                {{ aluno|current_stripe }}
+                                            </td>
+                                            <td>{{ aluno.idade }}</td>
+                                            <td>
+                                                {% if eligibility.eligible %}
+                                                    <span class="badge bg-success">0</span>
+                                                {% else %}
+                                                    {% if eligibility.classes_remaining %}
+                                                        {{ eligibility.classes_remaining }}
+                                                    {% else %}
+                                                        {% if aluno|get_count_att_aluno %}
+                                                            {{ aluno|classes_remaining_to_graduation }}
+                                                        {% else %}
+                                                            0
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if aluno.is_blocked %}
+                                                    <span class="badge badge-danger">{% trans "Inactive" %}</span>
+                                                {% elif attendance_status == 'inactive' %}
+                                                    <span class="badge badge-warning">{% trans "30+ Days Absent" %}</span>
+                                                {% else %}
+                                                    <span class="badge badge-success">{% trans "Active" %}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <div class="btn-group" role="group" aria-label="Student Actions">
+                                                    <a href="{% url 'focusbjj:graduation' aluno.pk %}" class="btn btn-sm btn-danger" data-toggle="tooltip" title="{% trans 'Graduate this student' %}">
+                                                        <i class="fas fa-graduation-cap"></i> {% trans "Graduate" %}
+                                                    </a>
+                                                    <a href="{% url 'focusbjj:alunos' aluno.pk %}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="{% trans 'View student details and attendance history' %}">
+                                                        <i class="fas fa-eye"></i> {% trans "Details" %}
+                                                    </a>
+                                                    <a href="{% url 'focusbjj:editaralunos' aluno.pk %}" class="btn btn-sm btn-info" data-toggle="tooltip" title="{% trans 'Edit student information and settings' %}">
+                                                        <i class="fas fa-edit"></i> {% trans "Edit" %}
+                                                    </a>
+                                                    <form method="post" action="{% url 'focusbjj:student_checkin' aluno.pk %}" style="display:inline">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" title="{% trans 'Record class attendance for this student' %}">
+                                                            <i class="fas fa-check-circle"></i> {% trans "Check-in" %}
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endwith %}
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="8" class="text-center">{% trans "No students found matching your criteria" %}</td>
+                                    </tr>
                                 {% endfor %}
-                            {% endif %}
-
                             </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                        </div>
-                    <!-- /.card -->
-
+                        </table>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
 
-        </div><!-- /.container-fluid -->
-      </section>
-    </header>
+<!-- Initialize tooltips and filter functionality -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    updateActiveFiltersDisplay();
+});
 
-    <script>
-    {% for msg in messages %}
-        swal('{{ msg }}');
-    {% endfor %}
-    </script>
+function updateFilter(filterType, value) {
+    // Update the hidden input
+    document.getElementById(filterType).value = value;
+    
+    // Update the active state of filter tabs
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    filterTabs.forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Find and activate the clicked tab
+    const clickedTab = event.target.closest('.filter-tab');
+    if (clickedTab) {
+        clickedTab.classList.add('active');
+    }
+    
+    // Update the display
+    updateActiveFiltersDisplay();
+    
+    // Submit the form
+    document.getElementById('filterForm').submit();
+}
+
+function updateActiveFiltersDisplay() {
+    const attendanceStatus = document.getElementById('attendance_status').value;
+    const category = document.getElementById('category').value;
+    const nome = document.getElementById('nome').value;
+    const belt = document.getElementById('belt').value;
+    const location = document.getElementById('location') ? document.getElementById('location').value : '';
+    
+    const activeFilters = [];
+    
+    // Add status filter
+    if (attendanceStatus && attendanceStatus !== 'all') {
+        const statusText = attendanceStatus === 'active' ? 'Active' : 'Inactive';
+        activeFilters.push(`<span class="active-filter-tag">Status: ${statusText}<span class="remove-filter" onclick="removeFilter('attendance_status')">&times;</span></span>`);
+    }
+    
+    // Add category filter
+    if (category) {
+        const categoryText = category === 'adults' ? 'Adults' : 'Kids';
+        activeFilters.push(`<span class="active-filter-tag">Category: ${categoryText}<span class="remove-filter" onclick="removeFilter('category')">&times;</span></span>`);
+    }
+    
+    // Add name filter
+    if (nome) {
+        activeFilters.push(`<span class="active-filter-tag">Name: ${nome}<span class="remove-filter" onclick="removeFilter('nome')">&times;</span></span>`);
+    }
+    
+    // Add belt filter
+    if (belt) {
+        const beltSelect = document.getElementById('belt');
+        const beltText = beltSelect.options[beltSelect.selectedIndex].text;
+        activeFilters.push(`<span class="active-filter-tag">Belt: ${beltText}<span class="remove-filter" onclick="removeFilter('belt')">&times;</span></span>`);
+    }
+    
+    // Add location filter
+    if (location) {
+        const locationSelect = document.getElementById('location');
+        if (locationSelect) {
+            const locationText = locationSelect.options[locationSelect.selectedIndex].text;
+            activeFilters.push(`<span class="active-filter-tag">Location: ${locationText}<span class="remove-filter" onclick="removeFilter('location')">&times;</span></span>`);
+        }
+    }
+    
+    const display = document.getElementById('activeFiltersDisplay');
+    const list = document.getElementById('activeFiltersList');
+    
+    if (activeFilters.length > 0) {
+        list.innerHTML = activeFilters.join('');
+        display.classList.add('show');
+    } else {
+        display.classList.remove('show');
+    }
+}
+
+function removeFilter(filterType) {
+    if (filterType === 'attendance_status') {
+        document.getElementById('attendance_status').value = 'all';
+    } else if (filterType === 'category') {
+        document.getElementById('category').value = '';
+    } else if (filterType === 'nome') {
+        document.getElementById('nome').value = '';
+    } else if (filterType === 'belt') {
+        document.getElementById('belt').value = '';
+    } else if (filterType === 'location') {
+        document.getElementById('location').value = '';
+    }
+    
+    document.getElementById('filterForm').submit();
+}
+</script>
+
 {% endblock %}

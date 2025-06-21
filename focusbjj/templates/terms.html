@@ -1,59 +1,106 @@
 {% load static %}
-
-
-{% block titulo %}
-{% endblock %}
-
-{% block content %}
-
-    <header class="min-h-screen bg-black bg-opacity-75 bg-blend-overlay showcase border-gray-600 border-b-8 flex justify-center items-center bg-no-repeat bg-cover"  >
-        <div class="z-10 h-full py-350 md:py-100 text-gray-100 text-center flex items-center flex-col" style="margin-top:30px; margin-bottom:30px; margin-left:70px ; margin-right:70px">
-            <h2>Politica De Privacidade -
-                Academia Workout – Manoel de Albuquerque LDA</h2><br>
-            <div class="container">
-            <div class="flex flex-nowrap justify-center space-x-15 p-00 container">
-
-A Academia Workout – Manoel de Albuquerque Lda, respeita a privacidade dos seus clientes e empreendem todos os cuidados para proteger as respectivas informações.
-Esta política de privacidade, consiste em prestar as informações que recolhemos e da forma como a podemos utilizar bem como das normas de segurança adotadas para proteger a sua identidade e dados pessoais.
-
-                <h4>Que tipo de informações recolhemos:</h4>
-Podem ser solicitadas informações pessoais, como o seu nome, endereço, data de nascimento, sexo, endereço de correio eletrónico, NIF, etc.
-As informações supra podem ser solicitadas quando se inscreve ou preenche formulário de contacto quer como trabalhador, candidato a emprego, prestador de serviços, cliente, fornecedor, visitante, etc, e ou quando recebe ou envia mensagens de correio eletrónico.
-                <h4>Utilização das Informações:</h4>
-Todas as informações pessoais que obtemos serão registadas, utilizadas e protegidas em conformidade com legislação comunitária vigente em matéria de proteção de dados e com esta política de privacidade.
-As informações recolhidas, têm como finalidade o envio de informações/divulgação por correio eletrónico ou mensagens SMS acerca dos nossos serviços.
-O envio das informações apenas ocorre, quando o titular dos dados, tiver expressamente optado por receber mensagens de correio eletrónico e/ou mensagens SMS da empresa Academia Workout – Manoel de Albuquerque Lda. Caso não pretenda receber mais mensagens de correio eletrónico ou SMS, entre em contato connosco através de email: academiaworkoutportugal@gmail.com ou por carta para a nossa morada Rua Dr Afonso Cordeiro nº 7111 4450-007 Matosinhos.
-                <h4>Proteção das Informações:</h4>
-As informações que nos fornece estão protegidas no âmbito da implementação das várias medidas de segurança, nomeadamente através de acesso condicionado, e da salvaguarda de confidencialidade das informações.
-Privacidade de menores (Crianças e Jovens):
-A empresa  Academia Workout – Manoel de Albuquerque Lda, está empenhada em proteger a privacidade de crianças e jovens e não pretende recolher dados pessoais de menores com idade inferior a 13 anos (a idade legalmente definida em termos de lei nacional no âmbito do RGPD).
-
-
-<h4>Retificação, Eliminação ou Modificação ou Atualização de Informações:</h4>
-Caso pretenda, pode cancelar o seu registo ou utilização em qualquer altura e pode optar por não receber quaisquer mensagens de correio eletrónico e/ou mensagens SMS, e pode também optar por eliminar todas  as suas informações pessoais da nossa base de dados.
-Se pretender pode também anular, eliminar ou modificar as suas informações pessoais.
-<h4>Nosso Contato:</h4>
-Se tiver quaisquer perguntas ou comentários relativamente à nossa política de privacidade, escreva-os para o seguinte email:  academiaworkoutportugal@gmail.com.
-<h4>O Consentimento do Titular dos Dados:</h4>
-Ao utilizar os nossos serviços confirma que aceita os termos desta Política de Privacidade, assim como os nossos Termos e Condições.
-Caso não concorde com os termos da nossa Política de Privacidade e os nossos Termos e Condições, solicita-se que não nos forneça informações pessoais.
-<h4>Direito do Titular dos Dados ao Acesso às Suas Informações Pessoais:</h4>
-O titular dos dados tem direito de receber uma cópia das suas informações pessoais em nosso poder. A empresa reserva-se o direito de cobrar uma pequena taxa ( valor a definir) para custos administrativos e informáticos de qualquer pedido efetuado.
-<h4>Direito do Titular dos Dados à Eliminação de Dados Pessoais:</h4>
-O titular dos dados poderá requerer a sua eliminação sempre que pretender, através do pedido por escrito para a nossa morada oficial ou para o nosso email.
-<h4>Durante Quanto Tempo Conservaremos os Seus Dados:</h4>
-Trataremos os seus dados durante o tempo em que mantiver a qualidade de utilizador da Academia.
-Posteriormente, após cessação do contrato de prestação de serviços, os seus dados serão conservados pelo prazo de 1 ano.
-<h4>Política de Privacidade:</h4>
-A política de privacidade aplica-se apenas às informações recolhidas através da inscrição da nossa academia.
-            </div><br>
-
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Privacy Policy" %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body.dark-theme {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .privacy-policy {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .policy-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #2c2c2c;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+        .policy-section h4 {
+            color: #e0e0e0;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .policy-section p {
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .alert {
+            margin-bottom: 30px;
+            background-color: #1a3a4a;
+            border-color: #2c5a6a;
+            color: #e0e0e0;
+            padding: 16px 20px;
+            border-radius: 6px;
+            font-size: 1.1em;
+        }
+        .card-title {
+            font-size: 2em;
+            margin-bottom: 24px;
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <div class="privacy-policy">
+        <div class="card-title">
+            <i class="fas fa-shield-alt mr-2"></i>
+            {% trans "Privacy Policy" %} - Academia Workout – Manoel de Albuquerque LDA
+        </div>
+        <div class="alert">
+            <i class="fas fa-info-circle mr-2"></i>
+            {% trans "A Academia Workout – Manoel de Albuquerque Lda respects the privacy of its clients and takes all necessary measures to protect their information." %}
+        </div>
+        <div class="policy-section">
+            <h4><i class="fas fa-database mr-2"></i>{% trans "Information Collection" %}</h4>
+            <p>{% trans "We may request personal information such as your name, address, date of birth, gender, email address, tax number, etc. This information may be requested when you register or fill out a contact form as an employee, job candidate, service provider, client, supplier, visitor, etc., or when you receive or send email messages." %}</p>
+        </div>
+        <div class="policy-section">
+            <h4><i class="fas fa-cogs mr-2"></i>{% trans "Information Usage" %}</h4>
+            <p>{% trans "All personal information we obtain will be recorded, used, and protected in accordance with current EU data protection legislation and this privacy policy. The collected information is intended for sending information/disclosure via email or SMS messages about our services." %}</p>
+            <p>{% trans "Information will only be sent when the data subject has expressly opted to receive email and/or SMS messages from Academia Workout – Manoel de Albuquerque Lda. If you no longer wish to receive email or SMS messages, please contact us at: academiaworkoutportugal@gmail.com or by mail to our address: Rua Dr Afonso Cordeiro nº 7111 4450-007 Matosinhos." %}</p>
+        </div>
+        <div class="policy-section">
+            <h4><i class="fas fa-lock mr-2"></i>{% trans "Information Protection" %}</h4>
+            <p>{% trans "The information you provide is protected through the implementation of various security measures, including restricted access and confidentiality safeguards." %}</p>
+        </div>
+        <div class="policy-section">
+            <h4><i class="fas fa-child mr-2"></i>{% trans "Minor Privacy" %}</h4>
+            <p>{% trans "Academia Workout – Manoel de Albuquerque Lda is committed to protecting the privacy of children and youth and does not intend to collect personal data from minors under 13 years of age (the legally defined age under national law within the scope of GDPR)." %}</p>
+        </div>
+        <div class="policy-section">
+            <h4><i class="fas fa-edit mr-2"></i>{% trans "Information Modification" %}</h4>
+            <p>{% trans "You can cancel your registration or usage at any time and opt out of receiving any email and/or SMS messages, and you can also choose to delete all your personal information from our database. You can also cancel, delete, or modify your personal information." %}</p>
+        </div>
+        <div class="policy-section">
+            <h4><i class="fas fa-envelope mr-2"></i>{% trans "Contact Us" %}</h4>
+            <p>{% trans "If you have any questions or comments regarding our privacy policy, please write to: academiaworkoutportugal@gmail.com" %}</p>
+        </div>
+        <div class="policy-section">
+            <h4><i class="fas fa-check-circle mr-2"></i>{% trans "Data Subject Consent" %}</h4>
+            <p>{% trans "By using our services, you confirm that you accept the terms of this Privacy Policy, as well as our Terms and Conditions. If you do not agree with the terms of our Privacy Policy and our Terms and Conditions, please do not provide us with personal information." %}</p>
+        </div>
+        <div class="policy-section">
+            <h4><i class="fas fa-file-alt mr-2"></i>{% trans "Data Subject Rights" %}</h4>
+            <p>{% trans "The data subject has the right to receive a copy of their personal information in our possession. The company reserves the right to charge a small fee (to be defined) for administrative and IT costs for any request made." %}</p>
+        </div>
+        <div class="policy-section">
+            <h4><i class="fas fa-trash-alt mr-2"></i>{% trans "Data Deletion Rights" %}</h4>
+            <p>{% trans "The data subject may request deletion whenever they wish, through a written request to our official address or email." %}</p>
+        </div>
+        <div class="policy-section">
+            <h4><i class="fas fa-clock mr-2"></i>{% trans "Data Retention Period" %}</h4>
+            <p>{% trans "We will process your data for as long as you maintain the status of an Academy user. Subsequently, after termination of the service contract, your data will be kept for 1 year." %}</p>
             </div>
 </div>
-
-    </header>
-
-
-
-
-{% endblock %}
+</body>
+</html>

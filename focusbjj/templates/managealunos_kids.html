@@ -1,8 +1,10 @@
 {% extends 'base_template.html' %}
 {% load static %}
 {% load attendance_tags %}
+{% load alerta_tags %}
 {% load i18n %}
-
+{% load crispy_forms_tags %}
+{% load dashboard_tags %}
 
 {% block titulo %}
 FOCUS BJJ - {{ request.user.location }}
@@ -10,99 +12,237 @@ FOCUS BJJ - {{ request.user.location }}
 
 {% block content %}
 
+<!-- Add styles to the student table rows based on eligibility -->
+<style>
+  .graduation-eligible {
+    background-color: rgba(76, 175, 80, 0.15);
+  }
+  
+  .graduation-eligible:hover {
+    background-color: rgba(76, 175, 80, 0.25);
+  }
+  
+  .graduation-badge {
+    background-color: #4caf50;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    display: inline-block;
+    margin-left: 8px;
+  }
+  
+  .table th, .table td {
+    vertical-align: middle;
+  }
+</style>
+
 <section class="content">
-        <div class="container-fluid">
-            <a class="btn btn-primary btn-sm" href="{% url 'focusbjj:add_aluno' %}" role="button">+ Add Athlete</a>
-            <a href="{% url 'focusbjj:export_xlsx' %}" class="btn btn-sm btn-secondary"><i class="fas fa-address-book main-logo-icon"></i> Export DB {{ user.location }} </a> <br/>&nbsp;
-
-            <div class="row">
-
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card">
-                        <div class="card-header">
-                            <p>{% trans "Alunos" %} | <b>{% trans "Categoria Infantil" %}</b></p>
-
-                            <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <div class="input-group-append">
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                <thead>
-                    <tr>
-                    <th>ID</th>
-                    <th>{% trans "Nome" %}</th>
-                    <th>{% trans "Faixa" %}</th>
-                    <th>{% trans "Aulas" %}</th>
-                    <th>{% trans "Aulas Totais" %}</th>
-                    <th>{% trans "Dias Ausentes" %}</th>
-                    <th>{% trans "Última Graduação" %}</th>
-                    <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for aluno in request.user.alunos.all|dictsort:"nome" %}
-                   {% if aluno.idade <= 13 %}
-                    <tr>
-                    <td>{{ aluno.id }}</td>
-                    <td>{{ aluno.nome|title }} {{ aluno.surname|title }}</td>
-                    <td>
-                        {% if aluno|current_belt %}
-                        {{ aluno|current_belt }}
-                        {% else %}
-                        {{ aluno.belt }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if aluno|new_attendance == None %}
-                        {{ aluno|get_count_att_aluno }}
-                        {% else %}
-                        {{ aluno|new_attendance }}
-                        {% endif %}
-                    </td>
-                    <td>{{ aluno|get_count_att_aluno }}</td>
-                    <td>
-                        {% if aluno|get_count_att_aluno %}
-                        {% if aluno|last_att_aluno %}
-                            <ion-icon name="warning"></ion-icon>
-                            <strong class="text-red"> &nbsp; {{ aluno|last_att_aluno|cut:"," |slice:"7"}}</strong>
-                        {% else %}
-                        {% endif %}
-                        {% endif %}
-                    </td>
-                    <td>{{ aluno|last_graduation|date:"d/m/Y" }}</td>
-
-
-
-                    <td>
-                        <a href="{% url 'focusbjj:deletealunos' aluno.pk %}" class="btn btn-danger">Delete</a>
-                        <a href="{% url 'focusbjj:editaralunos' aluno.pk %}" class="btn btn-success">Editar</a>
-                        <a href="{% url 'focusbjj:graduation' aluno.pk %}" class="btn btn-warning text-white">Graduar</a>
-                        <a href="{% url 'focusbjj:alunos' aluno.pk %}" class="btn btn-primary">Detalhes</a>
-                    </td>
-                    </tr>
-                {% else %}
-                {% endif %}
-                {% endfor %}
-                </tbody>
-                </table>
-                        </div>
-                        <!-- /.card-body -->
-                        </div>
-                    <!-- /.card -->
-
+    <div class="container-fluid">
+        <!-- Actions Row -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <a class="btn btn-primary" href="{% url 'focusbjj:add_aluno' %}" role="button">
+                    <i class="fas fa-user-plus"></i> {% trans "Add Student" %}
+                </a>
+                <a href="{% url 'focusbjj:export_xlsx' %}" class="btn btn-secondary">
+                    <i class="fas fa-file-excel"></i> {% trans "Export Database" %}
+                </a>
+            </div>
+        </div>
+        
+        <!-- Status Filter Tabs -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card card-primary card-tabs">
+                    <div class="card-header p-0 pt-1">
+                        <ul class="nav nav-tabs" id="status-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link {% if attendance_status == 'active' %}active{% endif %}" 
+                                   href="{{ request.get_full_path|remove_query_param:'attendance_status'|add_query_param:'attendance_status=active' }}" 
+                                   role="tab">
+                                   <i class="fas fa-check-circle"></i> {% trans "Active Students" %}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if attendance_status == 'inactive' %}active{% endif %}" 
+                                   href="{{ request.get_full_path|remove_query_param:'attendance_status'|add_query_param:'attendance_status=inactive' }}" 
+                                   role="tab">
+                                   <i class="fas fa-exclamation-triangle"></i> {% trans "Absent 30+ Days" %}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if attendance_status == 'all' %}active{% endif %}" 
+                                   href="{{ request.get_full_path|remove_query_param:'attendance_status'|add_query_param:'attendance_status=all' }}" 
+                                   role="tab">
+                                   <i class="fas fa-users"></i> {% trans "All Students" %}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+        </div>
+        
+        <!-- Filter Card -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-light">
+                <h3 class="card-title text-primary">
+                    <i class="fas fa-filter"></i> {% trans "Search Filters" %}
+                </h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="get" class="form">
+                    <!-- Preserve attendance_status when submitting form -->
+                    <input type="hidden" name="attendance_status" value="{{ attendance_status }}">
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ filter.form.nome|as_crispy_field }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ filter.form.belt|as_crispy_field }}
+                        </div>
+                        <div class="col-md-4">
+                            {% if is_superuser %}
+                                {{ filter.form.location|as_crispy_field }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i> {% trans "Apply Filters" %}
+                            </button>
+                            <a href="{% url 'focusbjj:managealunoskids' %}?attendance_status={{ attendance_status }}" class="btn btn-secondary">
+                                <i class="fas fa-sync-alt"></i> {% trans "Reset Filters" %}
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Students Table -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow">
+                    <div class="card-header bg-light">
+                        <h3 class="card-title text-primary">
+                            <i class="fas fa-child"></i> {% trans "Students" %} | <b>{% trans "Kids Category" %}</b>
+                            {% if attendance_status == 'active' %}
+                                <span class="badge badge-success ml-2">{% trans "Active" %}</span>
+                            {% elif attendance_status == 'inactive' %}
+                                <span class="badge badge-warning ml-2">{% trans "Absent 30+ Days" %}</span>
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>{% trans "ID" %}</th>
+                                    <th>{% trans "Name" %}</th>
+                                    <th>{% trans "Belt" %}</th>
+                                    <th>{% trans "Stripe" %}</th>
+                                    <th>{% trans "Next Graduation" %}</th>
+                                    <th>{% trans "Status" %}</th>
+                                    <th>{% trans "Actions" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for aluno in filter.qs %}
+                                    {% if aluno.idade <= 13 %}
+                                        {% with eligibility=aluno|is_eligible_for_graduation %}
+                                            <tr {% if aluno.is_blocked %}class="table-danger"{% elif attendance_status == 'inactive' %}class="table-warning"{% endif %}>
+                                                <td>{{ aluno.id }}</td>
+                                                <td>
+                                                    <a href="{% url 'focusbjj:alunos' aluno.pk %}" style="color: inherit; text-decoration: none;">
+                                                        {{ aluno.nome|title }} {{ aluno.surname|title }}
+                                                        {% if eligibility.eligible %}
+                                                            <span class="graduation-badge">
+                                                                <i class="fas fa-graduation-cap"></i> {% trans "Eligible" %}
+                                                            </span>
+                                                        {% endif %}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    {{ aluno|current_belt }}
+                                                </td>
+                                                <td>
+                                                    {{ aluno|current_stripe }}
+                                                </td>
+                                                <td>
+                                                    {% if eligibility.eligible %}
+                                                        <span class="badge bg-success">0</span>
+                                                    {% else %}
+                                                        {% if eligibility.classes_remaining %}
+                                                            {{ eligibility.classes_remaining }}
+                                                        {% else %}
+                                                            {% if aluno|get_count_att_aluno %}
+                                                                {{ aluno|classes_remaining_to_graduation }}
+                                                            {% else %}
+                                                                0
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if aluno.is_blocked %}
+                                                        <span class="badge badge-danger">{% trans "Inactive" %}</span>
+                                                    {% elif attendance_status == 'inactive' %}
+                                                        <span class="badge badge-warning">{% trans "30+ Days Absent" %}</span>
+                                                    {% else %}
+                                                        <span class="badge badge-success">{% trans "Active" %}</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group" role="group" aria-label="Student Actions">
+                                                        <a href="{% url 'focusbjj:graduation' aluno.pk %}" class="btn btn-sm btn-danger" data-toggle="tooltip" title="{% trans 'Graduate this student' %}">
+                                                            <i class="fas fa-graduation-cap"></i> {% trans "Graduate" %}
+                                                        </a>
+                                                        <a href="{% url 'focusbjj:alunos' aluno.pk %}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="{% trans 'View student details' %}">
+                                                            <i class="fas fa-eye"></i> {% trans "Details" %}
+                                                        </a>
+                                                        <a href="{% url 'focusbjj:editaralunos' aluno.pk %}" class="btn btn-sm btn-info" data-toggle="tooltip" title="{% trans 'Edit student information and settings' %}">
+                                                            <i class="fas fa-edit"></i> {% trans "Edit" %}
+                                                        </a>
+                                                        <form method="post" action="{% url 'focusbjj:student_checkin' aluno.pk %}" style="display:inline">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" title="{% trans 'Record class attendance for this student' %}">
+                                                                <i class="fas fa-check-circle"></i> {% trans "Check-in" %}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endwith %}
+                                    {% endif %}
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="7" class="text-center">{% trans "No students found matching your criteria" %}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-        </div><!-- /.container-fluid -->
-      </section>
-
-
-    </header>
+<!-- Initialize tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 
 {% endblock %}

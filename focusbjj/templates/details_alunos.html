@@ -2,167 +2,577 @@
 {% load static %}
 {% load attendance_tags %}
 {% load i18n %}
-
+{% load dashboard_tags %}
 
 {% block titulo %}
-FOCUS BJJ - {{ request.user.location }}
+FOCUS BJJ - {{ aluno.nome }} {{ aluno.surname }}
 {% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="http://cdnjs.cloudfare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-<link rel="stylesheet" href="{% static 'style_aluno.css' %}">
-<section class="content">
+<!-- Custom CSS for student profile page with dark mode -->
+<style>
+    .student-profile {
+        padding: 30px 0;
+        background-color: #222; /* Match standard dark background */
+        color: #f8f9fa;
+    }
+    
+    .profile-header {
+        position: relative;
+        background: linear-gradient(135deg, #212121 0%, #333333 100%);
+        border-radius: 12px;
+        overflow: hidden;
+        color: white;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        border-left: 4px solid #dc3545;
+    }
+    
+    .profile-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0;
+    }
+    
+    .profile-header .belt-badge {
+        padding: 5px 15px;
+        border-radius: 50px;
+        font-weight: 600;
+        display: inline-block;
+        margin-top: 10px;
+    }
+    
+    .profile-image-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .profile-image {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 5px solid #333; /* Match standard dark border */
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .info-card {
+        background-color: #333; /* Match standard card background */
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        padding: 25px;
+        margin-bottom: 25px;
+        transition: transform 0.3s;
+    }
+    
+    .info-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .info-card h3 {
+        color: #dc3545; /* Match standard red accent color */
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #444; /* Match standard dark border */
+    }
+    
+    .info-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .info-list li {
+        padding: 10px 0;
+        border-bottom: 1px solid #444; /* Match standard dark border */
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .info-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .info-list .label {
+        font-weight: 600;
+        color: #adb5bd;
+    }
+    
+    .info-list .value {
+        color: #fff;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .action-buttons .btn {
+        flex: 1;
+        min-width: 120px;
+        text-align: center;
+        padding: 10px 15px;
+        font-weight: 500;
+        border-radius: 8px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .action-buttons .btn i {
+        margin-right: 8px;
+    }
+    
+    .graduation-history {
+        margin-top: 15px;
+    }
+    
+    .graduation-item {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-radius: 8px;
+        background-color: #383838; /* Match standard dark item background */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin-bottom: 10px;
+    }
+    
+    .graduation-item .belt-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 15px;
+    }
+    
+    .feedback-card {
+        background-color: #333; /* Match standard card background */
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        padding: 25px;
+        margin-bottom: 20px;
+    }
+    
+    .feedback-item {
+        border-left: 4px solid #dc3545; /* Match standard red accent color */
+        padding: 15px;
+        background-color: #383838; /* Match standard dark item background */
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 15px;
+    }
+    
+    .feedback-item.graduation-feedback {
+        border-left-color: #ffc107;
+    }
+    
+    .feedback-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+    }
+    
+    .feedback-author {
+        font-weight: 600;
+        color: #dc3545; /* Match standard red accent color */
+    }
+    
+    .feedback-date {
+        color: #adb5bd;
+    }
+    
+    .feedback-content {
+        color: #e9ecef;
+        line-height: 1.6;
+    }
+    
+    .feedback-form {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #383838; /* Match standard dark form background */
+        border-radius: 8px;
+    }
+    
+    /* Dark mode form controls */
+    .form-control {
+        background-color: #222;
+        border-color: #444;
+        color: #fff;
+    }
+    
+    .form-control:focus {
+        background-color: #2a2a2a;
+        color: #fff;
+    }
+    
+    .form-control::placeholder {
+        color: #adb5bd;
+    }
+    
+    .form-text {
+        color: #adb5bd;
+    }
+    
+    .form-label {
+        color: #e9ecef;
+    }
+    
+    .form-check-label {
+        color: #e9ecef;
+    }
+    
+    /* Progress bar in dark mode */
+    .progress {
+        background-color: #222;
+    }
+    
+    /* Fix for linter error */
+    .progress-bar {
+        background-color: #17a2b8;
+    }
+    
+    /* Smooth scrolling for anchor links */
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Alert styling for dark mode */
+    .alert-info {
+        background-color: #17a2b8;
+        border-color: #148ea1;
+        color: #fff;
+    }
+    
+    .alert-success {
+        background-color: #28a745;
+        border-color: #218838;
+        color: #fff;
+    }
+    
+    /* Belt badge styling */
+    .white-belt-badge {
+        background-color: rgba(255, 255, 255, 0.2);
+        border: 1px solid #f5f5f5;
+        color: #f5f5f5;
+    }
+    
+    .blue-belt-badge {
+        background-color: rgba(21, 101, 192, 0.2);
+        border: 1px solid #1565c0;
+        color: #ffffff;
+    }
+    
+    .purple-belt-badge {
+        background-color: rgba(106, 27, 154, 0.2);
+        border: 1px solid #6a1b9a;
+        color: #ffffff;
+    }
+    
+    .brown-belt-badge {
+        background-color: rgba(93, 64, 55, 0.2);
+        border: 1px solid #5d4037;
+        color: #ffffff;
+    }
+    
+    .black-belt-badge {
+        background-color: rgba(33, 33, 33, 0.2);
+        border: 1px solid #212121;
+        color: #ffffff;
+    }
+    
+    .gray-white-belt-badge,
+    .gray-belt-badge,
+    .gray-black-belt-badge {
+        background-color: rgba(158, 158, 158, 0.2);
+        border: 1px solid #9e9e9e;
+        color: #ffffff;
+    }
+    
+    .yellow-white-belt-badge,
+    .yellow-belt-badge,
+    .yellow-black-belt-badge {
+        background-color: rgba(255, 235, 59, 0.2);
+        border: 1px solid #ffeb3b;
+        color: #000000;
+    }
+    
+    .orange-white-belt-badge,
+    .orange-belt-badge,
+    .orange-black-belt-badge {
+        background-color: rgba(255, 152, 0, 0.2);
+        border: 1px solid #ff9800;
+        color: #000000;
+    }
+    
+    .green-white-belt-badge,
+    .green-belt-badge,
+    .green-black-belt-badge {
+        background-color: rgba(76, 175, 80, 0.2);
+        border: 1px solid #4caf50;
+        color: #ffffff;
+    }
+    
+    /* Default belt badge styling */
+    .default-belt-badge {
+        background-color: rgba(220, 53, 69, 0.2);
+        border: 1px solid #dc3545;
+        color: #ffffff;
+    }
+</style>
 
-<div align="center"><!-- COMECA DIV -->
-   <div class="row col-lg-6" align="center"><!-- INFORMAÇÕES DO ALUNO -->
-       <div class="box "><!-- INICIO DA CAIXA -->
-           <div class="card-header">
-                <h3 class="card-title"></h3>
-                <p> <b>{% trans "Informações do Aluno" %}</b></p>
-            </div>
-
-            <div style="padding: 15px 0px 5px 0px"><!-- DIV FOTO ALUNO -->
+<div class="student-profile">
+    <div class="container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <div class="profile-image-container">
                 {% if aluno.photo %}
-                    <td colspan="2" align=center><img width="300px" src="{{ aluno.photo }}"> </td>
+                            <img class="profile-image" src="{{ aluno.photo }}" alt="{{ aluno.nome }}">
                 {% else %}
-                    <td colspan="2" align=center><img width="300px" src="{% static 'images/defaultuser.jpeg' %}"> </td>
+                            <img class="profile-image" src="{% static 'images/defaultuser.jpeg' %}" alt="{{ aluno.nome }}">
                 {% endif %}
-            </div><!-- FIM DIV FOTO ALUNO -->
-            <div> <!-- DIV TABELA INFORMAÇÕES ALUNO -->
-                <h3 style="padding-bottom:10px"><strong>{{ aluno.nome|title }} {{ aluno.middle_name|default_if_none:""|title }} {{ aluno.surname|title }}</strong></h3>
-                <div><!--TABELA COM INFO -->
-                    <table class="table table-hover text-nowrap">
-                       <tr>
-                            <th width="40px">{% trans "ID" %}</th>
-                            <td>{{ aluno.id }}</td>
-                        </tr>
-                        <tr>
-                            <th width="40px">{% trans "Telefone" %}</th>
-                            <td>{{ aluno.phone }}</td>
-                        </tr>
-                        <tr>
-                            <th>{% trans "E-Mail" %}</th>
-                            <td>{{ aluno.email|lower }}</td>
-                        </tr>
-                        <tr>
-                            <th>{% trans "Gênero" %}</th>
-                            <td>{{ aluno.gender }}</td>
-                        </tr>
-                        <tr>
-                            <th>{% trans "Graduação" %}</th>
-                            <td>{{ aluno|current_belt }} - {{ aluno|current_stripe }}</td>
-                        </tr>
-                        <tr>
-                            <th>{% trans "Data de Nascimento" %}</th>
-                            <td>{{ aluno.dob|date:"d F Y" }}</td>
-                        </tr>
-                        <tr>
-                            <th>{% trans "Data de Início" %}</th>
-                            <td>{{ aluno.join_date|date:"d F Y" }}</td>
-                        </tr>
-                    </table>
-
-                </div><!--FIM TABELA COM INFO -->
-            </div> <!-- FIM DIV FOTO ALUNO -->
-       </div><!-- FIM DA CAIXA -->
-    </div>
-</div><!-- TERMINA DIV -->
-
-
-            <div class="row"> <!-- TABLE GRADUATION -->
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"></h3>
-                            <p> <b>{% trans "Histórico de Graduação" %}</b></p>
-                        </div>
-                        <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                <thead>
-                    <tr>
-                        <th width="250px">{% trans "Faixa"%}</th>
-                        <th width="50px">{% trans "Grau"%}</th>
-                        <th width="50px">{% trans "Professor"%}</th>
-                        <th width="50px">{% trans "Data"%}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for graduacao in aluno|graduacoes %}
-                            <tr>
-                            <td>{{ graduacao.belt }}</td>
-                            <td>
-                                {% if graduacao.stripe %}
-                                {{ graduacao.stripe }}
-                                {% else %}
-                                {% endif %}
-                            </td>
-                            <td> {{ graduacao.master }}</td>
-                            <td>{{ graduacao.time_stamp|date:"d F Y" }}</td>
-                            </tr>
-                {% endfor %}
-                </tbody>
-                </table>
                     </div>
-                    <!-- /.card-body -->
-                    </div>
-                <!-- /.card -->
                 </div>
-
-            </div> <!-- FIM TABELA  GRADUAÇÃO -->
-
-
-
-
-    <div class="row "> <!-- TABLE CAMPEONATOS -->
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"></h3>
-                            <p> <b>{% trans "Campeonatos" %}</b></p>
-                            <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <div class="input-group-append">
-                                </div>
-                            </div>
-                            </div>
+                <div class="col-md-9">
+                    <h1>{{ aluno.nome|title }} {{ aluno.middle_name|default_if_none:""|title }} {{ aluno.surname|title }}</h1>
+                    
+                    <!-- Add belt styles in the CSS section instead of inline -->
+                    {% with belt=aluno|current_belt|lower %}
+                        <div class="belt-badge
+                            {% if 'white' in belt %}white-belt-badge
+                            {% elif 'blue' in belt %}blue-belt-badge
+                            {% elif 'purple' in belt %}purple-belt-badge
+                            {% elif 'brown' in belt %}brown-belt-badge
+                            {% elif 'black' in belt %}black-belt-badge
+                            {% elif 'gray' in belt %}gray-belt-badge
+                            {% elif 'yellow' in belt %}yellow-belt-badge
+                            {% elif 'orange' in belt %}orange-belt-badge
+                            {% elif 'green' in belt %}green-belt-badge
+                            {% else %}default-belt-badge{% endif %}">
+                            {{ aluno|current_belt }} - {{ aluno|current_stripe }}
+    </div>
+                    {% endwith %}
+                    <p class="mt-3 mb-0">{% trans "Student ID" %}: {{ aluno.id }}</p>
+                    
+                    <!-- Graduation Eligibility Information -->
+                    {% with eligibility=aluno|is_eligible_for_graduation %}
+                      {% if eligibility.eligible %}
+                        <div class="alert alert-success mt-3" style="background-color: #2a3f2b; border-color: #28a745; color: #fff;">
+                          <i class="fas fa-award mr-2"></i>
+                          <strong>{% trans "Eligible for Graduation!" %}</strong>
+                          <div class="mt-1">
+                            <small>
+                              {% trans "Next Belt/Stripe" %}: <strong>{{ eligibility.next_belt }} - {{ eligibility.next_stripe }}</strong> |
+                              {% trans "Classes Attended" %}: <strong>{{ eligibility.classes_attended }}</strong> |
+                              {% trans "Required" %}: <strong>{{ eligibility.classes_required }}</strong> |
+                              {% trans "Classes Over Requirement" %}: <strong>+{{ eligibility.classes_over_requirement }}</strong>
+                            </small>
+                          </div>
                         </div>
-                        <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                <thead>
-                   <tr>
-                    <th width="250px">{% trans "Campeonato"%}</th>
-                    <th width="50px">{% trans "Ano"%}</th>
-                    <th width="50px">{% trans "Local"%}</th>
-                    <th width="50px">{% trans "Categoria"%}</th>
-                    <th width="50px">{% trans "Peso"%}</th>
-                    <th width="50px"> {% trans "Colocação"%}</th>
-                    </tr>
-                   </thead>
-                   <tbody>
-                   {% for champ in aluno|campeonatos %}
-                        <tr>
-                            <td>{{ champ.championship|title }}</td>
-                            <td>{{ champ.year }}</td>
-                            <td>{{ champ.country }} - {{ champ.city }}</td>
-                            <td>{{ champ.category|title }}</td>
-                            <td>{{ champ.weight|title }}</td>
-                            <td>{{ champ.ranking|title }}</td>
-                        </tr>
-                    {% endfor %}
-                   </tbody>
-                </table>
+                                {% else %}
+                        <div class="alert alert-info mt-3" style="background-color: #253a4b; border-color: #17a2b8; color: #fff;">
+                          <i class="fas fa-info-circle mr-2"></i>
+                          <strong>{% trans "Progress Toward Next Belt/Stripe" %}</strong>
+                          <div class="mt-1">
+                            <small>
+                              {% trans "Next Belt/Stripe" %}: <strong>{{ eligibility.next_belt }} - {{ eligibility.next_stripe }}</strong> |
+                              {% trans "Classes Attended" %}: <strong>{{ eligibility.classes_attended }}</strong> |
+                              {% trans "Required" %}: <strong>{{ eligibility.classes_required }}</strong> |
+                              {% trans "Classes Remaining" %}: <strong>{{ eligibility.classes_remaining }}</strong>
+                            </small>
+                          </div>
+                          <div class="progress mt-2" style="height: 8px;">
+                            <div id="eligibility-progress-bar" class="progress-bar bg-info" role="progressbar" 
+                                 style="width: 0%"
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100"
+                                 data-attended="{{ eligibility.classes_attended }}"
+                                 data-required="{{ eligibility.classes_required }}">
+                            </div>
+                          </div>
+                        </div>
+                                {% endif %}
+                    {% endwith %}
+                    
+                    <!-- Action Buttons -->
+                    <div class="action-buttons mt-4">
+                        <a href="{% url 'focusbjj:editaralunos' aluno.pk %}" class="btn btn-primary">
+                            <i class="fas fa-edit"></i> {% trans "Edit" %}
+                        </a>
+                        <form method="post" action="{% url 'focusbjj:student_checkin' aluno.pk %}" style="display:inline; flex: 1;">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{% url 'focusbjj:alunos' aluno.pk %}">
+                            <button type="submit" class="btn btn-success w-100">
+                                <i class="fas fa-check-circle"></i> {% trans "Check-in" %}
+                            </button>
+                        </form>
+                        <a href="{% url 'focusbjj:graduation' aluno.pk %}" class="btn btn-warning">
+                            <i class="fas fa-award"></i> {% trans "Graduate" %}
+                        </a>
+                        <a href="#feedback-form" class="btn btn-info">
+                            <i class="fas fa-comment"></i> {% trans "Feedback" %}
+                        </a>
+                        <a href="{% url 'focusbjj:deletealunos' aluno.pk %}" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> {% trans "Delete" %}
+                        </a>
                     </div>
-                    <!-- /.card-body -->
-                    </div>
-                <!-- /.card -->
                 </div>
             </div>
-</section>
+                    </div>
+        
+        <div class="row">
+            <!-- Student Information -->
+            <div class="col-md-4">
+                <div class="info-card">
+                    <h3>{% trans "Personal Information" %}</h3>
+                    <ul class="info-list">
+                        <li>
+                            <span class="label">{% trans "Phone" %}</span>
+                            <span class="value">{{ aluno.phone }}</span>
+                        </li>
+                        <li>
+                            <span class="label">{% trans "Email" %}</span>
+                            <span class="value">{{ aluno.email|lower }}</span>
+                        </li>
+                        <li>
+                            <span class="label">{% trans "Academy" %}</span>
+                            <span class="value">
+                                <span class="mr-2">{{ aluno.location.country.unicode_flag }}</span>
+                                {{ aluno.location.location }}, {{ aluno.location.country.name }}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="label">{% trans "Gender" %}</span>
+                            <span class="value">{{ aluno.gender }}</span>
+                        </li>
+                        <li>
+                            <span class="label">{% trans "Birth Date" %}</span>
+                            <span class="value">{{ aluno.dob|date:"d F Y" }}</span>
+                        </li>
+                        <li>
+                            <span class="label">{% trans "Join Date" %}</span>
+                            <span class="value">{{ aluno.join_date|date:"d F Y" }}</span>
+                        </li>
+                    </ul>
+                </div>
+                </div>
 
+            <!-- Graduation History -->
+            <div class="col-md-8">
+                <div class="info-card">
+                    <h3>{% trans "Graduation History" %}</h3>
+                    {% for graduacao in aluno|graduacoes %}
+                        <div class="graduation-item">
+                            <div class="row w-100">
+                                <div class="col-md-3">
+                                    <strong>{{ graduacao.belt }}</strong>
+                                </div>
+                                <div class="col-md-3">
+                                    {% if graduacao.stripe %}
+                                        {{ graduacao.stripe }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3">
+                                    {{ graduacao.master }}
+                                </div>
+                                <div class="col-md-3 text-end">
+                                    {{ graduacao.time_stamp|date:"d F Y" }}
+                            </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-muted">{% trans "No graduation history available" %}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Feedback Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="feedback-card">
+                    <h3>{% trans "Feedback" %}</h3>
+                    
+                    <!-- Feedback List -->
+                    <div class="feedback-list">
+                        {% if feedback_list %}
+                            {% for feedback in feedback_list %}
+                                <div class="feedback-item {% if feedback.related_to_graduation %}graduation-feedback{% endif %}">
+                                    <div class="feedback-header">
+                                        <div class="feedback-author">
+                                            {% if feedback.professor_name %}
+                                                {{ feedback.professor_name }}
+                                            {% else %}
+                                                {{ feedback.author.location }}
+                                            {% endif %}
+                                        </div>
+                                        <div class="feedback-date">{{ feedback.created_at|date:"d F Y H:i" }}</div>
+                                    </div>
+                                    <div class="feedback-content">{{ feedback.content }}</div>
+                                    {% if feedback.related_to_graduation %}
+                                        <div class="mt-2">
+                                            <span class="badge bg-warning text-dark">
+                                                <i class="fas fa-award"></i> 
+                                                {% trans "Graduation Feedback" %}
+                                            </span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted">{% trans "No feedback available for this student yet." %}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Feedback Form -->
+                    <div class="feedback-form" id="feedback-form">
+                        <h4 class="mb-3 text-light">{% trans "Add Feedback" %}</h4>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="id_professor_name" class="form-label">{% trans "Professor Name" %}</label>
+                                {{ feedback_form.professor_name }}
+                                <div class="form-text">{% trans "Your name as the professor giving feedback" %}</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_content" class="form-label">{% trans "Feedback" %}</label>
+                                {{ feedback_form.content }}
+                            </div>
+                            <div class="mb-3 form-check">
+                                {{ feedback_form.related_to_graduation }}
+                                <label for="id_related_to_graduation" class="form-check-label">
+                                    {{ feedback_form.related_to_graduation.label }}
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-comment"></i> {% trans "Submit Feedback" %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-
+{% block extra_js %}
+<script>
+  // Initialize tooltips
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    
+    // Set the progress bar width based on data attributes
+    const progressBar = document.getElementById('eligibility-progress-bar');
+    if (progressBar) {
+      const attended = parseInt(progressBar.getAttribute('data-attended')) || 0;
+      const required = parseInt(progressBar.getAttribute('data-required')) || 1;
+      const percentage = Math.min(100, Math.round((attended / required) * 100));
+      progressBar.style.width = percentage + '%';
+    }
+  });
+</script>
+{% endblock %}
 {% endblock %}

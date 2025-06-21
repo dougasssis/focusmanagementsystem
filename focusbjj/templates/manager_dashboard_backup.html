@@ -1,0 +1,1092 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load attendance_tags %}
+{% load age_tags %}
+{% load dashboard_tags %}
+{% load i18n %}
+
+{% block page_title %}
+{% trans "Manager Dashboard" %}
+{% endblock page_title %}
+
+{% block custom_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.35.0/dist/apexcharts.min.css">
+<style>
+  .kpi-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+    overflow: hidden;
+  }
+  .kpi-card:hover {
+    transform: translateY(-5px);
+  }
+  .metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .metric-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .chart-container {
+    position: relative;
+    min-height: 250px;
+  }
+  .trend-badge {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  .trend-up {
+    background-color: rgba(40, 167, 69, 0.15);
+    color: #28a745;
+  }
+  .trend-down {
+    background-color: rgba(220, 53, 69, 0.15);
+    color: #dc3545;
+  }
+  .trend-neutral {
+    background-color: rgba(108, 117, 125, 0.15);
+    color: #6c757d;
+  }
+  .data-card {
+    border-radius: 10px;
+    height: 100%;
+  }
+  .top-affiliates-table td, .top-affiliates-table th {
+    padding: 0.75rem;
+    vertical-align: middle;
+  }
+  .mini-chart {
+    height: 40px;
+    width: 80px;
+    display: inline-block;
+  }
+  .progress {
+    height: 8px;
+  }
+  .progress-bar {
+    border-radius: 4px;
+  }
+  .belt-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    margin-right: 5px;
+  }
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  .data-item {
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .dark-theme .data-item {
+    background-color: var(--dark-card);
+  }
+  /* Time block styling */
+  .time-box {
+    border-radius: 6px;
+    padding: 10px;
+    height: 100%;
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+  }
+  
+  .time-box-morning {
+    background-color: rgba(243, 156, 18, 0.8);
+  }
+  
+  .time-box-afternoon {
+    background-color: rgba(52, 152, 219, 0.8);
+  }
+  
+  .time-box-evening {
+    background-color: rgba(46, 49, 49, 0.8);
+  }
+
+  /* Belt colors */
+  .bg-purple {
+    background-color: #6f42c1 !important;
+    color: white !important;
+  }
+  .bg-brown {
+    background-color: #8B4513 !important;
+    color: white !important;
+  }
+  .bg-gray-white {
+    background: linear-gradient(135deg, #d3d3d3 50%, #ffffff 50%) !important;
+    color: #333 !important;
+  }
+  .bg-gray {
+    background-color: #a9a9a9 !important;
+    color: white !important;
+  }
+  .bg-yellow {
+    background-color: #ffd700 !important;
+    color: #333 !important;
+  }
+  .bg-green {
+    background-color: #008000 !important;
+    color: white !important;
+  }
+  .bg-orange {
+    background-color: #ff8c00 !important;
+    color: white !important;
+  }
+  .bg-pink {
+    background-color: #ff69b4 !important;
+    color: white !important;
+  }
+  .text-purple {
+    color: #6f42c1 !important;
+  }
+  
+  /* Card consistency */
+  .same-height-row .card {
+    height: 100%;
+  }
+</style>
+{% endblock custom_css %}
+
+{% block content %}
+<section class="content">
+  <div class="container-fluid">
+    <!-- Key Performance Indicators -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card card-outline card-primary">
+          <div class="card-header">
+            <h3 class="card-title">
+              <i class="fas fa-tachometer-alt mr-2"></i>{% trans "System Performance" %}
+            </h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <!-- Total Students KPI -->
+              <div class="col-md-3 col-sm-6">
+                <div class="kpi-card bg-primary text-white p-3 mb-3">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                      <div class="metric-value">{{ alunos|length }}</div>
+                      <div class="metric-label">{% trans "Total Students" %}</div>
+                    </div>
+                    <div class="p-2">
+                      <i class="fas fa-users fa-2x"></i>
+                    </div>
+                  </div>
+                  <div class="mt-3 d-flex justify-content-between align-items-center">
+                    <div class="trend-badge trend-up">
+                      <i class="fas fa-arrow-up mr-1"></i>7% {% trans "vs last month" %}
+                    </div>
+                    <a href="{% url 'focusbjj:managealunos' %}" class="text-white">
+                      {% trans "View all" %} <i class="fas fa-chevron-right"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Affiliates KPI -->
+              <div class="col-md-3 col-sm-6">
+                <div class="kpi-card bg-success text-white p-3 mb-3">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                      <div class="metric-value">{{ unidades|length|default:"0" }}</div>
+                      <div class="metric-label">{% trans "Affiliates" %}</div>
+                    </div>
+                    <div class="p-2">
+                      <i class="fas fa-building fa-2x"></i>
+                    </div>
+                  </div>
+                  <div class="mt-3 d-flex justify-content-between align-items-center">
+                    <div class="trend-badge trend-neutral">
+                      <i class="fas fa-equals mr-1"></i>0% {% trans "vs last month" %}
+                    </div>
+                    <a href="{% url 'focusbjj:managestaff' %}" class="text-white">
+                      {% trans "View all" %} <i class="fas fa-chevron-right"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Kids Program KPI -->
+              <div class="col-md-3 col-sm-6">
+                <div class="kpi-card bg-warning text-white p-3 mb-3">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                      <div class="metric-value">{{ alunos|kidsTOTAL }}</div>
+                      <div class="metric-label">{% trans "Kids Program" %}</div>
+                    </div>
+                    <div class="p-2">
+                      <i class="fas fa-child fa-2x"></i>
+                    </div>
+                  </div>
+                  <div class="mt-3 d-flex justify-content-between align-items-center">
+                    <div class="trend-badge trend-up">
+                      <i class="fas fa-arrow-up mr-1"></i>12% {% trans "vs last month" %}
+                    </div>
+                    <a href="{% url 'focusbjj:managealunos' %}?category=kids" class="text-white">
+                      {% trans "View all" %} <i class="fas fa-chevron-right"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Adult Program KPI -->
+              <div class="col-md-3 col-sm-6">
+                <div class="kpi-card bg-danger text-white p-3 mb-3">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                      <div class="metric-value">{{ alunos|adultoTOTAL }}</div>
+                      <div class="metric-label">{% trans "Adult Program" %}</div>
+                    </div>
+                    <div class="p-2">
+                      <i class="fas fa-user fa-2x"></i>
+                    </div>
+                  </div>
+                  <div class="mt-3 d-flex justify-content-between align-items-center">
+                    <div class="trend-badge trend-up">
+                      <i class="fas fa-arrow-up mr-1"></i>5% {% trans "vs last month" %}
+                    </div>
+                    <a href="{% url 'focusbjj:managealunos' %}?category=adults" class="text-white">
+                      {% trans "View all" %} <i class="fas fa-chevron-right"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Growth and Geographic Distribution Row -->
+    <div class="row same-height-row">
+      <!-- Student Growth Chart -->
+      <div class="col-md-7">
+        <div class="card card-outline card-primary h-100">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-chart-line mr-2"></i>{% trans "Student Growth Trends" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <div id="studentGrowthChart"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Geographic Distribution -->
+      <div class="col-md-5">
+        <div class="card card-outline card-success h-100">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-globe-americas mr-2"></i>{% trans "Geographic Distribution" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <div id="geoDistributionChart"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Affiliate and Gender Analysis Row -->
+    <div class="row same-height-row mt-4">
+      <!-- Top Affiliates Analysis -->
+      <div class="col-md-7">
+        <div class="card card-outline card-primary h-100">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-trophy mr-2"></i>{% trans "Affiliate Performance Analysis" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover top-affiliates-table">
+                <thead>
+                  <tr>
+                    <th>{% trans "Affiliate" %}</th>
+                    <th>{% trans "Location" %}</th>
+                    <th class="text-center">{% trans "Students" %}</th>
+                    <th>{% trans "Activity" %}</th>
+                    <th class="text-right">{% trans "Action" %}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for affiliate in unidades %}
+                    {% if not affiliate.is_superuser and affiliate.alunos.count > 0 %}
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <span class="mr-2">{{ affiliate.country.unicode_flag }}</span>
+                            <span>{{ affiliate.contact_name }}</span>
+                          </div>
+                        </td>
+                        <td>{{ affiliate.location }}</td>
+                        <td class="text-center">
+                          <div class="d-flex flex-column align-items-center">
+                            <b>{{ affiliate.alunos.count }}</b>
+                            <div class="mini-chart mt-1" id="affiliateChart{{ affiliate.id }}"></div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="progress">
+                            <div class="progress-bar bg-primary" style="width: {{ affiliate|checkin_percentage }}%;"></div>
+                          </div>
+                        </td>
+                        <td class="text-right">
+                          <div class="btn-group">
+                            <a href="{% url 'focusbjj:branchdetails' affiliate.id %}" class="btn btn-sm btn-secondary">
+                              <i class="fas fa-search"></i> {% trans "Details" %}
+                            </a>
+                            <a href="{% url 'focusbjj:filiais' %}?affiliate_id={{ affiliate.id }}" class="btn btn-sm btn-primary">
+                              <i class="fas fa-tachometer-alt"></i> {% trans "Dashboard" %}
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="text-center mt-3">
+              <a href="{% url 'focusbjj:managestaff' %}" class="btn btn-sm btn-default">
+                <i class="fas fa-list"></i> {% trans "View All Affiliates" %}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gender Distribution Analysis -->
+      <div class="col-md-5">
+        <div class="card card-outline card-info h-100">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-venus-mars mr-2"></i>{% trans "Gender Analysis" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-7">
+                <div class="chart-container">
+                  <div id="genderDonutChart"></div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="info-box bg-light mb-3">
+                  <span class="info-box-icon bg-primary"><i class="fas fa-male"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">{% trans "Male" %}</span>
+                    <span class="info-box-number">{{ alunos|male_total }}</span>
+                    <div class="progress">
+                      <div class="progress-bar bg-primary" style="width: {{ alunos|male_total_percentage }}%"></div>
+                    </div>
+                    <span class="progress-description">
+                      {{ alunos|male_total_percentage|floatformat:1 }}% {% trans "of total" %}
+                    </span>
+                  </div>
+                </div>
+                
+                <div class="info-box bg-light">
+                  <span class="info-box-icon bg-pink"><i class="fas fa-female"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">{% trans "Female" %}</span>
+                    <span class="info-box-number">{{ alunos|female_total }}</span>
+                    <div class="progress">
+                      <div class="progress-bar bg-pink" style="width: {{ alunos|female_total_percentage }}%"></div>
+                    </div>
+                    <span class="progress-description">
+                      {{ alunos|female_total_percentage|floatformat:1 }}% {% trans "of total" %}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Belt Distribution Row -->
+    <div class="row same-height-row mt-4">
+      <div class="col-12">
+        <div class="card card-outline card-primary">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-chart-pie mr-2"></i>{% trans "Belt Distribution Analytics" %}</h3>
+            <div class="card-tools">
+              <a href="{% url 'focusbjj:graduation_requirements' %}" class="btn btn-sm btn-info">
+                <i class="fas fa-trophy"></i> {% trans "View Graduation Requirements" %}
+              </a>
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <h5 class="text-center mb-4">{% trans "Adults" %}</h5>
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="chart-container">
+                      <div id="adultBeltChart"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-7">
+                    <div class="d-flex flex-wrap justify-content-around mt-3">
+                      <div class="text-center mb-3 px-2" style="min-width: 80px;">
+                        <div class="bg-light text-dark py-2 rounded" style="border: 1px solid #ddd;">
+                          <strong>{% trans "White" %}</strong>
+                          <div class="mt-1 d-block h4">{{ belts.white }}</div>
+                        </div>
+                      </div>
+                      <div class="text-center mb-3 px-2" style="min-width: 80px;">
+                        <div class="bg-primary text-white py-2 rounded">
+                          <strong>{% trans "Blue" %}</strong>
+                          <div class="mt-1 d-block h4">{{ belts.blue }}</div>
+                        </div>
+                      </div>
+                      <div class="text-center mb-3 px-2" style="min-width: 80px;">
+                        <div class="bg-purple text-white py-2 rounded">
+                          <strong>{% trans "Purple" %}</strong>
+                          <div class="mt-1 d-block h4">{{ belts.purple }}</div>
+                        </div>
+                      </div>
+                      <div class="text-center mb-3 px-2" style="min-width: 80px;">
+                        <div class="bg-brown text-white py-2 rounded">
+                          <strong>{% trans "Brown" %}</strong>
+                          <div class="mt-1 d-block h4">{{ belts.brown }}</div>
+                        </div>
+                      </div>
+                      <div class="text-center mb-3 px-2" style="min-width: 80px;">
+                        <div class="bg-dark text-white py-2 rounded">
+                          <strong>{% trans "Black" %}</strong>
+                          <div class="mt-1 d-block h4">{{ belts.black }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <h5 class="text-center mb-4">{% trans "Kids" %}</h5>
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="chart-container">
+                      <div id="kidsBeltChart"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-7">
+                    <div class="d-flex flex-wrap justify-content-around mt-3">
+                      <div class="text-center mb-3 px-2" style="min-width: 80px;">
+                        <div class="bg-gray text-white py-2 rounded">
+                          <strong>{% trans "Gray" %}</strong>
+                          <div class="mt-1 d-block h4">{{ belts.gray }}</div>
+                        </div>
+                      </div>
+                      <div class="text-center mb-3 px-2" style="min-width: 80px;">
+                        <div class="bg-yellow text-dark py-2 rounded">
+                          <strong>{% trans "Yellow" %}</strong>
+                          <div class="mt-1 d-block h4">{{ belts.yellow }}</div>
+                        </div>
+                      </div>
+                      <div class="text-center mb-3 px-2" style="min-width: 80px;">
+                        <div class="bg-orange text-white py-2 rounded">
+                          <strong>{% trans "Orange" %}</strong>
+                          <div class="mt-1 d-block h4">{{ belts.orange }}</div>
+                        </div>
+                      </div>
+                      <div class="text-center mb-3 px-2" style="min-width: 80px;">
+                        <div class="bg-green text-white py-2 rounded">
+                          <strong>{% trans "Green" %}</strong>
+                          <div class="mt-1 d-block h4">{{ belts.green }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attendance Patterns Row -->
+    <div class="row same-height-row mt-4">
+      <!-- Class Time Distribution -->
+      <div class="col-md-6">
+        <div class="card card-outline card-success h-100">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-clock mr-2"></i>{% trans "Attendance Pattern Analysis" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <div id="attendanceTimeChart"></div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-4">
+                <div class="time-box time-box-morning">
+                  <div>
+                    <span class="d-block mb-1"><i class="fas fa-sun mr-1"></i> {% trans "Morning" %}</span>
+                    <small class="d-block text-white-50 mb-1">(6am-12pm)</small>
+                    <span class="d-block"><b>{{ alunos|morning_checkins_total }}</b></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="time-box time-box-afternoon">
+                  <div>
+                    <span class="d-block mb-1"><i class="fas fa-cloud-sun mr-1"></i> {% trans "Afternoon" %}</span>
+                    <small class="d-block text-white-50 mb-1">(12pm-6pm)</small>
+                    <span class="d-block"><b>{{ alunos|afternoon_checkins_total }}</b></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="time-box time-box-evening">
+                  <div>
+                    <span class="d-block mb-1"><i class="fas fa-moon mr-1"></i> {% trans "Evening" %}</span>
+                    <small class="d-block text-white-50 mb-1">(6pm-11pm)</small>
+                    <span class="d-block"><b>{{ alunos|evening_checkins_total }}</b></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+            <small class="text-muted">{% trans "Based on check-in data from the last 30 days" %}</small>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Retention Analysis -->
+      <div class="col-md-6">
+        <div class="card card-outline card-danger h-100">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-chart-area mr-2"></i>{% trans "Retention & Graduation Insights" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <div id="retentionChart"></div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <div class="info-box bg-light">
+                  <span class="info-box-icon bg-warning"><i class="fas fa-hourglass-half"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">{% trans "Avg. Time to Blue" %}</span>
+                    <span class="info-box-number">14 {% trans "months" %}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="info-box bg-light">
+                  <span class="info-box-icon bg-info"><i class="fas fa-award"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">{% trans "Graduation Ready" %}</span>
+                    <span class="info-box-number">{{ belts.white|mul:0.15|floatformat:0 }} {% trans "students" %}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+            <small class="text-muted">{% trans "Based on current attendance trends and historical graduation data" %}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.35.0/dist/apexcharts.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Color palette for light/dark theme compatibility
+    const colors = {
+      primary: '#0d6efd',
+      success: '#28a745',
+      info: '#17a2b8',
+      warning: '#ffc107',
+      danger: '#dc3545',
+      purple: '#6f42c1',
+      orange: '#fd7e14',
+      brown: '#8B4513',
+      gray: '#adb5bd',
+      white: '#f8f9fa',
+      green: '#28a745',
+      yellow: '#ffd700',
+      pink: '#ff69b4',
+      textColor: document.body.classList.contains('dark-theme') ? '#f8f9fa' : '#343a40',
+      gridColor: document.body.classList.contains('dark-theme') ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+    };
+
+    // Student Growth Chart
+    const studentGrowthOptions = {
+      series: [{
+        name: '{% trans "Total Students" %}',
+        data: [12, 13, 15, 16, 17, 19, 19]
+      }, {
+        name: '{% trans "Kids Program" %}',
+        data: [5, 6, 7, 8, 9, 10, 12]
+      }, {
+        name: '{% trans "Adult Program" %}',
+        data: [7, 7, 8, 8, 8, 9, 7]
+      }],
+      chart: {
+        height: 350,
+        type: 'line',
+        toolbar: {
+          show: false
+        },
+        fontFamily: 'inherit',
+        foreColor: colors.textColor
+      },
+      colors: [colors.primary, colors.warning, colors.danger],
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth',
+        width: 3
+      },
+      grid: {
+        borderColor: colors.gridColor,
+        row: {
+          colors: ['transparent'],
+          opacity: 0.5
+        }
+      },
+      markers: {
+        size: 4,
+        colors: ["#fff"],
+        strokeColors: [colors.primary, colors.warning, colors.danger],
+        strokeWidth: 2
+      },
+      xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        labels: {
+          style: {
+            colors: colors.textColor
+          }
+        }
+      },
+      yaxis: {
+        min: 0,
+        labels: {
+          style: {
+            colors: [colors.textColor]
+          }
+        }
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'right',
+        floating: true,
+        offsetY: -25,
+        offsetX: -5,
+        labels: {
+          colors: [colors.textColor]
+        }
+      }
+    };
+
+    // Geographic Distribution Chart
+    const geoDistributionOptions = {
+      series: [
+        {% for affiliate in unidades %}
+          {% if not affiliate.is_superuser and affiliate.alunos.count > 0 %}
+            {{ affiliate.alunos.count }}{% if not forloop.last %},{% endif %}
+          {% endif %}
+        {% endfor %}
+      ],
+      chart: {
+        height: 350,
+        type: 'pie',
+        fontFamily: 'inherit',
+        foreColor: colors.textColor
+      },
+      labels: [
+        {% for affiliate in unidades %}
+          {% if not affiliate.is_superuser and affiliate.alunos.count > 0 %}
+            '{{ affiliate.country.name }} - {{ affiliate.location }}'{% if not forloop.last %},{% endif %}
+          {% endif %}
+        {% endfor %}
+      ],
+      colors: ['#0d6efd', '#6f42c1', '#fd7e14', '#28a745', '#dc3545', '#17a2b8', '#ffc107'],
+      legend: {
+        position: 'bottom',
+        labels: {
+          colors: [colors.textColor]
+        }
+      },
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          },
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }]
+    };
+
+    // Gender Distribution Donut Chart
+    const genderDonutOptions = {
+      series: [{{ alunos|male_total }}, {{ alunos|female_total }}],
+      chart: {
+        height: 300,
+        type: 'donut',
+        fontFamily: 'inherit',
+        foreColor: colors.textColor
+      },
+      labels: ['{% trans "Male" %}', '{% trans "Female" %}'],
+      colors: [colors.primary, colors.pink],
+      legend: {
+        position: 'bottom',
+        labels: {
+          colors: [colors.textColor]
+        }
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '55%',
+            labels: {
+              show: true,
+              total: {
+                show: true,
+                label: '{% trans "Total" %}',
+                formatter: function(w) {
+                  return w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                }
+              },
+              value: {
+                formatter: function(val) {
+                  return val;
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    // Adult Belt Distribution Chart
+    const adultBeltOptions = {
+      series: [{{ belts.white }}, {{ belts.blue }}, {{ belts.purple }}, {{ belts.brown }}, {{ belts.black }}],
+      chart: {
+        height: 300,
+        type: 'donut',
+        fontFamily: 'inherit',
+        foreColor: colors.textColor
+      },
+      labels: ['{% trans "White" %}', '{% trans "Blue" %}', '{% trans "Purple" %}', '{% trans "Brown" %}', '{% trans "Black" %}'],
+      colors: [colors.white, colors.primary, colors.purple, colors.brown, '#000'],
+      legend: {
+        show: false
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '55%'
+          }
+        }
+      },
+      dataLabels: {
+        style: {
+          colors: ['#333', '#fff', '#fff', '#fff', '#fff']
+        }
+      }
+    };
+
+    // Kids Belt Distribution Chart
+    const kidsBeltOptions = {
+      series: [{{ belts.gray }}, {{ belts.yellow }}, {{ belts.orange }}, {{ belts.green }}],
+      chart: {
+        height: 300,
+        type: 'donut',
+        fontFamily: 'inherit',
+        foreColor: colors.textColor
+      },
+      labels: ['{% trans "Gray" %}', '{% trans "Yellow" %}', '{% trans "Orange" %}', '{% trans "Green" %}'],
+      colors: [colors.gray, colors.yellow, colors.orange, colors.green],
+      legend: {
+        show: false
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '55%'
+          }
+        }
+      },
+      dataLabels: {
+        style: {
+          colors: ['#fff', '#333', '#fff', '#fff']
+        }
+      }
+    };
+
+    // Attendance Time Distribution Chart
+    const attendanceTimeOptions = {
+      series: [{
+        name: '{% trans "Check-ins" %}',
+        data: [
+          {{ alunos|morning_checkins_total }},
+          {{ alunos|afternoon_checkins_total }},
+          {{ alunos|evening_checkins_total }}
+        ]
+      }],
+      chart: {
+        height: 300,
+        type: 'bar',
+        fontFamily: 'inherit',
+        foreColor: colors.textColor
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          columnWidth: '60%',
+          distributed: true
+        }
+      },
+      colors: ['#ffc107', '#17a2b8', '#343a40'],
+      dataLabels: {
+        enabled: false
+      },
+      legend: {
+        show: false
+      },
+      xaxis: {
+        categories: ['{% trans "Morning" %}', '{% trans "Afternoon" %}', '{% trans "Evening" %}'],
+        labels: {
+          style: {
+            colors: [colors.textColor, colors.textColor, colors.textColor]
+          }
+        }
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: [colors.textColor]
+          }
+        }
+      }
+    };
+
+    // Retention & Projection Chart
+    const retentionOptions = {
+      series: [{
+        name: '{% trans "Retention Rate" %}',
+        type: 'area',
+        data: [90, 87, 85, 80, 75, 72, 70, 68, 65]
+      }, {
+        name: '{% trans "Graduation Projections" %}',
+        type: 'line',
+        data: [0, 0, 5, 10, 15, 20, 25, 30, 35]
+      }],
+      chart: {
+        height: 300,
+        type: 'line',
+        fontFamily: 'inherit',
+        foreColor: colors.textColor,
+        stacked: false,
+        toolbar: {
+          show: false
+        }
+      },
+      colors: [colors.success, colors.warning],
+      stroke: {
+        width: [2, 3],
+        curve: 'smooth'
+      },
+      plotOptions: {
+        bar: {
+          columnWidth: '50%'
+        }
+      },
+      fill: {
+        type: ['gradient', 'solid'],
+        gradient: {
+          shade: 'light',
+          type: "vertical",
+          opacityFrom: 0.7,
+          opacityTo: 0.2
+        }
+      },
+      labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+      markers: {
+        size: 0
+      },
+      xaxis: {
+        title: {
+          text: '{% trans "Months" %}',
+          style: {
+            color: colors.textColor
+          }
+        },
+        labels: {
+          style: {
+            colors: colors.textColor
+          }
+        }
+      },
+      yaxis: [
+        {
+          title: {
+            text: '{% trans "Retention %" %}',
+            style: {
+              color: colors.textColor
+            }
+          },
+          labels: {
+            style: {
+              colors: colors.textColor
+            }
+          },
+          min: 0,
+          max: 100
+        },
+        {
+          opposite: true,
+          title: {
+            text: '{% trans "Graduation %" %}',
+            style: {
+              color: colors.textColor
+            }
+          },
+          labels: {
+            style: {
+              colors: colors.textColor
+            }
+          }
+        }
+      ],
+      tooltip: {
+        shared: true,
+        intersect: false,
+        y: {
+          formatter: function(y) {
+            if (typeof y !== "undefined") {
+              return y.toFixed(0) + "%";
+            }
+            return y;
+          }
+        }
+      },
+      legend: {
+        labels: {
+          colors: [colors.textColor]
+        }
+      }
+    };
+
+    // Initialize all charts
+    const studentGrowthChart = new ApexCharts(document.querySelector("#studentGrowthChart"), studentGrowthOptions);
+    studentGrowthChart.render();
+
+    const geoDistributionChart = new ApexCharts(document.querySelector("#geoDistributionChart"), geoDistributionOptions);
+    geoDistributionChart.render();
+
+    const genderDonutChart = new ApexCharts(document.querySelector("#genderDonutChart"), genderDonutOptions);
+    genderDonutChart.render();
+
+    const adultBeltChart = new ApexCharts(document.querySelector("#adultBeltChart"), adultBeltOptions);
+    adultBeltChart.render();
+
+    const kidsBeltChart = new ApexCharts(document.querySelector("#kidsBeltChart"), kidsBeltOptions);
+    kidsBeltChart.render();
+
+    const attendanceTimeChart = new ApexCharts(document.querySelector("#attendanceTimeChart"), attendanceTimeOptions);
+    attendanceTimeChart.render();
+
+    const retentionChart = new ApexCharts(document.querySelector("#retentionChart"), retentionOptions);
+    retentionChart.render();
+
+    // Generate mini charts for affiliates
+    {% for affiliate in unidades %}
+      {% if not affiliate.is_superuser and affiliate.alunos.count > 0 %}
+        // Mini chart for affiliate {{ affiliate.id }}
+        const affiliateChart{{ affiliate.id }}Options = {
+          series: [{
+            data: [3, 4, 4, 5, 5, 6, {{ affiliate.alunos.count }}]
+          }],
+          chart: {
+            type: 'line',
+            width: 80,
+            height: 40,
+            sparkline: {
+              enabled: true
+            }
+          },
+          colors: ['{{ forloop.counter|divisibleby:2|yesno:"#28a745,#0d6efd" }}'],
+          stroke: {
+            curve: 'smooth',
+            width: 2,
+          },
+          tooltip: {
+            fixed: {
+              enabled: false
+            },
+            x: {
+              show: false
+            },
+            marker: {
+              show: false
+            }
+          }
+        };
+
+        const affiliateChart{{ affiliate.id }} = new ApexCharts(document.querySelector("#affiliateChart{{ affiliate.id }}"), affiliateChart{{ affiliate.id }}Options);
+        affiliateChart{{ affiliate.id }}.render();
+      {% endif %}
+    {% endfor %}
+  });
+</script>
+{% endblock content %} 

@@ -47,6 +47,188 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css"
     integrity="sha512-tk4nGrLxft4l30r9ETuejLU0a3d7LwMzj0eXjzc16JQj+5U1IeVoCuGLObRDc3+eQMUcEQY1RIDPGvuA7SNQ2w=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Dark Theme Custom CSS -->
+    <style>
+        :root {
+            --dark-bg: #1a1a1a;
+            --darker-bg: #1e1e1e;
+            --dark-card: #2d2d2d;
+            --dark-hover: #3a3a3a;
+            --dark-text: #e0e0e0;
+            --dark-text-secondary: #aaaaaa;
+            --dark-border: #444444;
+        }
+        
+        body.dark-theme {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+        
+        .dark-theme .content-wrapper {
+            background-color: var(--darker-bg);
+        }
+        
+        .dark-theme .main-header {
+            background-color: var(--darker-bg) !important;
+            border-bottom: 1px solid var(--dark-border);
+        }
+        
+        .dark-theme .main-header .navbar-light {
+            background-color: var(--darker-bg) !important;
+        }
+        
+        .dark-theme .navbar-light .navbar-nav .nav-link {
+            color: var(--dark-text);
+        }
+        
+        .dark-theme .main-sidebar {
+            background-color: #232323;
+            border-right: 1px solid var(--dark-border);
+        }
+        
+        .dark-theme .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active {
+            background-color: #375a7f;
+        }
+        
+        .dark-theme .card {
+            background-color: var(--dark-card);
+            border: none;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        
+        .dark-theme .card-outline {
+            border-top: 3px solid #3a3a3a;
+        }
+        
+        .dark-theme .card-header {
+            background-color: rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--dark-border);
+        }
+        
+        .dark-theme .table {
+            color: var(--dark-text);
+        }
+        
+        .dark-theme .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0,0,0,0.15);
+        }
+        
+        .dark-theme .table-hover tbody tr:hover {
+            background-color: var(--dark-hover);
+            color: white;
+        }
+        
+        .dark-theme .text-dark {
+            color: var(--dark-text) !important;
+        }
+        
+        .dark-theme .breadcrumb {
+            background-color: var(--dark-card);
+        }
+        
+        .dark-theme .small-box {
+            background-color: var(--dark-card);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        
+        .dark-theme .bg-gradient-primary,
+        .dark-theme .bg-gradient-success,
+        .dark-theme .bg-gradient-warning,
+        .dark-theme .bg-gradient-danger {
+            background-image: none;
+        }
+        
+        .dark-theme .bg-gradient-primary {
+            background-color: #375a7f !important;
+        }
+        
+        .dark-theme .bg-gradient-success {
+            background-color: #00bc8c !important;
+        }
+        
+        .dark-theme .bg-gradient-warning {
+            background-color: #f39c12 !important;
+        }
+        
+        .dark-theme .bg-gradient-danger {
+            background-color: #e74c3c !important;
+        }
+        
+        .dark-theme .info-box {
+            background-color: var(--dark-card);
+        }
+        
+        .dark-theme .bg-light {
+            background-color: #2d2d2d !important;
+            color: var(--dark-text) !important;
+        }
+        
+        .dark-theme .users-list-date {
+            color: var(--dark-text-secondary);
+        }
+        
+        .dark-theme .products-list .product-description {
+            color: var(--dark-text-secondary);
+        }
+        
+        .dark-theme .btn-default {
+            background-color: #444;
+            color: var(--dark-text);
+            border-color: #666;
+        }
+        
+        .dark-theme .btn-tool {
+            color: var(--dark-text-secondary);
+        }
+        
+        .dark-theme .m-0.text-dark {
+            color: var(--dark-text) !important;
+        }
+        
+        /* Improve form elements */
+        .dark-theme input, 
+        .dark-theme select, 
+        .dark-theme textarea {
+            background-color: #333 !important;
+            border-color: #444 !important;
+            color: #e0e0e0 !important;
+        }
+        
+        .dark-theme input:focus, 
+        .dark-theme select:focus, 
+        .dark-theme textarea:focus {
+            background-color: #3a3a3a !important;
+            border-color: #4a4a4a !important;
+            box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.1) !important;
+        }
+        
+        /* Make buttons more visible */
+        .dark-theme .btn-secondary {
+            background-color: #444;
+            border-color: #555;
+        }
+        
+        .dark-theme .btn-secondary:hover {
+            background-color: #555;
+            border-color: #666;
+        }
+        
+        /* Navbar and sidebar improvements */
+        .dark-theme .nav-sidebar .nav-link {
+            color: #ddd;
+        }
+        
+        .dark-theme .nav-sidebar .nav-link:hover {
+            color: #fff;
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .dark-theme .nav-sidebar .nav-treeview > .nav-item > .nav-link {
+            color: #ccc;
+        }
+    </style>
+    
     {% block custom_css %}
 
     {% endblock custom_css %}
@@ -54,13 +236,13 @@
     {% endblock %}
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed dark-theme">
 
 
 <div class="wrapper">
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-dark">
     <!-- Left navbar links -->
           {% if user.is_authenticated %}
 
@@ -176,6 +358,51 @@
     <script src="{% static 'dist/js/pages/dashboard.js'%} "></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{% static 'dist/js/demo.js'%} "></script>
+    
+    <!-- CSRF Token Auto-Refresh -->
+    <script>
+        // Function to refresh CSRF token every 5 minutes
+        function refreshCSRFToken() {
+            $.ajax({
+                url: '{% url "focusbjj:login" %}',  // Use any view that renders a page with CSRF token
+                type: 'GET',
+                success: function(data) {
+                    // Extract CSRF token from response
+                    const csrfToken = data.match(/name="csrfmiddlewaretoken" value="([^"]+)"/)[1];
+                    // Update all CSRF tokens in forms
+                    $('input[name="csrfmiddlewaretoken"]').val(csrfToken);
+                    console.log('CSRF token refreshed at: ' + new Date().toLocaleTimeString());
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error refreshing CSRF token:', error);
+                }
+            });
+        }
+        
+        // Refresh token every 5 minutes (300000 ms)
+        setInterval(refreshCSRFToken, 300000);
+        
+        // Also refresh when user becomes active after being idle
+        let idleTime = 0;
+        const idleInterval = setInterval(incrementIdleTime, 60000); // Check every minute
+        
+        function incrementIdleTime() {
+            idleTime++;
+            if (idleTime > 10) { // If idle for more than 10 minutes
+                refreshCSRFToken();
+                idleTime = 0;
+            }
+        }
+        
+        // Reset idle timer on user activity
+        function resetIdleTime() {
+            idleTime = 0;
+        }
+        
+        // Activity events
+        $(document).on('mousemove keypress click', resetIdleTime);
+    </script>
+    
     {% block custom_js %}
 
     {% endblock custom_js %}
