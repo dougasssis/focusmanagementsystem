@@ -784,9 +784,24 @@ class LoginView(FormView):
     form_class = LoginForm
     template_name = "login.html"
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
     def form_valid(self, form):
-        form.save()
+        from django.contrib.auth import login
+        user = form.get_user()
+        login(self.request, user)
+        messages.success(self.request, _("Welcome back!"))
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # Add error messages for failed login attempts
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, error)
+        return super().form_invalid(form)
 
     def get_success_url(self):
         return reverse('focusbjj:filiais')

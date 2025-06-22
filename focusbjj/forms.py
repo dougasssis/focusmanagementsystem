@@ -24,12 +24,49 @@ class AttendForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    class Meta:
-        fields = ['username', 'password']
-        labels = {
-            'username': _("Usuário"),
-            'password': _("Password"),
-        }
+    username = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': _('Enter your username'),
+            'required': True
+        }),
+        label=_("Username")
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': _('Enter your password'),
+            'required': True
+        }),
+        label=_("Password")
+    )
+    
+    def __init__(self, request=None, *args, **kwargs):
+        self.request = request
+        self.user_cache = None
+        super().__init__(*args, **kwargs)
+    
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        
+        if username is not None and password:
+            from django.contrib.auth import authenticate
+            self.user_cache = authenticate(self.request, username=username, password=password)
+            if self.user_cache is None:
+                raise forms.ValidationError(
+                    _("Please enter a correct username and password. Note that both fields may be case-sensitive.")
+                )
+            elif not self.user_cache.is_active:
+                raise forms.ValidationError(
+                    _("This account is inactive. Please contact the administrator.")
+                )
+        
+        return self.cleaned_data
+    
+    def get_user(self):
+        return self.user_cache
 
 
 class RegisterStaffForm(UserCreationForm):

@@ -8,7 +8,7 @@ from django.views.generic import RedirectView
 app_name = 'focusbjj'
 
 urlpatterns = [
-    path('', csrf_protect(auth_view.LoginView.as_view(template_name='login.html')), name='login'),
+    path('', views.LoginView.as_view(), name='login'),
     path('check-in/', views.Attendance.as_view(), name='homepage'),
     path('home/', views.HomeView.as_view(), name='filiais'),
     path('add_aluno/', views.RegisterAlunoView.as_view(), name='add_aluno'),

@@ -30,11 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'focusjiujitsu.herokuapp.com']
 
-# CSRF Settings
-CSRF_COOKIE_AGE = 10800  # 3 hours in seconds
-CSRF_USE_SESSIONS = True  # Store CSRF token in the session instead of cookie
-CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -90,7 +85,6 @@ WSGI_APPLICATION = 'focus.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# Default to SQLite for local development
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -98,10 +92,11 @@ DATABASES = {
     }
 }
 
-# Use DATABASE_URL environment variable if available (for production/Heroku)
 import dj_database_url
-if 'DATABASE_URL' in os.environ:
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+# Use DATABASE_URL if available (production), otherwise use SQLite (local development)
+database_url = dj_database_url.config(conn_max_age=600, ssl_require=True)
+if database_url:
+    DATABASES['default'] = database_url
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
