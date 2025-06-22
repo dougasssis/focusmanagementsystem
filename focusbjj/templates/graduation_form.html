@@ -158,7 +158,7 @@ FOCUS BJJ - {% trans "Graduate Student" %} - {{ aluno.nome|title }} {{ aluno.sur
                                     <i class="fas fa-graduation-cap mr-2"></i>
                                     {% trans "Complete Graduation" %}
                                 </button>
-                                <a href="{% url 'focusbjj:managealunos' %}" class="btn btn-secondary ml-2">
+                                <a href="{% url 'focusbjj:alunos' pk=aluno.pk %}" class="btn btn-secondary ml-2">
                                     <i class="fas fa-times mr-2"></i>
                                     {% trans "Cancel" %}
                                 </a>

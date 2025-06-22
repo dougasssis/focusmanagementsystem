@@ -25,6 +25,8 @@ from django.urls import reverse_lazy
 from focusbjj.templatetags.dashboard_tags import belt_distribution_average, students_eligible_for_graduation
 from datetime import timedelta
 from django.contrib.auth.decorators import login_required
+from PIL import Image, ImageOps
+import io
 
 cloudinary.config(
     cloud_name="holwfsrwh",
@@ -733,18 +735,35 @@ class RegisterAlunoView(LoginRequiredMixin, FormView):
                 'country': country,
             }
             subject = f' Welcome to Focus JJ, {nome} {surname}'
-            html_message = render_to_string('email_template_EN.html', {'context': context, 'nome': nome, 'id': id})
+            
+            # Define Spanish-speaking countries
+            spanish_countries = ['ES', 'MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU', 'BO', 'DO', 'HN', 'PY', 'SV', 'NI', 'CR', 'PA', 'UY', 'GQ']
+            
+            # Define Portuguese-speaking countries
+            portuguese_countries = ['BR', 'PT', 'AO', 'CV', 'MZ', 'GW', 'TL', 'ST']
+            
+            html_message_en = render_to_string('email_template_EN.html', {'context': context, 'nome': nome, 'id': id})
             html_message_pt = render_to_string('email_template_PT.html', {'context': context, 'nome': nome, 'id': id})
+            html_message_es = render_to_string('email_template_ES.html', {'context': context, 'nome': nome, 'id': id})
+            
             from_email = settings.EMAIL_HOST_USER
             recipient = [email, copy_to]
-            if country == 'BR' or country == 'PT' or country == 'AO' or country == 'CV':
+            
+            # Choose email template based on country
+            if country in portuguese_countries:
                 message = EmailMessage(subject, html_message_pt, from_email, recipient)
                 message.content_subtype = 'html'
                 message.send(fail_silently=False)
-            else:
-                message = EmailMessage(subject, html_message, from_email, recipient)
+            elif country in spanish_countries:
+                message = EmailMessage(subject, html_message_es, from_email, recipient)
                 message.content_subtype = 'html'
                 message.send(fail_silently=False)
+            else:
+                # Default to English for other countries
+                message = EmailMessage(subject, html_message_en, from_email, recipient)
+                message.content_subtype = 'html'
+                message.send(fail_silently=False)
+            
             success_msg = self.get_success_message(form.cleaned_data)
             if success_msg:
                 messages.success(self.request, success_msg)
@@ -786,14 +805,35 @@ class EditarAluno(LoginRequiredMixin, UpdateView):
         
         # Handle photo upload if provided
         if self.request.FILES.get('photo'):
-            image = self.request.FILES['photo']
-            upload_result = cloudinary.uploader.upload(image)
-            form.instance.photo = upload_result['url']  # Save Cloudinary URL
+            image_file = self.request.FILES['photo']
+            
+            # Open the image with Pillow
+            img = Image.open(image_file)
+            
+            # Correct orientation based on EXIF data
+            img = ImageOps.exif_transpose(img)
+            
+            # Resize while maintaining aspect ratio
+            img.thumbnail((800, 800))
+            
+            # Save the optimized image to an in-memory file
+            in_mem_file = io.BytesIO()
+            img.save(in_mem_file, format='JPEG', quality=85, optimize=True)
+            in_mem_file.seek(0)
+            
+            # Upload the optimized image to Cloudinary
+            upload_result = cloudinary.uploader.upload(
+                in_mem_file,
+                folder="student_photos",
+                public_id=f"{instance.id}_{instance.nome}",
+                overwrite=True
+            )
+            form.instance.photo = upload_result['secure_url']  # Save Cloudinary URL
         
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('focusbjj:managealunos')
+        return reverse('focusbjj:alunos', kwargs={'pk': self.object.pk})
 
 
 class EditarBranch(LoginRequiredMixin, UpdateView):
@@ -823,7 +863,7 @@ class DetailALunos(LoginRequiredMixin, DetailView):
         # Get all feedback for this student
         context['feedback_list'] = StudentFeedback.objects.filter(student=self.object).order_by('-created_at')
         # Add feedback form
-        context['feedback_form'] = StudentFeedbackForm(initial={'professor_name': self.request.user.contact_name})
+        context['feedback_form'] = StudentDetailFeedbackForm(initial={'professor_name': self.request.user.contact_name})
         
         # Add belt info directly to context
         from focusbjj.templatetags.attendance_tags import current_belt
@@ -833,12 +873,13 @@ class DetailALunos(LoginRequiredMixin, DetailView):
     
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        form = StudentFeedbackForm(request.POST)
+        form = StudentDetailFeedbackForm(request.POST)
         
         if form.is_valid():
             feedback = form.save(commit=False)
             feedback.student = self.object
             feedback.author = request.user
+            feedback.related_to_graduation = False  # Ensure it is not linked
             feedback.save()
             messages.success(request, _("Feedback added successfully"))
         else:
@@ -963,93 +1004,42 @@ class Graduate(LoginRequiredMixin, FormView):
         return kwargs
 
     def form_valid(self, form):
-        """Process a valid form."""
-        # Get the student
-        aluno = self.aluno
-        aluno_id = aluno.id
+        """Process the form and create graduation and feedback records."""
+        # Save the graduation
+        graduation = form.save(commit=False)
+        graduation.aluno = self.aluno
+        graduation.save()
         
-        # Create and save graduation record - always use current timestamp for proper attendance tracking
-        from django.utils import timezone
-        now = timezone.now()
+        # Reset student's attendance count
+        self.aluno.new_attendance = 0
+        self.aluno.save()
         
-        graduate = Graduation.objects.create(
-            aluno=aluno,
-            belt=form.cleaned_data['belt'], 
-            stripe=form.cleaned_data['stripe'],
-            master=form.cleaned_data['master'],
-            time_stamp=now  # Always use current time for consistency
-        )
-        
-        # Normalize belt format - ensure consistency
-        new_belt = graduate.belt
-        if " Belt" not in new_belt and new_belt in ["White", "Blue", "Purple", "Brown", "Black"]:
-            new_belt = f"{new_belt} Belt"
-        
-        # Force update the student model directly using raw SQL
-        # This bypasses any caching issues with the ORM
-        from django.db import connection
-        with connection.cursor() as cursor:
-            cursor.execute(
-                "UPDATE focusbjj_aluno SET belt = %s, stripe = %s WHERE id = %s",
-                [new_belt, graduate.stripe, aluno_id]
-            )
-        
-        # Reload the student from database to verify update
-        updated_student = Aluno.objects.get(id=aluno_id)
-        
-        # Check if the update was successful
-        if updated_student.belt != new_belt or updated_student.stripe != graduate.stripe:
-            # Try one more direct update on the object and save
-            updated_student.belt = new_belt
-            updated_student.stripe = graduate.stripe
-            updated_student.save(update_fields=['belt', 'stripe'])
-        
-        # Add feedback if provided
+        # Create graduation feedback
         feedback_content = self.request.POST.get('feedback_content')
-        professor_name = self.request.POST.get('professor_name', '')
-        
         if feedback_content:
-            feedback = StudentFeedback(
-                student=aluno,
+            StudentFeedback.objects.create(
+                student=self.aluno,
                 author=self.request.user,
-                professor_name=professor_name,
+                professor_name=self.request.POST.get('professor_name'),
                 content=feedback_content,
                 related_to_graduation=True,
-                related_graduation=graduate
+                related_graduation=graduation
             )
-            feedback.save()
-            messages.success(self.request, _("Graduation and feedback recorded successfully"))
-        else:
-            messages.success(self.request, _("Graduation recorded successfully"))
         
-        # Use the get_success_url method for redirection
+        messages.success(self.request, _("Student graduated successfully!"))
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        """Handle an invalid form submission."""
+        """Handle invalid form submissions."""
+        messages.error(self.request, _("There was an error in the form. Please check the fields and try again."))
         return super().form_invalid(form)
 
     def get_context_data(self, **kwargs):
-        """Get context data for rendering the template."""
+        """Add the student object and feedback form to the context."""
         context = super().get_context_data(**kwargs)
-        
-        # Ensure we have the student object
-        if hasattr(self, 'aluno'):
-            aluno = self.aluno
-        else:
-            aluno = self.get_object()
-            self.aluno = aluno
-            
-        context['aluno'] = aluno
-        
-        # Check if student is eligible for graduation (for information only)
-        from focusbjj.templatetags.dashboard_tags import is_eligible_for_graduation
-        eligibility = is_eligible_for_graduation(aluno)
-        context['eligibility'] = eligibility
-        
-        # Add feedback form field with initial data
+        self.aluno = self.get_object()
+        context['aluno'] = self.aluno
         context['feedback_form'] = StudentFeedbackForm(initial={'professor_name': self.request.user.contact_name})
-        
         return context
 
 

@@ -205,3 +205,13 @@ class StudentFeedbackForm(forms.ModelForm):
             'content': _('Provide constructive feedback for the student'),
             'related_to_graduation': _('Check if this feedback is related to a graduation')
         }
+
+
+class StudentDetailFeedbackForm(forms.ModelForm):
+    class Meta:
+        model = StudentFeedback
+        fields = ['professor_name', 'content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 4, 'placeholder': _('Provide your feedback here...'), 'class': 'form-control'}),
+            'professor_name': forms.TextInput(attrs={'class': 'form-control'}),
+        }

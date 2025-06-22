@@ -320,6 +320,11 @@ FOCUS BJJ - {{ aluno.nome }} {{ aluno.surname }}
         border: 1px solid #dc3545;
         color: #ffffff;
     }
+    
+    .badge-warning {
+        color: #000 !important;
+        font-weight: bold;
+    }
 </style>
 
 <div class="student-profile">
@@ -514,7 +519,7 @@ FOCUS BJJ - {{ aluno.nome }} {{ aluno.surname }}
                                     <div class="feedback-content">{{ feedback.content }}</div>
                                     {% if feedback.related_to_graduation %}
                                         <div class="mt-2">
-                                            <span class="badge bg-warning text-dark">
+                                            <span class="badge badge-warning">
                                                 <i class="fas fa-award"></i> 
                                                 {% trans "Graduation Feedback" %}
                                             </span>
@@ -532,20 +537,14 @@ FOCUS BJJ - {{ aluno.nome }} {{ aluno.surname }}
                         <h4 class="mb-3 text-light">{% trans "Add Feedback" %}</h4>
                         <form method="post">
                             {% csrf_token %}
-                            <div class="mb-3">
+                            <div class="form-group mb-3">
                                 <label for="id_professor_name" class="form-label">{% trans "Professor Name" %}</label>
                                 {{ feedback_form.professor_name }}
                                 <div class="form-text">{% trans "Your name as the professor giving feedback" %}</div>
                             </div>
-                            <div class="mb-3">
+                            <div class="form-group mb-3">
                                 <label for="id_content" class="form-label">{% trans "Feedback" %}</label>
                                 {{ feedback_form.content }}
-                            </div>
-                            <div class="mb-3 form-check">
-                                {{ feedback_form.related_to_graduation }}
-                                <label for="id_related_to_graduation" class="form-check-label">
-                                    {{ feedback_form.related_to_graduation.label }}
-                                </label>
                             </div>
                             <button type="submit" class="btn btn-danger">
                                 <i class="fas fa-comment"></i> {% trans "Submit Feedback" %}
