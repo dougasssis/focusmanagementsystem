@@ -15,6 +15,7 @@ from django.utils.translation import gettext_lazy as _
 import cloudinary
 import cloudinary_storage
 import cloudinary.auth_token
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,12 +24,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-qnbe3i2m3olfkx-meh%^q(%4y+-is%jx#)3)nvac^d&5-3xt%g'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-qnbe3i2m3olfkx-meh%^q(%4y+-is%jx#)3)nvac^d&5-3xt%g')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'focusjiujitsu.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'focusjiujitsu.herokuapp.com', "focusv2."]
+
+# Security settings for production
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 # Application definition
 
@@ -92,7 +101,6 @@ DATABASES = {
     }
 }
 
-import dj_database_url
 # Use DATABASE_URL if available (production), otherwise use SQLite (local development)
 database_url = dj_database_url.config(conn_max_age=600, ssl_require=True)
 if database_url:
@@ -157,17 +165,40 @@ LOGIN_REDIRECT_URL = 'focusbjj:filiais'
 
 LOGIN_URL = 'focusbjj:login'
 
+# Cloudinary configuration using environment variables
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'holwfsrwh',
-    'API_KEY': '751324248687953',
-    'API_SECRET': 'cWnCSmjPRk6p4-2vqX3_0V6957g',
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'holwfsrwh'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '751324248687953'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', 'cWnCSmjPRk6p4-2vqX3_0V6957g'),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+# Email configuration using environment variables
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "focusbrazilianjiujitsu@gmail.com"
-EMAIL_HOST_PASSWORD = 'jmxe lxbm wmij uqre'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'focusbrazilianjiujitsu@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'jmxe lxbm wmij uqre')
 EMAIL_USE_TLS = True
+
+# Logging configuration for production
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': False,
+        },
+    },
+}
