@@ -49,4 +49,4 @@ Bellow some features:
 - Dinamic graphics
 - Django translate
 - Login required view
-- Superuser requires view
+- Superuser requires view# Deployment test
