@@ -1,33 +1,357 @@
-{% extends 'base_nonavbar.html' %}
+<!DOCTYPE html>
 {% load static %}
 {% load crispy_forms_tags %}
 {% load i18n %}
 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Focus BJJ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #c41e3a;
+      --primary-hover: #a41930;
+      --text-light: #f8f9fa;
+      --text-dark: #212529;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #000;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .bg-image {
+      display: none; /* Hide the background image */
+    }
+    
+    .login-wrapper {
+      display: flex;
+      height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .logo-section {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      background-color: #fff; /* White background for logo section */
+    }
+    
+    .logo-container {
+      text-align: center;
+    }
+    
+    .focus-logo {
+      max-width: 220px;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+    
+    .form-section {
+      flex: 1;
+      background: rgba(10, 10, 10, 0.92);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .form-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23333333' fill-opacity='0.2' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.4;
+      z-index: -1;
+    }
+    
+    /* Add a martial arts themed background pattern */
+    .form-section::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23333333' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      z-index: -1;
+      opacity: 0.3;
+    }
+    
+    .form-container {
+      max-width: 400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    
+    .form-header {
+      margin-bottom: 2rem;
+    }
+    
+    .form-header h1 {
+      color: var(--text-light);
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .login-form .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .login-form .form-group label {
+      display: block;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .login-form .form-group input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-light);
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    .login-form .form-group input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      border-color: var(--primary-color);
+    }
+    
+    .login-form .form-group input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .login-btn {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--primary-color);
+      color: var(--text-light);
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 2rem;
+    }
+    
+    .login-btn:hover {
+      background: var(--primary-hover);
+    }
+    
+    .forgot-password {
+      display: block;
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 0.875rem;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+    
+    .forgot-password:hover {
+      opacity: 1;
+    }
+    
+    /* Style adjustments for Django Crispy Forms */
+    .asteriskField {
+      display: none;
+    }
+    
+    /* Style to make form text more visible */
+    #div_id_username label, #div_id_password label {
+      color: var(--text-light) !important;
+      font-weight: 500;
+    }
+    
+    #div_id_username input, #div_id_password input {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Message alerts */
+    .message-alert {
+      margin-bottom: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      position: relative;
+      font-size: 0.9rem;
+    }
+    
+    .message-error {
+      background: rgba(220, 53, 69, 0.2);
+      border: 1px solid rgba(220, 53, 69, 0.5);
+      color: #ff6b6b;
+    }
+    
+    .message-success {
+      background: rgba(40, 167, 69, 0.2);
+      border: 1px solid rgba(40, 167, 69, 0.5);
+      color: #51cf66;
+    }
+    
+    .message-info, .message-warning {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+    }
+    
+    .message-close {
+      background: none;
+      border: none;
+      color: inherit;
+      float: right;
+      font-size: 1.2rem;
+      line-height: 1;
+      opacity: 0.5;
+      cursor: pointer;
+      padding: 0;
+      margin-left: 1rem;
+    }
+    
+    .message-close:hover {
+      opacity: 1;
+    }
+    
+    /* Field errors */
+    .field-errors {
+      margin-top: 0.25rem;
+    }
+    
+    .error-text {
+      color: #ff6b6b;
+      font-size: 0.8rem;
+      display: block;
+    }
+    
+    .form-errors {
+      margin-bottom: 1rem;
+    }
 
-
-{% block titulo %}
-HASHFLIX - FAZER LOGIN.
-{% endblock %}
-
-{% block content %}
-
-    <header class="min-h-screen bg-black bg-opacity-75 bg-blend-overlay showcase border-gray-600 border-b-8 flex justify-center items-center bg-no-repeat bg-cover"  style="background-image: url('{% static 'images/background_focus.png' %}');">
-        <div class="z-10 h-full py-32 md:py-0 text-gray-100 text-center flex items-center flex-col">
-            <form method="post">
-                {% csrf_token %}
-                <fieldset class="form-group">
-                    <legend class=" mb-4">Login</legend>
-                    {{ form|crispy }}
-                </fieldset>
-                <button class="bg-red-600 py-1 my-2 px-3 w-full text-white md:text-lg rounded-md" type="submit">{% trans "Fazer Login" %}</button>
-            </form>
-            <div class="nav-item">
-            <small class="nav-link"><a href="{% url 'focusbjj:homepage' %}">{% trans "Voltar para página de Check In" %}</a></small>
-            <small class="nav-link"><a href="{% url 'focusbjj:password_reset' %}"><p>{% trans "Esqueceu a Senha? Clique Aqui!" %}</p></a></small>
-
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .login-wrapper {
+        flex-direction: column;
+      }
+      
+      .logo-section {
+        padding: 2rem 1rem;
+      }
+      
+      .form-section {
+        padding: 2rem 1.5rem;
+      }
+      
+      .focus-logo {
+        max-width: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-image"></div>
+  
+  <div class="login-wrapper">
+    <div class="logo-section">
+      <div class="logo-container">
+        <img src="{% static 'images/focus_logo.jpeg' %}" alt="Focus BJJ" class="focus-logo">
+      </div>
             </div>
 
+    <div class="form-section">
+      <div class="form-container">
+        <div class="form-header">
+          <h1>{% trans "Welcome Back" %}</h1>
         </div>
-    </header>
-
-{% endblock %}
+        
+        <!-- Display messages -->
+        {% if messages %}
+          <div class="messages">
+            {% for message in messages %}
+              <div class="message-alert message-{{ message.tags }}">
+                {{ message }}
+                <button type="button" class="message-close" onclick="this.parentElement.style.display='none'">&times;</button>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        
+        <form method="post" class="login-form">
+          {% csrf_token %}
+          
+          <!-- Render form fields -->
+          <div class="form-group">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {% if form.username.errors %}
+              <div class="field-errors">
+                {% for error in form.username.errors %}
+                  <small class="error-text">{{ error }}</small>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+          
+          <div class="form-group">
+            {{ form.password.label_tag }}
+            {{ form.password }}
+            {% if form.password.errors %}
+              <div class="field-errors">
+                {% for error in form.password.errors %}
+                  <small class="error-text">{{ error }}</small>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+          
+          <!-- Display non-field errors -->
+          {% if form.non_field_errors %}
+            <div class="form-errors">
+              {% for error in form.non_field_errors %}
+                <div class="message-alert message-error">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+          
+          <button type="submit" class="login-btn">{% trans "Login" %}</button>
+          
+          <a href="{% url 'focusbjj:password_reset' %}" class="forgot-password">{% trans "Esqueceu sua senha?" %}</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

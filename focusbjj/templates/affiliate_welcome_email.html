@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Welcome to Focus BJJ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: #111;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .footer {
+            background: #f9f9f9;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+        .btn {
+            display: inline-block;
+            background: #e31e24;
+            color: white;
+            padding: 10px 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Focus BJJ Academy</h1>
+        </div>
+        <div class="content">
+            <h2>Welcome to Focus BJJ, {{ username }}!</h2>
+            <p>Thank you for joining the Focus BJJ family as a new affiliate. We're excited to have you on board!</p>
+            <p>You can now access our management system to:</p>
+            <ul>
+                <li>Manage your students</li>
+                <li>Track attendance</li>
+                <li>Monitor belt progressions</li>
+                <li>Handle graduation requirements</li>
+            </ul>
+            <p>If you have any questions or need assistance, please don't hesitate to contact us.</p>
+            <a href="https://focusbjj.com/login" class="btn">Go to Dashboard</a>
+        </div>
+        <div class="footer">
+            <p>&copy; {% now "Y" %} Focus BJJ Academy. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html> 

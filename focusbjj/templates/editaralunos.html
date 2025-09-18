@@ -5,28 +5,51 @@
 
 
 {% block titulo %}
-Edit Athlete
+{% trans "Edit Student" %}
 {% endblock%}
 {% block content %}
 
-<header class="min-h-screen bg-black bg-opacity-75 bg-blend-overlay showcase border-gray-600 border-b-8 flex justify-center items-center bg-no-repeat bg-cover"  style="background-image: url('{% static 'images/background_netflix.jpg' %}');">
-        <div class="z-10 h-full py-5 md:py-0 text-gray-100 text-center flex items-center flex-col">
-            <h2 class="text-2xl"></h2>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="card card-outline card-light shadow-sm">
+          <div class="card-header bg-light">
+            <h3 class="card-title">{% trans "Edit Student Information" %}</h3>
+          </div>
+          <div class="card-body">
+            <!-- Student info banner -->
+            <div class="alert alert-info mb-4">
+              <i class="fas fa-info-circle mr-2"></i> {% trans "Editing student" %}: <strong>{{ object.nome }} {{ object.surname }}</strong> 
+              {% if object.id %}<span class="ml-2 text-muted">(ID: {{ object.id }})</span>{% endif %}
+            </div>
+            
             <form enctype="multipart/form-data" method="post">
-                {% csrf_token %}
-                <fieldset class="form-group">
-                    <legend class=" mb-4">{% trans "Editar Aluno" %} <strong>| Focus BJJ</strong></legend>
-                    {{ form|crispy }}
-                </fieldset>
-                <button class="bg-red-600 py-1 px-3 text-white md:text-lg rounded-md" type="submit">{% trans "Editar" %}</button>
+              {% csrf_token %}
+              <div class="mb-4">
+                {{ form|crispy }}
+              </div>
+              
+              <div class="mb-4">
+                <button type="submit" class="btn btn-danger">
+                  <i class="fas fa-save"></i> {% trans "Save Changes" %}
+                </button>
+                <a href="{% url 'focusbjj:managealunos' %}" class="btn btn-outline-secondary">
+                  <i class="fas fa-arrow-left"></i> {% trans "Back" %}
+                </a>
+              </div>
             </form>
+          </div>
         </div>
-</header>
-<script>
-    {% for msg in messages %}
-        swal('{{ msg }}');
-    {% endfor %}
-</script>
+      </div>
+    </div>
+  </div>
+</section>
 
+<script>
+{% for msg in messages %}
+  swal('{{ msg }}');
+{% endfor %}
+</script>
 
 {% endblock %}

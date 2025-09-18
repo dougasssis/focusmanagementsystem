@@ -1,0 +1,227 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load attendance_tags %}
+{% load i18n %}
+
+{% block titulo %}
+FOCUS BJJ - {% trans "Graduate Student" %} - {{ aluno.nome|title }} {{ aluno.surname|title }}
+{% endblock %}
+
+{% block content %}
+<style>
+    /* Dark mode styling for graduation form */
+    .card {
+        background-color: #333;
+        color: #f8f9fa;
+    }
+    
+    .card-outline.card-danger {
+        border-top: 3px solid #dc3545;
+    }
+    
+    .card-header {
+        background-color: #2c2c2c;
+        border-bottom: 1px solid #444;
+    }
+    
+    .card-body {
+        background-color: #333;
+    }
+    
+    .bg-light {
+        background-color: #2c2c2c !important;
+        color: #f8f9fa;
+    }
+    
+    .form-control {
+        background-color: #222;
+        border-color: #444;
+        color: #fff;
+    }
+    
+    .form-control:focus {
+        background-color: #2a2a2a;
+        color: #fff;
+    }
+    
+    .form-text {
+        color: #adb5bd;
+    }
+    
+    .required-field label::after {
+        content: ' *';
+        color: #dc3545;
+    }
+    
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-outline card-danger">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-graduation-cap mr-2"></i>
+                            {% trans "Graduate Student" %}: {{ aluno.nome|title }} {{ aluno.surname|title }}
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-light">
+                                        <h5 class="card-title mb-0">{% trans "Student Information" %}</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p><strong>{% trans "Current Belt" %}:</strong> {{ aluno|current_belt }}</p>
+                                        <p><strong>{% trans "Current Stripe" %}:</strong> {{ aluno|current_stripe }}</p>
+                                        <p><strong>{% trans "Classes Since Last Graduation" %}:</strong> 
+                                            {% if aluno|new_attendance == None %}
+                                                {{ aluno|get_count_att_aluno }}
+                                            {% else %}
+                                                {{ aluno|new_attendance }}
+                                            {% endif %}
+                                            <small class="text-muted">{% trans "(will reset to 0 after graduation)" %}</small>
+                                        </p>
+                                        <p><strong>{% trans "Total Classes" %}:</strong> {{ aluno|get_count_att_aluno }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header bg-light">
+                                            <h5 class="card-title mb-0">{% trans "Graduation Details" %}</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="{{ form.belt.id_for_label }}">{% trans "New Belt" %}</label>
+                                                {{ form.belt }}
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="{{ form.stripe.id_for_label }}">{% trans "New Stripe" %}</label>
+                                                {{ form.stripe }}
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="{{ form.master.id_for_label }}">{% trans "Graduating Professor" %}</label>
+                                                {{ form.master }}
+                                            </div>
+                                            
+                                            <div class="form-group required-field">
+                                                <label for="{{ form.time_stamp.id_for_label }}">{% trans "Graduation Date" %}</label>
+                                                {{ form.time_stamp }}
+                                                <small class="form-text text-muted">{% trans "This field is required" %}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header bg-light">
+                                            <h5 class="card-title mb-0">{% trans "Feedback" %}</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="professor_name">{% trans "Instructor Name" %}</label>
+                                                <input type="text" class="form-control" id="professor_name" name="professor_name" value="{{ feedback_form.professor_name.value }}">
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="feedback_content">{% trans "Feedback for Student" %}</label>
+                                                <textarea class="form-control" id="feedback_content" name="feedback_content" rows="5" placeholder="{% trans 'Provide feedback about the student\'s performance, areas of improvement, and reason for graduation...' %}"></textarea>
+                                                <small class="form-text text-muted">{% trans "This feedback will be visible to the student on their profile." %}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-graduation-cap mr-2"></i>
+                                    {% trans "Complete Graduation" %}
+                                </button>
+                                <a href="{% url 'focusbjj:alunos' pk=aluno.pk %}" class="btn btn-secondary ml-2">
+                                    <i class="fas fa-times mr-2"></i>
+                                    {% trans "Cancel" %}
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+$(document).ready(function() {
+    // Initialize select boxes with Bootstrap styling
+    $('.form-control select').addClass('custom-select');
+    
+    // Sync master field with professor_name field
+    $('#{{ form.master.id_for_label }}').on('input', function() {
+        $('#professor_name').val($(this).val());
+    });
+    
+    $('#professor_name').on('input', function() {
+        $('#{{ form.master.id_for_label }}').val($(this).val());
+    });
+    
+    // Log form data on submission for debugging
+    $('form').on('submit', function(e) {
+        // Prevent accidental empty date field
+        var timeStampField = $('#{{ form.time_stamp.id_for_label }}');
+        if (!timeStampField.val()) {
+            e.preventDefault();
+            alert('Please select a graduation date');
+            timeStampField.focus();
+            return false;
+        }
+        
+        console.log('Form submitted with data:');
+        var formData = {};
+        $(this).serializeArray().forEach(function(item) {
+            formData[item.name] = item.value;
+            console.log(item.name + ': ' + item.value);
+        });
+        
+        // Check required fields
+        var requiredFields = ['belt', 'stripe', 'master', 'time_stamp'];
+        var missingFields = [];
+        
+        requiredFields.forEach(function(field) {
+            if (!formData[field] || formData[field].trim() === '') {
+                missingFields.push(field);
+            }
+        });
+        
+        if (missingFields.length > 0) {
+            e.preventDefault();
+            alert('Please fill in the following required fields: ' + missingFields.join(', '));
+            return false;
+        }
+        
+        // Form is valid, let it submit
+        return true;
+    });
+});
+</script>
+{% endblock %} 

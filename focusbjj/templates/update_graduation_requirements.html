@@ -1,0 +1,258 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block page_title %}
+{% trans "Update Graduation Requirements" %}
+{% endblock page_title %}
+
+{% block content %}
+<section class="content">
+  <div class="container-fluid">
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="card card-outline card-light shadow-sm">
+          <div class="card-header bg-light">
+            <h3 class="card-title">{% trans "Update Graduation Requirements" %}</h3>
+          </div>
+          <div class="card-body">
+            <div class="mb-4">
+              <a href="{% url 'focusbjj:graduation_requirements' %}" class="btn btn-primary btn-sm">
+                <i class="fas fa-arrow-left"></i> {% trans "Back to Requirements" %}
+              </a>
+            </div>
+            
+            {% if messages %}
+            <div class="messages mb-4">
+              {% for message in messages %}
+              {% if 'graduation_req_update' not in message.tags %}
+              <div class="alert alert-{{ message.tags|cut:'graduation_req_update' }} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+            {% endif %}
+            
+            <form method="post">
+              {% csrf_token %}
+              
+              <div class="row">
+                <div class="col-12">
+                  <div class="card card-outline card-light shadow-sm">
+                    <div class="card-body p-0">
+                      <table class="table table-striped">
+                        <thead class="bg-dark text-white">
+                          <tr>
+                            <th>{% trans "Belt" %}</th>
+                            <th>{% trans "Stripes" %}</th>
+                            <th>{% trans "Required Classes" %}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for form in requirement_forms %}
+                          <tr>
+                            <td>
+                              <div class="d-flex align-items-center">
+                                {% with belt_slug=form.belt.value|lower|slugify %}
+                                <div class="belt-block {{ belt_slug }}-belt mr-2"></div>
+                                {% endwith %}
+                                {{ form.id }}{{ form.belt.as_hidden }}
+                                <span class="text-dark font-weight-medium">{{ form.belt.value }}</span>
+                              </div>
+                            </td>
+                            <td>
+                              {{ form.stripes.as_hidden }}
+                              <span class="text-dark font-weight-medium">{{ form.stripes.value }}</span>
+                            </td>
+                            <td>
+                              <input type="number" name="required_classes_{{ form.instance.id }}" 
+                                value="{{ form.required_classes.value }}" 
+                                class="form-control" min="0" max="999" required>
+                              {% if form.required_classes.errors %}
+                              <div class="text-danger">
+                                {{ form.required_classes.errors }}
+                              </div>
+                              {% endif %}
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-4 text-center">
+                <button type="submit" class="btn btn-dark">
+                  <i class="fas fa-save"></i> {% trans "Save Changes" %}
+                </button>
+                <a href="{% url 'focusbjj:graduation_requirements' %}" class="btn btn-secondary">
+                  {% trans "Cancel" %}
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .belt-block {
+    width: 60px;
+    height: 20px;
+    border-radius: 2px;
+    border: 1px solid #999;
+  }
+  
+  /* Basic belt colors */
+  .white-belt {
+    background-color: #ffffff;
+    border: 1px solid #999;
+  }
+  
+  .blue-belt {
+    background-color: #3490dc;
+  }
+  
+  .purple-belt {
+    background-color: #9561e2;
+  }
+  
+  .brown-belt {
+    background-color: #8a6d3b;
+  }
+  
+  .black-belt {
+    background-color: #2a2a2a;
+  }
+  
+  .gray-belt {
+    background-color: #a9a9a9;
+  }
+  
+  .yellow-belt {
+    background-color: #ffd700;
+  }
+  
+  .orange-belt {
+    background-color: #ff8c00;
+  }
+  
+  .green-belt {
+    background-color: #008000;
+  }
+  
+  /* Mixed belt colors */
+  .graywhite-belt {
+    background: linear-gradient(to right, #a9a9a9 50%, #ffffff 50%);
+  }
+  
+  .grayblack-belt {
+    background: linear-gradient(to right, #a9a9a9 50%, #2a2a2a 50%);
+  }
+  
+  .yellowwhite-belt {
+    background: linear-gradient(to right, #ffd700 50%, #ffffff 50%);
+  }
+  
+  .yellowblack-belt {
+    background: linear-gradient(to right, #ffd700 50%, #2a2a2a 50%);
+  }
+  
+  .orangewhite-belt {
+    background: linear-gradient(to right, #ff8c00 50%, #ffffff 50%);
+  }
+  
+  .orangeblack-belt {
+    background: linear-gradient(to right, #ff8c00 50%, #2a2a2a 50%);
+  }
+  
+  .greenwhite-belt {
+    background: linear-gradient(to right, #008000 50%, #ffffff 50%);
+  }
+  
+  .greenblack-belt {
+    background: linear-gradient(to right, #008000 50%, #2a2a2a 50%);
+  }
+  
+  /* Minimalist styling */
+  .text-danger {
+    color: #dc3545 !important;
+    font-weight: 500;
+  }
+  
+  .card-light {
+    border-color: #dee2e6 !important;
+    border-top: 4px solid #dc3545 !important;
+  }
+  
+  .shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+  }
+  
+  /* Text visibility improvements */
+  .text-dark {
+    color: #343a40 !important;
+  }
+  
+  .font-weight-medium {
+    font-weight: 500 !important;
+  }
+  
+  /* Dark theme text support */
+  .dark-theme .text-dark {
+    color: #f8f9fa !important;
+  }
+  
+  /* Button styling improvements */
+  .btn-dark {
+    background-color: #343a40 !important;
+    border-color: #343a40 !important;
+    color: white !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 4px 8px rgba(52,58,64,0.3) !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .btn-dark:hover {
+    background-color: #23272b !important;
+    border-color: #23272b !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 12px rgba(52,58,64,0.4) !important;
+  }
+  
+  .btn-dark:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 4px rgba(52,58,64,0.3) !important;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    color: white !important;
+    font-weight: 600 !important;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #545b62 !important;
+    border-color: #545b62 !important;
+  }
+  
+  /* Table text improvements */
+  .table tbody tr td {
+    color: #343a40 !important;
+  }
+  
+  .dark-theme .table tbody tr td {
+    color: #f8f9fa !important;
+  }
+</style>
+{% endblock content %} 

@@ -1,6 +1,6 @@
 {% load static %}
 {% load i18n %}
-<aside class="main-sidebar navbar-gray-dark sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
 
 
@@ -24,17 +24,18 @@
           <li class="nav-item">
             {% url 'admin_home' as admin_home %}
             <a href="{% url 'focusbjj:filiais' %}" class="nav-link {% if request.path == admin_home %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-home"></i>
               <p>
                 Home
               </p>
             </a>
           </li>
+
           {% if user.is_superuser %}
           <li class="nav-item">
             {% url 'add_staff' as add_staff %}
             <a href="{% url 'focusbjj:add_staff' %}" class="nav-link {% if request.path == add_staff %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-plus-circle"></i>
               <p>
                Adicionar Filial
               </p>
@@ -45,55 +46,18 @@
               {% url 'manage_staff' as manage_staff %}
             {% url 'edit_staff' staff_id=id as edit_staff %}
             <a href="{% url 'focusbjj:managestaff' %}" class="nav-link {% if request.path == manage_staff %} active {% endif %} {% if request.path == edit_staff %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-building"></i>
               <p>
                 Filiais
               </p>
             </a>
           </li>
-
-
-          <li class="nav-item">
-            <a href="{% url 'focusbjj:addproduct' %}" class="nav-link ">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Adicionar Produto
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="{% url 'focusbjj:addsocialmedia' %}" class="nav-link ">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                {% trans "Adicionar Social Media" %}
-              </p>
-            </a>
-          </li>
-
-          {% else %}
-          {% endif%}
-          <li class="nav-item">
-            <a href="{% url 'focusbjj:products' %}" class="nav-link ">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                {% trans "Produtos" %}
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="{% url 'focusbjj:socialmedia' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                {% trans "Social Media" %}
-              </p>
-            </a>
-          </li>
+          {% endif %}
 
            <li class="nav-item">
+            {% url 'focusbjj:add_aluno' as add_student %}
             <a href="{% url 'focusbjj:add_aluno' %}" class="nav-link {% if request.path == add_student %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-user-plus"></i>
               <p>
                 {% trans "Adicionar Aluno" %}
               </p>
@@ -101,43 +65,38 @@
           </li>
 
           <li class="nav-item">
+            {% url 'focusbjj:managealunos' as manage_student %}
+            {% url 'focusbjj:editaralunos' '0' as edit_student %}
             <a href="{% url 'focusbjj:managealunos' %}" class="nav-link {% if request.path == manage_student %} active {% endif %} {% if request.path == edit_student %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
-                {% trans "Alunos | Adultos" %}
+                {% trans "Students" %}
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{% url 'focusbjj:managealunoskids' %}" class="nav-link {% if request.path == manage_student %} active {% endif %} {% if request.path == edit_student %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                {% trans "Alunos | Infantil" %}
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'focusbjj:managegraduation' %}" class="nav-link {% if request.path == manage_student %} active {% endif %} {% if request.path == edit_student %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
+            {% url 'focusbjj:managegraduation' as manage_graduation %}
+            <a href="{% url 'focusbjj:managegraduation' %}" class="nav-link {% if request.path == manage_graduation %} active {% endif %}">
+              <i class="nav-icon fas fa-award"></i>
               <p>
                 {% trans "Graduação" %}
               </p>
             </a>
           </li>
 
-
-           <li class="nav-item">
-            <a href="{% url 'focusbjj:addvenda' %}" class="nav-link ">
-              <i class="nav-icon fas fa-th"></i>
+          <li class="nav-item">
+            {% url 'focusbjj:graduation_requirements' as graduation_requirements %}
+            <a href="{% url 'focusbjj:graduation_requirements' %}" class="nav-link {% if request.path == graduation_requirements %} active {% endif %}">
+              <i class="nav-icon fas fa-trophy"></i>
               <p>
-                {% trans "Adicionar Vendas" %}
+                {% trans "Requisitos Graduação" %}
               </p>
             </a>
           </li>
 
            <li class="nav-item">
             <a href="{% url 'focusbjj:editarstaff' request.user.pk %}" class="nav-link ">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-user-edit"></i>
               <p>
                 {% trans "Editar Perfil" %}
               </p>
@@ -146,10 +105,10 @@
 
           <li class="nav-item">
              <form action="{% url 'focusbjj:logout' %}"  method="post" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 {% csrf_token %}
-                <button type="submit"> Logout</button> 
+                <button type="submit" class="bg-transparent border-0 text-white p-0"> Logout</button> 
               </p>
             </form>
           </li>

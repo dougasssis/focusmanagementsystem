@@ -1,183 +1,124 @@
-<!DOCTYPE html >
-
+<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE-edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Jiu-Jitsu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style type="text/css">
-        body{
-        margin: 0;
-        background-color: #cccccc;
-        }
-        table {
-            border-spacing: 0;
-        }
-        td {
+        body {
+            margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
         }
-        img {
-            border: 0;
-        }
-        .wrapper {
+        .container {
             width: 100%;
-            table-layout: fixed;
-            background-color: #cccccc;
-            padding-bottom: 60px;
-        }
-        .main {
-            background-color: #ffffff;
+            max-width: 680px;
             margin: 0 auto;
-            width: 100%;
-            max-width: 600px;
-            border-spacing: 0;
-            font-family: sans-serif;
-            color: #171a1b;
-        }
-        .two-columns {
-            text-align: center;
-            font-size: 0;
-        }
-        .two-columns .column{
-            width: 100%;
-            max-width: 300px;
-            display: inline-block;
-            vertical-align: center;
-            text-align: center;
-        }
-        .three-columns{
-             text-align: center;
-            font-size: 0;
-            padding: 15px 0 25px;
-        }
-        .three-columns .column{
-            width: 100%;
-            max-width: 200px;
-            display: inline-block;
-            vertical-align: center;
-            text-align: center;
-        }
-        .three-columns .padding{
-            padding: 15px;
-        }
-        .three-columns .content{
-            font-size: 15px;
-            line-height: 20px;
-            padding: 0 5px;
-        }
-        .two-columns.last {
-            padding: 15px 0;
-        }
-        .two-columns .padding{
-            padding:20px;
-        }
-        .two-columns .content{
-            font-size: 15px;
-            line-height: 20px;
-            text-align: left;
-        }
-        .button {
             background-color: #ffffff;
-            color: #171a1b;
-            text-decoration: none;
-            padding:12px 30px;
-            border-radius:5px;
-            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
         }
-        .button-dark{
-            background-color: #171a1b;
-            color: #ffffff;
-            text-decoration: none;
-            padding:12px 30px;
-            border-radius:5px;
-            font-weight: bold;
+        .banner {
+            position: relative;
+            text-align: center;
+            color: white;
         }
-
+        .banner img.banner-bg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .banner img.logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 180px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .content {
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .welcome-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 25px;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .social-media {
+            margin-bottom: 20px;
+        }
+        .social-media a {
+            color: #333;
+            margin: 0 12px;
+            font-size: 24px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .social-media a:hover {
+            color: #007bff;
+        }
+        .contact-info {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666;
+        }
     </style>
 </head>
 <body>
-    <center class="wrapper">
-        <table class="main" width="100%">
-<!-- TOP BORDER -->
-            <tr>
-                <td height="8" style="background-color: #171a1b;"></td>
-            </tr>
-<!-- LOGO SECTION -->
-            <tr>
-                <td style="padding: 14px 0 4px; ">
-                    <table width="100%">
-                        <tr>
-                            <td class="two-columns">
-                                <table class="column">
-                                    <tr>
-                                        <td style="padding: 0 62px 10px;">
-                                            <a href="#">
-                                                <img src="https://i.postimg.cc/65TnPbN4/focus-nova.png" alt="Focus Jiu-Jitsu" width="180" title="Focus Jiu-Jitsu">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </table>
-
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-<!-- BANNER IMAGE -->
-            <tr>
-                <td>
-                    <a href=""><img src="https://wc.wallpaperuse.com/wallp/48-483993_s.jpg" alt="" width="600" style="max-width:100%"> </a>
-                </td>
-            </tr>
-
-<!-- TITLE TEXT BUTTON -->
-            <tr>
-                <td style="padding: 15px 0 50px">
-                    <table width="100%">
-                        <tr>
-                            <td style="text-align:center; padding:15px">
-                                <p style="font-size:20px; font-weight:bold">Welcome to Focus Jiu-Jitsu!</p>
-                                <p style="line-height:23px; font-size: 15px; padding:5px 0 15px;">
-                                    {{nome}}, you have been successfully registered on our platform.
-                                    <br> Your MEMBER ID is <b>{{ id }}</b>.
-                                </p>
-                                <p style="line-height:23px; font-size: 15px; padding:5px;">
-                                    Now we can follow our students closer and can help them in the best way possible.
-                                    Remember your MEMBER ID and always check-in before starting your training.
-
-                                </p>
-                                <p><b>Oss!!!</b></p>
-                                <!--<a href="" class="button-dark">Learn More</a>-->
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-<!-- FOOTER -->
-            <tr>
-                <td style="background-color:#26292b">
-                    <table width="100%">
-                        <tr>
-                            <td style="text-align: center; padding:10px ; color:#ffffff">
-                                <p style="padding:5px; font-weight:bold">Focus Jiu-Jitsu HQ</p>
-                                <p style="font-size: 15px; padding:5px">Rua Dr. Afonso Cordeiro, 711 Matosinhos, Portugal - 4450-007</p>
-                                <p style="font-size: 15px; margin-top:-10px">Phone: +351 932665662 E-Mail: infofocusjiujitsu@gmail.com</p>
-                                <a href="https://www.instagram.com/focusjiujitsuhq/?hl=pt"><img width="34px" src="https://i.postimg.cc/MXgy6dj8/white-instagram.png"></a>
-                                <a href="https://www.facebook.com/focusjiujitsu/"><img  width="34px" src="https://i.postimg.cc/CRTHNmF4/white-facebook.png"></a>
-                                <a href="https://www.youtube.com/channel/UCxbnIECL9fUA345zWWB-0yQ"><img width="34px" src="https://i.postimg.cc/ftp0bRyv/white-youtube.png"></a>
-                                <p style="font-size: 12px; font-weight:bold">VISIT OUR SOCIAL MEDIAS</p>
-
-
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-
-
-        </table>
-
-    </center>
-
+<table width="100%" border="0" cellspacing="0" cellpadding="20" style="background-color: #f4f4f4;">
+    <tr>
+        <td>
+            <div class="container">
+                <div class="banner">
+                    <img src="https://res.cloudinary.com/holwfsrwh/image/upload/v1750534428/email_templates/email_banner.png" alt="Focus BJJ Banner" class="banner-bg">
+                    <img src="https://res.cloudinary.com/holwfsrwh/image/upload/v1750534112/email_templates/focus_logo.jpg" alt="Focus Jiu-Jitsu" class="logo">
+                </div>
+                
+                <div class="content">
+                    <h1 class="welcome-title">Welcome to Our Team!</h1>
+                    <p class="message">
+                        Hi, <strong>{{nome}}</strong>. Your MEMBER ID is <strong>{{ id }}</strong>.
+                    </p>
+                    <p class="message">
+                        You have been successfully registered in our system.<br>
+                        Now we can closely monitor your progress to help you even more.
+                    </p>
+                </div>
+                
+                <div class="footer">
+                    <div class="social-media">
+                        <a href="https://www.facebook.com/focusbjj" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/focusbjj" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/focusbjj" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    <div class="contact-info">
+                        <strong>Focus Jiu-Jitsu HQ</strong><br>
+                        Rua Dr. Afonso Cordeiro, 711 - Matosinhos, Portugal<br>
+                        +351 932665662 | infofocusjiujitsu@gmail.com
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
 </body>
+</html>

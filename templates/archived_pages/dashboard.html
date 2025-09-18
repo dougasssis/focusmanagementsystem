@@ -1,0 +1,714 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load attendance_tags %}
+{% load age_tags %}
+{% load dashboard_tags %}
+{% load i18n %}
+
+{% block page_title %}
+{% trans "Dashboard" %}
+{% endblock page_title %}
+
+{% block content %}
+<section class="content">
+  <div class="container-fluid">
+    <!-- Top stats cards row -->
+    <div class="row">
+      <!-- Total students card -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-primary">
+          <div class="inner">
+            {% if user.is_superuser %}
+            <h3>{{ alunos|length }}</h3>
+            {% else %}
+            <h3>{{ request.user.alunos.count }}</h3>
+            {% endif %}
+            <p>{% trans "Total Students" %}</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <a href="{% url 'focusbjj:managealunos' %}" class="small-box-footer">
+            {% trans "View all" %} <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Kids card -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-success">
+          <div class="inner">
+            {% if user.is_superuser %}
+            <h3>{{ user|kidsTOTAL }}</h3>
+            {% else %}
+            <h3>{{ user|kidsByBranch }}</h3>
+            {% endif %}
+            <p>{% trans "Kids Program" %}</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-child"></i>
+          </div>
+          <a href="{% url 'focusbjj:managealunoskids' %}" class="small-box-footer">
+            {% trans "View all" %} <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Adults card -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-warning">
+          <div class="inner">
+            {% if user.is_superuser %}
+            <h3>{{ user|adultoTOTAL }}</h3>
+            {% else %}
+            <h3>{{ user|adulto }}</h3>
+            {% endif %}
+            <p>{% trans "Adult Program" %}</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-user"></i>
+          </div>
+          <a href="{% url 'focusbjj:managealunos' %}" class="small-box-footer">
+            {% trans "View all" %} <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Quick action card -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-danger">
+          <div class="inner">
+            <h3>{% trans "Actions" %}</h3>
+            <p>{% trans "Quick access to common tasks" %}</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <div class="small-box-footer d-flex justify-content-between">
+            <a href="{% url 'focusbjj:homepage' %}" class="flex-fill text-center py-2">
+              <i class="fas fa-clipboard-check"></i> {% trans "Check-in" %}
+            </a>
+            <a href="{% url 'focusbjj:add_aluno' %}" class="flex-fill text-center py-2">
+              <i class="fas fa-user-plus"></i> {% trans "Register" %}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End top stats cards row -->
+
+    <!-- Main content row -->
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Students eligible for graduation card -->
+        <div class="card card-outline card-success h-100">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-award mr-2"></i>{% trans "Graduation Candidates" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>{% trans "Student" %}</th>
+                    <th>{% trans "Belt" %}</th>
+                    <th class="text-center">{% trans "Classes" %}</th>
+                    <th class="text-right">{% trans "Action" %}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% with eligible_students=user|eligible_for_graduation %}
+                    {% if eligible_students %}
+                      {% for entry in eligible_students|slice:":6" %}
+                        <tr>
+                          <td>
+                            <a href="{% url 'focusbjj:alunos' entry.student.id %}">
+                              <div class="d-flex align-items-center">
+                                {% if entry.student.photo %}
+                                  <img src="{{ entry.student.photo.url }}" class="img-circle mr-2" width="32" height="32" alt="">
+                                {% else %}
+                                  <img src="{% static 'images/defaultuser.jpeg' %}" class="img-circle mr-2" width="32" height="32" alt="">
+                                {% endif %}
+                                <span>{{ entry.student.nome }} {{ entry.student.surname }}</span>
+                              </div>
+                            </a>
+                          </td>
+                          <td>
+                            {% if entry.student.belt == 'White Belt' %}
+                              <span class="badge bg-light text-dark">{{ entry.student.belt }}</span>
+                            {% elif entry.student.belt == 'Blue Belt' %}
+                              <span class="badge bg-primary">{{ entry.student.belt }}</span>
+                            {% elif entry.student.belt == 'Purple Belt' %}
+                              <span class="badge bg-purple">{{ entry.student.belt }}</span>
+                            {% elif entry.student.belt == 'Brown Belt' %}
+                              <span class="badge bg-brown">{{ entry.student.belt }}</span>
+                            {% elif entry.student.belt == 'Black Belt' %}
+                              <span class="badge bg-dark">{{ entry.student.belt }}</span>
+                            {% else %}
+                              <span class="badge bg-info">{{ entry.student.belt }}</span>
+                            {% endif %}
+                            <small>{{ entry.student.stripe }}</small>
+                          </td>
+                          <td class="text-center"><b>{{ entry.attendance_count }}</b></td>
+                          <td class="text-right">
+                            <a href="{% url 'focusbjj:graduation' entry.student.id %}" class="btn btn-sm btn-primary">
+                              <i class="fas fa-award"></i> {% trans "Graduate" %}
+                            </a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    {% else %}
+                      <tr>
+                        <td colspan="4" class="text-center py-4">
+                          <i class="fas fa-info-circle mr-1 text-muted"></i>
+                          {% trans "No students currently eligible for graduation" %}
+                        </td>
+                      </tr>
+                    {% endif %}
+                  {% endwith %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+            <a href="{% url 'focusbjj:managegraduation' %}" class="btn btn-sm btn-default">
+              <i class="fas fa-list"></i> {% trans "View All Candidates" %}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <!-- Birthdays card -->
+        <div class="card card-outline card-danger h-100">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-birthday-cake mr-2"></i>{% trans "Birthdays this Month" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <ul class="products-list product-list-in-card pl-2 pr-2">
+              {% with birthday_students=user|birthdays_this_month %}
+                {% if birthday_students %}
+                  {% for student in birthday_students %}
+                    <li class="item">
+                      <div class="product-img">
+                        {% if student.photo %}
+                          <img src="{{ student.photo.url }}" alt="Student Photo" class="img-circle img-size-50">
+                        {% else %}
+                          <img src="{% static 'images/defaultuser.jpeg' %}" alt="Default Photo" class="img-circle img-size-50">
+                        {% endif %}
+                      </div>
+                      <div class="product-info">
+                        <a href="{% url 'focusbjj:alunos' student.id %}" class="product-title">
+                          {{ student.nome }} {{ student.surname }}
+                          <span class="badge badge-danger float-right px-3">{{ student|birthday_day }} {% now "F" %}</span>
+                        </a>
+                        <span class="product-description">
+                          <small>
+                            {{ student.idade }} {% trans "years old" %} &middot; 
+                            {% if student.belt == 'White Belt' %}
+                              <span class="text-muted">{% trans "White Belt" %}</span>
+                            {% elif student.belt == 'Blue Belt' %}
+                              <span class="text-primary">{% trans "Blue Belt" %}</span>
+                            {% elif student.belt == 'Purple Belt' %}
+                              <span class="text-purple">{% trans "Purple Belt" %}</span>
+                            {% elif student.belt == 'Brown Belt' %}
+                              <span style="color:#8B4513;">{% trans "Brown Belt" %}</span>
+                            {% elif student.belt == 'Black Belt' %}
+                              <span class="text-dark">{% trans "Black Belt" %}</span>
+                            {% else %}
+                              <span class="text-info">{{ student.belt }}</span>
+                            {% endif %}
+                          </small>
+                        </span>
+                      </div>
+                    </li>
+                  {% endfor %}
+                {% else %}
+                  <li class="item text-center p-5">
+                    <i class="fas fa-birthday-cake text-muted mb-3" style="font-size: 2rem;"></i>
+                    <p class="text-muted">{% trans "No birthdays this month" %}</p>
+                  </li>
+                {% endif %}
+              {% endwith %}
+            </ul>
+          </div>
+          {% with birthday_students=user|birthdays_this_month %}
+            {% if birthday_students %}
+              <div class="card-footer text-center">
+                <span class="text-muted">{% trans "Total" %}: {{ birthday_students|length }} {% trans "birthdays this month" %}</span>
+              </div>
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <!-- Belt distribution card -->
+        <div class="card card-outline card-primary">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-chart-pie mr-2"></i>{% trans "Belt Distribution" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <h5 class="text-center mb-3">{% trans "Adults" %}</h5>
+                <div class="position-relative" style="height: 200px;">
+                  <canvas id="adultsBeltChart"></canvas>
+                </div>
+                <div class="chart-legend mt-3">
+                  <div class="d-flex flex-wrap justify-content-center">
+                    <div class="px-2 text-center" style="min-width: 80px;">
+                      <span class="badge bg-light text-dark px-3 py-2 d-block">{% trans "White" %}</span>
+                      <span class="mt-1 d-block">{{ user|white }}</span>
+                    </div>
+                    <div class="px-2 text-center" style="min-width: 80px;">
+                      <span class="badge bg-primary px-3 py-2 d-block">{% trans "Blue" %}</span>
+                      <span class="mt-1 d-block">{{ user|blue }}</span>
+                    </div>
+                    <div class="px-2 text-center" style="min-width: 80px;">
+                      <span class="badge bg-purple px-3 py-2 d-block">{% trans "Purple" %}</span>
+                      <span class="mt-1 d-block">{{ user|purple }}</span>
+                    </div>
+                    <div class="px-2 text-center" style="min-width: 80px;">
+                      <span class="badge bg-brown px-3 py-2 d-block">{% trans "Brown" %}</span>
+                      <span class="mt-1 d-block">{{ user|brown }}</span>
+                    </div>
+                    <div class="px-2 text-center" style="min-width: 80px;">
+                      <span class="badge bg-dark px-3 py-2 d-block">{% trans "Black" %}</span>
+                      <span class="mt-1 d-block">{{ user|black }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <h5 class="text-center mb-3">{% trans "Kids" %}</h5>
+                <div class="position-relative" style="height: 200px;">
+                  <canvas id="kidsBeltChart"></canvas>
+                </div>
+                <div class="chart-legend mt-3 kids-legend">
+                  <div class="d-flex flex-wrap justify-content-center">
+                    <div class="px-2 text-center" style="min-width: 70px; margin-bottom: 8px;">
+                      <span class="badge bg-light text-dark px-2 py-1 d-block" style="font-size: 0.7rem;">{% trans "White" %}</span>
+                      <span class="mt-1 d-block">{{ user|white_kids }}</span>
+                    </div>
+                    <div class="px-2 text-center" style="min-width: 70px; margin-bottom: 8px;">
+                      <span class="badge bg-gray-white px-2 py-1 d-block" style="font-size: 0.7rem;">{% trans "Gray/W" %}</span>
+                      <span class="mt-1 d-block">{{ user|gray_white }}</span>
+                    </div>
+                    <div class="px-2 text-center" style="min-width: 70px; margin-bottom: 8px;">
+                      <span class="badge bg-gray px-2 py-1 d-block" style="font-size: 0.7rem;">{% trans "Gray" %}</span>
+                      <span class="mt-1 d-block">{{ user|gray }}</span>
+                    </div>
+                    <div class="px-2 text-center" style="min-width: 70px; margin-bottom: 8px;">
+                      <span class="badge bg-yellow px-2 py-1 d-block" style="font-size: 0.7rem;">{% trans "Yellow" %}</span>
+                      <span class="mt-1 d-block">{{ user|yellow }}</span>
+                    </div>
+                    <div class="px-2 text-center" style="min-width: 70px; margin-bottom: 8px;">
+                      <span class="badge bg-green px-2 py-1 d-block" style="font-size: 0.7rem;">{% trans "Green" %}</span>
+                      <span class="mt-1 d-block">{{ user|green }}</span>
+                    </div>
+                    <div class="px-2 text-center" style="min-width: 70px; margin-bottom: 8px;">
+                      <span class="badge bg-orange px-2 py-1 d-block" style="font-size: 0.7rem;">{% trans "Orange" %}</span>
+                      <span class="mt-1 d-block">{{ user|orange }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="row">
+          <!-- Academy Info card -->
+          <div class="col-md-12">
+            <div class="card card-outline card-info">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-dojo mr-2"></i>{% trans "Academy Information" %}</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body pb-0">
+                <div class="d-flex justify-content-start align-items-center mb-3">
+                  <i class="fas fa-map-marker-alt bg-info p-3 rounded-circle text-white mr-3"></i>
+                  <div>
+                    <h5 class="mb-0">{{ user.location|title }}</h5>
+                    <p class="text-muted mb-0">{{ user.country.unicode_flag }} {{ user.country.name }}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="info-box bg-light">
+                      <span class="info-box-icon bg-primary"><i class="fas fa-user"></i></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">{% trans "Contact" %}</span>
+                        <span class="info-box-number">{{ user.contact_name }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-box bg-light">
+                      <span class="info-box-icon bg-success"><i class="fas fa-phone"></i></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">{% trans "Phone" %}</span>
+                        <span class="info-box-number">{{ user.phone }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="info-box bg-light mb-3">
+                  <span class="info-box-icon bg-warning"><i class="fas fa-envelope"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">{% trans "Email" %}</span>
+                    <span class="info-box-number">{{ user.email|lower }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent students card -->
+          <div class="col-md-12">
+            <div class="card card-outline card-warning">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-user-plus mr-2"></i>{% trans "Recent Students" %}</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <ul class="users-list clearfix p-2">
+                  {% with new_students=user|recent_joiners:30 %}
+                    {% if new_students %}
+                      {% for student in new_students|slice:":4" %}
+                        <li class="text-center">
+                          {% if student.photo %}
+                            <img src="{{ student.photo.url }}" alt="Student Photo" class="img-circle img-bordered-sm" style="width:60px; height:60px; object-fit:cover;">
+                          {% else %}
+                            <img src="{% static 'images/defaultuser.jpeg' %}" alt="Default Photo" class="img-circle img-bordered-sm" style="width:60px; height:60px; object-fit:cover;">
+                          {% endif %}
+                          <a class="users-list-name mt-2" href="{% url 'focusbjj:alunos' student.id %}">{{ student.nome }} {{ student.surname }}</a>
+                          <span class="users-list-date">{{ student.join_date|date:"M d" }}</span>
+                        </li>
+                      {% endfor %}
+                    {% else %}
+                      <li class="text-center w-100 p-5">
+                        <i class="fas fa-user-plus text-muted mb-3" style="font-size: 2rem;"></i>
+                        <p class="text-muted">{% trans "No new students in the last 30 days" %}</p>
+                      </li>
+                    {% endif %}
+                  {% endwith %}
+                </ul>
+              </div>
+              {% with new_students=user|recent_joiners:30 %}
+                {% if new_students|length > 4 %}
+                  <div class="card-footer text-center">
+                    <a href="{% url 'focusbjj:managealunos' %}" class="btn btn-sm btn-warning">
+                      {% trans "View All" %} ({{ new_students|length }})
+                    </a>
+                  </div>
+                {% endif %}
+              {% endwith %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Analytics row - Side by side with equal width -->
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <!-- Busiest Class Time -->
+        <div class="card card-outline card-secondary">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-clock mr-2"></i>{% trans "Busiest Class Time" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart">
+              <canvas id="busiestTimeChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <!-- Busiest Day -->
+        <div class="card card-outline card-secondary">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-calendar-day mr-2"></i>{% trans "Busiest Days" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart">
+              <canvas id="busiestDayChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Add custom styles for belt colors -->
+<style>
+  .bg-purple {
+    background-color: #6f42c1 !important;
+    color: white !important;
+  }
+  .bg-brown {
+    background-color: #8B4513 !important;
+    color: white !important;
+  }
+  .bg-gray-white {
+    background: linear-gradient(135deg, #d3d3d3 50%, #ffffff 50%) !important;
+    color: #333 !important;
+  }
+  .bg-gray {
+    background-color: #a9a9a9 !important;
+    color: white !important;
+  }
+  .bg-yellow {
+    background-color: #ffd700 !important;
+    color: #333 !important;
+  }
+  .bg-green {
+    background-color: #008000 !important;
+    color: white !important;
+  }
+  .bg-orange {
+    background-color: #ff8c00 !important;
+    color: white !important;
+  }
+  .text-purple {
+    color: #6f42c1 !important;
+  }
+  .kids-legend .badge {
+    height: 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Fix hover effects in dark theme */
+  .dark-theme .table-hover tbody tr:hover {
+    color: #e0e0e0 !important;
+    background-color: #3a3a3a !important;
+  }
+  
+  .dark-theme .table-hover tbody tr:hover a,
+  .dark-theme .table-hover tbody tr:hover span {
+    color: #e0e0e0 !important;
+  }
+  
+  /* Fix hover visibility */
+  .dark-theme .table-hover tbody tr:hover a:hover {
+    color: #ffffff !important;
+  }
+  
+  /* Card styling fixes */
+  .dark-theme .card {
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Charts background in dark theme */
+  .dark-theme .chart canvas {
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 4px;
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Chart.js global defaults for dark theme
+    if (document.body.classList.contains('dark-theme')) {
+      Chart.defaults.color = '#e0e0e0';
+      Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
+    }
+    
+    // Adults belt chart
+    new Chart(document.getElementById('adultsBeltChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['{% trans "White" %}', '{% trans "Blue" %}', '{% trans "Purple" %}', '{% trans "Brown" %}', '{% trans "Black" %}'],
+        datasets: [{
+          data: [{{ user|white }}, {{ user|blue }}, {{ user|purple }}, {{ user|brown }}, {{ user|black }}],
+          backgroundColor: [
+            '#f8f9fa',
+            '#0d6efd',
+            '#6f42c1',
+            '#8B4513',
+            '#212529'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        cutout: '70%'
+      }
+    });
+    
+    // Kids belt chart
+    new Chart(document.getElementById('kidsBeltChart'), {
+      type: 'doughnut',
+      data: {
+        labels: [
+          '{% trans "White" %}', 
+          '{% trans "Gray/White" %}', 
+          '{% trans "Gray" %}', 
+          '{% trans "Yellow" %}',
+          '{% trans "Green" %}', 
+          '{% trans "Orange" %}'
+        ],
+        datasets: [{
+          data: [
+            {{ user|white_kids }},
+            {{ user|gray_white }},
+            {{ user|gray }},
+            {{ user|yellow }},
+            {{ user|green }},
+            {{ user|orange }}
+          ],
+          backgroundColor: [
+            '#f8f9fa',
+            '#d3d3d3',
+            '#a9a9a9',
+            '#ffd700',
+            '#008000',
+            '#ff8c00'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        cutout: '70%'
+      }
+    });
+    
+    // Busiest Class Time Chart - Example data
+    const timeData = {
+      labels: ['6:00', '7:00', '8:00', '9:00', '10:00', '12:00', '17:00', '18:00', '19:00', '20:00'],
+      datasets: [{
+        label: '{% trans "Class Attendance" %}',
+        data: [8, 12, 15, 10, 5, 7, 20, 25, 22, 18],
+        backgroundColor: document.body.classList.contains('dark-theme') ? 'rgba(75, 192, 192, 0.6)' : 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgb(75, 192, 192)',
+        borderWidth: 1
+      }]
+    };
+    
+    new Chart(document.getElementById('busiestTimeChart'), {
+      type: 'bar',
+      data: timeData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: '{% trans "Number of Students" %}'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: '{% trans "Time of Day" %}'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    });
+    
+    // Busiest Day Chart - Example data
+    const dayData = {
+      labels: ['{% trans "Monday" %}', '{% trans "Tuesday" %}', '{% trans "Wednesday" %}', '{% trans "Thursday" %}', '{% trans "Friday" %}', '{% trans "Saturday" %}', '{% trans "Sunday" %}'],
+      datasets: [{
+        label: '{% trans "Weekly Attendance" %}',
+        data: [45, 38, 42, 40, 35, 25, 10],
+        backgroundColor: document.body.classList.contains('dark-theme') ? 'rgba(54, 162, 235, 0.6)' : 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgb(54, 162, 235)',
+        borderWidth: 1
+      }]
+    };
+    
+    new Chart(document.getElementById('busiestDayChart'), {
+      type: 'bar',
+      data: dayData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: '{% trans "Number of Students" %}'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: '{% trans "Day of Week" %}'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endblock content %} 

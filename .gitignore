@@ -17,3 +17,6 @@ __pycache__/
 # Ignore environment variables and system files
 .env
 *.log
+
+# Ignore collected static files
+/staticfiles/

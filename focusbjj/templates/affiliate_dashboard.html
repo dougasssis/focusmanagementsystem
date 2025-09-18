@@ -1,0 +1,1138 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load attendance_tags %}
+{% load age_tags %}
+{% load dashboard_tags %}
+{% load i18n %}
+
+
+
+{% block content %}
+<!-- Add dark theme styles -->
+<style>
+  body {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  
+  .card {
+    background-color: #1e1e1e;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+  
+  .card-outline.card-primary {
+    border-top: 3px solid #375a7f;
+  }
+  
+  .card-outline.card-success {
+    border-top: 3px solid #00bc8c;
+  }
+  
+  .card-outline.card-warning {
+    border-top: 3px solid #f39c12;
+  }
+  
+  .card-outline.card-info {
+    border-top: 3px solid #3498db;
+  }
+  
+  .card-outline.card-danger {
+    border-top: 3px solid #e74c3c;
+  }
+  
+  .card-header {
+    background-color: #252525;
+    color: #e0e0e0;
+    border-bottom: 1px solid #333;
+  }
+  
+  .card-title {
+    color: #e0e0e0;
+  }
+  
+  .small-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .small-box .inner {
+    flex-grow: 1;
+  }
+  
+  .small-box .small-box-footer {
+    position: relative;
+    text-align: center;
+    padding: 3px 0;
+    bottom: 0;
+    width: 100%;
+    margin-top: auto;
+  }
+  
+  .small-box.bg-gradient-primary {
+    background: linear-gradient(45deg, #375a7f, #4a6990);
+  }
+  
+  .small-box.bg-gradient-success {
+    background: linear-gradient(45deg, #00bc8c, #00cdaa);
+  }
+  
+  .small-box.bg-gradient-warning {
+    background: linear-gradient(45deg, #f39c12, #f5b041);
+  }
+  
+  .small-box.bg-gradient-danger {
+    background: linear-gradient(45deg, #e74c3c, #ec7063);
+  }
+  
+  .info-box {
+    background-color: #252525;
+    color: #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    margin-bottom: 10px;
+  }
+  
+  .info-box-text, .info-box-number {
+    color: #e0e0e0;
+  }
+  
+  .text-muted {
+    color: #aaa !important;
+  }
+  
+  .table {
+    color: #e0e0e0;
+  }
+  
+  .table th {
+    border-top: 1px solid #333;
+    border-bottom: 2px solid #333;
+  }
+  
+  .table td {
+    border-top: 1px solid #333;
+  }
+  
+  .list-group-item {
+    background-color: #252525;
+    border-color: #333;
+    color: #e0e0e0;
+  }
+  
+  .btn-primary {
+    background-color: #375a7f;
+    border-color: #2b4764;
+  }
+  
+  .btn-primary:hover {
+    background-color: #2b4764;
+    border-color: #1d3148;
+  }
+  
+  .btn-info {
+    background-color: #3498db;
+    border-color: #2980b9;
+  }
+  
+  .badge-info {
+    background-color: #3498db;
+  }
+  
+  .progress {
+    background-color: #333;
+  }
+  
+  .progress-bar.bg-primary {
+    background-color: #375a7f !important;
+  }
+  
+  .progress-bar.bg-pink {
+    background-color: #e83e8c !important;
+  }
+  
+  .bg-light {
+    background-color: #252525 !important;
+  }
+  
+  .text-dark {
+    color: #e0e0e0 !important;
+  }
+  
+  .form-control {
+    background-color: #333;
+    border-color: #444;
+    color: #e0e0e0;
+  }
+  
+  .form-control:focus {
+    background-color: #3a3a3a;
+    color: #fff;
+  }
+  
+  /* Subtle back button */
+  .back-link {
+    font-size: 0.95rem;
+    color: #aaa;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    background-color: rgba(255,255,255,0.05);
+    transition: all 0.2s ease;
+    border: none;
+  }
+  
+  .back-link:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  /* Action buttons styling */
+  .action-btn {
+    background-color: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  
+  .action-btn:hover {
+    background-color: rgba(255,255,255,0.25);
+    color: #fff;
+  }
+  
+  /* Time block styling */
+  .time-box {
+    border-radius: 6px;
+    padding: 10px;
+    height: 100%;
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+  }
+  
+  .time-box-morning {
+    background-color: rgba(243, 156, 18, 0.8);
+  }
+  
+  .time-box-afternoon {
+    background-color: rgba(52, 152, 219, 0.8);
+  }
+  
+  .time-box-evening {
+    background-color: rgba(46, 49, 49, 0.8);
+  }
+  
+  /* Ensure card heights are consistent */
+  .same-height-row .card {
+    height: 100%;
+  }
+  
+  .same-height-row .small-box {
+    height: 100%;
+  }
+</style>
+
+<section class="content">
+  {% if view_as_affiliate %}
+  <div class="mb-3">
+    <a href="{% url 'focusbjj:filiais' %}" class="back-link">
+      <i class="fas fa-arrow-left mr-2"></i> {% trans "Back to Manager Dashboard" %}
+    </a>
+  </div>
+  {% endif %}
+  
+  <div class="container-fluid">
+    <!-- Top stats cards row -->
+    <div class="row same-height-row">
+      <!-- Total students card -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-primary">
+          <div class="inner">
+            {% if view_as_affiliate %}
+              <h3>{{ selected_affiliate.alunos.count }}</h3>
+            {% else %}
+              <h3>{{ user.alunos.count }}</h3>
+            {% endif %}
+            <p>{% trans "Total Students" %}</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-users"></i>
+          </div>
+          {% if view_as_affiliate %}
+            <a href="{% url 'focusbjj:managealunostotal' %}?location={{ selected_affiliate.id }}" class="small-box-footer">
+              {% trans "View all" %} <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          {% else %}
+            <a href="{% url 'focusbjj:managealunos' %}" class="small-box-footer">
+              {% trans "View all" %} <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+      
+      <!-- Active students card -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-success">
+          <div class="inner">
+            <h3>{{ active_students_count }}</h3>
+            <p>{% trans "Active Students" %}</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-user-check"></i>
+          </div>
+          {% if view_as_affiliate %}
+            <a href="{% url 'focusbjj:managealunostotal' %}?location={{ selected_affiliate.id }}&attendance_status=active" class="small-box-footer">
+              {% trans "View all" %} <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          {% else %}
+            <a href="{% url 'focusbjj:managealunos' %}?attendance_status=active" class="small-box-footer">
+              {% trans "View all" %} <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Inactive students card -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-warning">
+          <div class="inner">
+            {% if view_as_affiliate %}
+              <h3>{{ selected_affiliate|inactive_students_count }}</h3>
+            {% else %}
+              <h3>{{ user|inactive_students_count }}</h3>
+            {% endif %}
+            <p>{% trans "Inactive Students" %}</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-user-clock"></i>
+          </div>
+          {% if view_as_affiliate %}
+            <a href="{% url 'focusbjj:managealunostotal' %}?location={{ selected_affiliate.id }}&inactive=true" class="small-box-footer">
+              {% trans "View all" %} <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          {% else %}
+            <a href="{% url 'focusbjj:managealunos' %}?inactive=true" class="small-box-footer">
+              {% trans "View all" %} <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+      
+      <!-- Quick actions card -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-danger">
+          <div class="inner">
+            <h3>{% trans "Actions" %}</h3>
+            <p>{% trans "Quick Access" %}</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <a href="{% url 'focusbjj:homepage' %}" class="small-box-footer">
+            {% trans "Check-in" %} <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- End top stats cards row -->
+
+    <!-- Main sections row: Affiliate info, birthdays, gender distribution moved up -->
+    <div class="row same-height-row mt-3">
+      <!-- Affiliate info card -->
+      <div class="col-md-4">
+        <div class="card card-outline card-primary h-100">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-building mr-2"></i>{% trans "Affiliate Information" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="text-center mb-3">
+              <h4>
+                {% if view_as_affiliate %}
+                  <span class="mr-2">{{ selected_affiliate.country.unicode_flag }}</span>{{ selected_affiliate.location }}
+                {% else %}
+                  <span class="mr-2">{{ user.country.unicode_flag }}</span>{{ user.location }}
+                {% endif %}
+              </h4>
+            </div>
+            <div class="mt-3">
+              <dl class="row">
+                <dt class="col-sm-4">{% trans "Location" %}:</dt>
+                <dd class="col-sm-8">
+                  {% if view_as_affiliate %}
+                    {{ selected_affiliate.location }}, {{ selected_affiliate.country.name }}
+                  {% else %}
+                    {{ user.location }}, {{ user.country.name }}
+                  {% endif %}
+                </dd>
+                
+                <dt class="col-sm-4">{% trans "Contact Email" %}:</dt>
+                <dd class="col-sm-8">
+                  {% if view_as_affiliate %}
+                    <a href="mailto:{{ selected_affiliate.email }}">{{ selected_affiliate.email }}</a>
+                  {% else %}
+                    <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+                  {% endif %}
+                </dd>
+                
+                <dt class="col-sm-4">{% trans "Phone" %}:</dt>
+                <dd class="col-sm-8">
+                  {% if view_as_affiliate %}
+                    {{ selected_affiliate.phone|default:"--" }}
+                  {% else %}
+                    {{ user.phone|default:"--" }}
+                  {% endif %}
+                </dd>
+                
+                <dt class="col-sm-4">{% trans "Member Since" %}:</dt>
+                <dd class="col-sm-8">
+                  {% if view_as_affiliate %}
+                    {{ selected_affiliate.join_date|date:"F j, Y" }}
+                  {% else %}
+                    {{ user.join_date|date:"F j, Y" }}
+                  {% endif %}
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Birthdays This Week card -->
+      <div class="col-md-4">
+        <div class="card card-outline card-success h-100">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-birthday-cake mr-2"></i>{% trans "Birthdays This Week" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush">
+              {% if view_as_affiliate %}
+                {% with birthdays=selected_affiliate|birthdays_this_week %}
+                  {% if birthdays %}
+                    {% for student in birthdays %}
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                          <i class="fas fa-gift text-warning mr-2"></i>
+                          <strong>{{ student.nome }} {{ student.surname }}</strong>
+                        </div>
+                        <span class="badge badge-pill badge-info">
+                          {{ student.dob|date:"D, M d" }}
+                        </span>
+                      </li>
+                    {% endfor %}
+                  {% else %}
+                    <li class="list-group-item text-center text-muted">
+                      {% trans "No birthdays this week" %}
+                    </li>
+                  {% endif %}
+                {% endwith %}
+              {% else %}
+                {% with birthdays=user|birthdays_this_week %}
+                  {% if birthdays %}
+                    {% for student in birthdays %}
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                          <i class="fas fa-gift text-warning mr-2"></i>
+                          <strong>{{ student.nome }} {{ student.surname }}</strong>
+                        </div>
+                        <span class="badge badge-pill badge-info">
+                          {{ student.dob|date:"D, M d" }}
+                        </span>
+                      </li>
+                    {% endfor %}
+                  {% else %}
+                    <li class="list-group-item text-center text-muted">
+                      {% trans "No birthdays this week" %}
+                    </li>
+                  {% endif %}
+                {% endwith %}
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gender distribution card -->
+      <div class="col-md-4">
+        <div class="card card-outline card-info h-100">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-venus-mars mr-2"></i>{% trans "Gender Distribution" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="info-box bg-light mb-2">
+              <span class="info-box-icon bg-primary"><i class="fas fa-male"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">{% trans "Male Students" %}</span>
+                {% if view_as_affiliate %}
+                  <span class="info-box-number">{{ selected_affiliate|male }}</span>
+                {% else %}
+                  <span class="info-box-number">{{ user|male }}</span>
+                {% endif %}
+              </div>
+            </div>
+            
+            <div class="info-box bg-light">
+              <span class="info-box-icon bg-pink"><i class="fas fa-female"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">{% trans "Female Students" %}</span>
+                {% if view_as_affiliate %}
+                  <span class="info-box-number">{{ selected_affiliate|female }}</span>
+                {% else %}
+                  <span class="info-box-number">{{ user|female }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Student Demographics row (renamed from Kids Program) -->
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="card card-outline card-warning">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-users mr-2"></i>{% trans "Student Demographics" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6 d-flex align-items-center">
+                <div class="info-box bg-light w-100">
+                  <span class="info-box-icon bg-warning"><i class="fas fa-child"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">{% trans "Kids Total" %}</span>
+                    {% if view_as_affiliate %}
+                      <span class="info-box-number">{{ selected_affiliate|kidsTOTAL }}</span>
+                    {% else %}
+                      <span class="info-box-number">{{ user|kidsTOTAL }}</span>
+                    {% endif %}
+                    <a href="{% url 'focusbjj:managealunos' %}?category=kids" class="btn btn-sm btn-outline-warning mt-2">
+                      {% trans "View kids" %} <i class="fas fa-arrow-right"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="info-box bg-light">
+                      <span class="info-box-icon bg-info"><i class="fas fa-baby"></i></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">{% trans "Under 7" %}</span>
+                        {% if view_as_affiliate %}
+                          <span class="info-box-number">{{ selected_affiliate|under7 }}</span>
+                        {% else %}
+                          <span class="info-box-number">{{ user|under7 }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="info-box bg-light">
+                      <span class="info-box-icon bg-success"><i class="fas fa-child"></i></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">{% trans "7-10 Years" %}</span>
+                        {% if view_as_affiliate %}
+                          <span class="info-box-number">{{ selected_affiliate|under10 }}</span>
+                        {% else %}
+                          <span class="info-box-number">{{ user|under10 }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-2">
+                  <div class="col-6">
+                    <div class="info-box bg-light">
+                      <span class="info-box-icon bg-warning"><i class="fas fa-child fa-lg"></i></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">{% trans "11-13 Years" %}</span>
+                        {% if view_as_affiliate %}
+                          <span class="info-box-number">{{ selected_affiliate|under13 }}</span>
+                        {% else %}
+                          <span class="info-box-number">{{ user|under13 }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="info-box bg-light">
+                      <span class="info-box-icon bg-danger"><i class="fas fa-user"></i></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">{% trans "Adults (14+)" %}</span>
+                        {% if view_as_affiliate %}
+                          <span class="info-box-number">{{ selected_affiliate|adulto }}</span>
+                        {% else %}
+                          <span class="info-box-number">{{ user|adulto }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-12">
+        <!-- Belt distribution card - expanded to full width -->
+        <div class="card card-outline card-primary">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-award mr-2"></i>{% trans "Belt Distribution" %}</h3>
+            <div class="card-tools">
+              <a href="{% url 'focusbjj:graduation_requirements' %}" class="btn btn-sm btn-info">
+                <i class="fas fa-trophy"></i> {% trans "View Graduation Requirements" %}
+              </a>
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <!-- Combined belt chart section -->
+              <div class="col-md-12">
+                <div class="chart-responsive">
+                  <canvas id="beltDistributionChart" style="min-height: 400px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Eligible for Graduation Section -->
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="card card-outline card-danger">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-award mr-2"></i>{% trans "Students Eligible for Graduation" %}</h3>
+            <div class="card-tools">
+              <a href="{% url 'focusbjj:graduation_requirements' %}" class="btn btn-sm btn-danger">
+                <i class="fas fa-trophy"></i> {% trans "Graduation Requirements" %}
+              </a>
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            {% if view_as_affiliate %}
+              {% with eligible_students=selected_affiliate|students_eligible_for_graduation:8 %}
+                {% if eligible_students %}
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>{% trans "Student" %}</th>
+                          <th>{% trans "Current Belt/Stripe" %}</th>
+                          <th>{% trans "Next Belt/Stripe" %}</th>
+                          <th>{% trans "Classes" %}</th>
+                          <th>{% trans "Required" %}</th>
+                          <th>{% trans "Over Req." %}</th>
+                          <th>{% trans "Actions" %}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for student_data in eligible_students %}
+                          <tr>
+                            <td>
+                              <a href="{% url 'focusbjj:alunos' student_data.student.id %}">
+                                {{ student_data.student.nome }} {{ student_data.student.surname }}
+                              </a>
+                            </td>
+                            <td>
+                              <span class="badge badge-primary">{{ student_data.current_belt }}</span>
+                              <small>{{ student_data.current_stripe }}</small>
+                            </td>
+                            <td>
+                              <span class="badge badge-success">{{ student_data.next_belt }}</span>
+                              <small>{{ student_data.next_stripe }}</small>
+                            </td>
+                            <td>{{ student_data.classes_attended }}</td>
+                            <td>{{ student_data.classes_required }}</td>
+                            <td>
+                              <span class="badge {% if student_data.classes_over_requirement > 10 %}badge-danger{% elif student_data.classes_over_requirement > 5 %}badge-warning{% else %}badge-success{% endif %}">
+                                +{{ student_data.classes_over_requirement }}
+                              </span>
+                            </td>
+                            <td>
+                              <a href="{% url 'focusbjj:graduation' student_data.student.id %}" class="btn btn-sm btn-danger" data-toggle="tooltip" title="{% trans 'Graduate this student' %}">
+                                <i class="fas fa-graduation-cap"></i> {% trans "Graduate" %}
+                              </a>
+                              <a href="{% url 'focusbjj:alunos' student_data.student.id %}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="{% trans 'View student details' %}">
+                                <i class="fas fa-eye"></i> {% trans "Details" %}
+                              </a>
+                            </td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  {% if eligible_students|length >= 8 %}
+                    <div class="text-center mt-3">
+                      <a href="{% url 'focusbjj:managealunostotal' %}?graduation=eligible" class="btn btn-outline-danger">
+                        {% trans "View All Eligible Students" %}
+                      </a>
+                    </div>
+                  {% endif %}
+                {% else %}
+                  <div class="alert alert-info">
+                    <i class="fas fa-info-circle mr-2"></i> {% trans "No students are currently eligible for graduation." %}
+                  </div>
+                {% endif %}
+              {% endwith %}
+            {% else %}
+              {% with eligible_students=user|students_eligible_for_graduation:8 %}
+                {% if eligible_students %}
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>{% trans "Student" %}</th>
+                          <th>{% trans "Current Belt/Stripe" %}</th>
+                          <th>{% trans "Next Belt/Stripe" %}</th>
+                          <th>{% trans "Classes" %}</th>
+                          <th>{% trans "Required" %}</th>
+                          <th>{% trans "Over Req." %}</th>
+                          <th>{% trans "Actions" %}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for student_data in eligible_students %}
+                          <tr>
+                            <td>
+                              <a href="{% url 'focusbjj:alunos' student_data.student.id %}">
+                                {{ student_data.student.nome }} {{ student_data.student.surname }}
+                              </a>
+                            </td>
+                            <td>
+                              <span class="badge badge-primary">{{ student_data.current_belt }}</span>
+                              <small>{{ student_data.current_stripe }}</small>
+                            </td>
+                            <td>
+                              <span class="badge badge-success">{{ student_data.next_belt }}</span>
+                              <small>{{ student_data.next_stripe }}</small>
+                            </td>
+                            <td>{{ student_data.classes_attended }}</td>
+                            <td>{{ student_data.classes_required }}</td>
+                            <td>
+                              <span class="badge {% if student_data.classes_over_requirement > 10 %}badge-danger{% elif student_data.classes_over_requirement > 5 %}badge-warning{% else %}badge-success{% endif %}">
+                                +{{ student_data.classes_over_requirement }}
+                              </span>
+                            </td>
+                            <td>
+                              <a href="{% url 'focusbjj:graduation' student_data.student.id %}" class="btn btn-sm btn-danger" data-toggle="tooltip" title="{% trans 'Graduate this student' %}">
+                                <i class="fas fa-graduation-cap"></i> {% trans "Graduate" %}
+                              </a>
+                              <a href="{% url 'focusbjj:alunos' student_data.student.id %}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="{% trans 'View student details' %}">
+                                <i class="fas fa-eye"></i> {% trans "Details" %}
+                              </a>
+                            </td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  {% if eligible_students|length >= 8 %}
+                    <div class="text-center mt-3">
+                      <a href="{% url 'focusbjj:managealunostotal' %}?graduation=eligible" class="btn btn-outline-danger">
+                        {% trans "View All Eligible Students" %}
+                      </a>
+                    </div>
+                  {% endif %}
+                {% else %}
+                  <div class="alert alert-info">
+                    <i class="fas fa-info-circle mr-2"></i> {% trans "No students are currently eligible for graduation." %}
+                  </div>
+                {% endif %}
+              {% endwith %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Busiest times and days row -->
+    <div class="row same-height-row mt-3">
+      <!-- Busiest times card -->
+      <div class="col-md-6">
+        <div class="card card-outline card-success h-100">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-clock mr-2"></i>{% trans "Busiest Class Times" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="position-relative" style="height: 200px;">
+              <canvas id="busiestTimesChart"></canvas>
+            </div>
+            <div class="row mt-3">
+              <div class="col-4">
+                <div class="time-box time-box-morning">
+                  <div>
+                    <span class="d-block mb-1"><i class="fas fa-sun mr-1"></i> {% trans "Morning" %}</span>
+                    <small class="d-block text-white-50 mb-1">(6am-12pm)</small>
+                    <span class="d-block"><b>{{ busiest_times.morning }}</b></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="time-box time-box-afternoon">
+                  <div>
+                    <span class="d-block mb-1"><i class="fas fa-cloud-sun mr-1"></i> {% trans "Afternoon" %}</span>
+                    <small class="d-block text-white-50 mb-1">(12pm-6pm)</small>
+                    <span class="d-block"><b>{{ busiest_times.afternoon }}</b></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="time-box time-box-evening">
+                  <div>
+                    <span class="d-block mb-1"><i class="fas fa-moon mr-1"></i> {% trans "Evening" %}</span>
+                    <small class="d-block text-white-50 mb-1">(6pm-11pm)</small>
+                    <span class="d-block"><b>{{ busiest_times.evening }}</b></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+            <small class="text-muted">{% trans "Based on check-in data from the last 30 days" %}</small>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Busiest days card -->
+      <div class="col-md-6">
+        <div class="card card-outline card-primary h-100">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-calendar-alt mr-2"></i>{% trans "Busiest Days of Week" %}</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="position-relative mb-4" style="height: 200px;">
+              <canvas id="busiestDaysChart"></canvas>
+            </div>
+            
+            {% if view_as_affiliate %}
+              {% with days=selected_affiliate|busiest_days_of_week %}
+                <div class="table-responsive">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr>
+                        <th>{% trans "Day" %}</th>
+                        <th class="text-right">{% trans "Check-ins" %}</th>
+                        <th class="text-center">{% trans "Activity" %}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for day_data in days %}
+                        <tr>
+                          <td>{{ day_data.name }}</td>
+                          <td class="text-right">{{ day_data.count }}</td>
+                          <td>
+                            <div class="progress">
+                              {% with max_value=days.0.count|default:1 %}
+                                {% if max_value > 0 %}
+                                  <div class="progress-bar bg-primary" style="width: {{ day_data.count|mul:100|div:max_value }}%;"></div>
+                                {% else %}
+                                  <div class="progress-bar bg-primary" style="width: 0%;"></div>
+                                {% endif %}
+                              {% endwith %}
+                            </div>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              {% endwith %}
+            {% else %}
+              {% with days=user|busiest_days_of_week %}
+                <div class="table-responsive">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr>
+                        <th>{% trans "Day" %}</th>
+                        <th class="text-right">{% trans "Check-ins" %}</th>
+                        <th class="text-center">{% trans "Activity" %}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for day_data in days %}
+                        <tr>
+                          <td>{{ day_data.name }}</td>
+                          <td class="text-right">{{ day_data.count }}</td>
+                          <td>
+                            <div class="progress">
+                              {% with max_value=days.0.count|default:1 %}
+                                {% if max_value > 0 %}
+                                  <div class="progress-bar bg-primary" style="width: {{ day_data.count|mul:100|div:max_value }}%;"></div>
+                                {% else %}
+                                  <div class="progress-bar bg-primary" style="width: 0%;"></div>
+                                {% endif %}
+                              {% endwith %}
+                            </div>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              {% endwith %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Enable tooltips
+    $('[data-toggle="tooltip"]').tooltip();
+    
+    // Custom division filter
+    if (!Math.div) {
+      Math.div = function(a, b) { return a / b; };
+    }
+    
+    // Custom multiplication filter
+    if (!Math.mul) {
+      Math.mul = function(a, b) { return a * b; };
+    }
+    
+
+    // Belt distribution chart
+    new Chart(document.getElementById('beltDistributionChart'), {
+        type: 'bar',
+        data: {
+            labels: [
+                {% for belt_key in all_belts_ordered %}
+                    '{{ belt_display_names|get_item:belt_key }}'{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ],
+            datasets: [
+                {
+                    label: {% if view_as_affiliate %}'{{ selected_affiliate.location }}'{% else %}'{{ user.location }}'{% endif %},
+                    data: [
+                        {% if view_as_affiliate %}
+                            {% for belt_key in all_belts_ordered %}
+                                {{ selected_affiliate|belt_count:belt_key }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for belt_key in all_belts_ordered %}
+                                {{ user|belt_count:belt_key }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    ],
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    borderWidth: 1
+                },
+                {
+                    label: '{% trans "Average" %}',
+                    data: [
+                        {% for belt_key in all_belts_ordered %}
+                            {{ system_avg|get_item:belt_key }}{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+                    backgroundColor: 'rgba(255, 206, 86, 0.7)',
+                    borderColor: 'rgb(255, 206, 86)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    min: 0,
+                    title: { display: true, text: '{% trans "Number of Students" %}' },
+                    ticks: { precision: 0 }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { size: 10 } }
+                }
+            },
+            plugins: {
+                legend: { 
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20
+                    }
+                },
+                tooltip: {
+                    callbacks: { 
+                        label: function(context) { 
+                            return context.dataset.label + ': ' + context.parsed.y + ' {% trans "students" %}'; 
+                        } 
+                    }
+                }
+            }
+        }
+    });
+
+    // Busiest times chart
+    new Chart(document.getElementById('busiestTimesChart'), {
+      type: 'bar',
+      data: {
+        labels: ['{% trans "Morning" %}', '{% trans "Afternoon" %}', '{% trans "Evening" %}'],
+        datasets: [{
+          label: '{% trans "Check-ins" %}',
+          data: [
+            {{ busiest_times.morning }},
+            {{ busiest_times.afternoon }},
+            {{ busiest_times.evening }}
+          ],
+          backgroundColor: [
+            'rgba(255, 193, 7, 0.8)',
+            'rgba(23, 162, 184, 0.8)',
+            'rgba(52, 58, 64, 0.8)'
+          ],
+          borderColor: [
+            'rgb(255, 193, 7)',
+            'rgb(23, 162, 184)',
+            'rgb(52, 58, 64)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            ticks: {
+              precision: 0
+            }
+          }
+        }
+      }
+    });
+    
+    // Busiest days chart
+    new Chart(document.getElementById('busiestDaysChart'), {
+      type: 'bar',
+      data: {
+        labels: ['{% trans "Mon" %}', '{% trans "Tue" %}', '{% trans "Wed" %}', '{% trans "Thu" %}', '{% trans "Fri" %}', '{% trans "Sat" %}', '{% trans "Sun" %}'],
+        datasets: [{
+          label: '{% trans "Check-ins" %}',
+          {% if view_as_affiliate %}
+          data: [
+            {% with days=selected_affiliate|busiest_days_of_week %}
+              {{ days.0.count }},
+              {{ days.1.count }},
+              {{ days.2.count }},
+              {{ days.3.count }},
+              {{ days.4.count }},
+              {{ days.5.count }},
+              {{ days.6.count }}
+            {% endwith %}
+          ],
+          {% else %}
+          data: [
+            {% with days=user|busiest_days_of_week %}
+              {{ days.0.count }},
+              {{ days.1.count }},
+              {{ days.2.count }},
+              {{ days.3.count }},
+              {{ days.4.count }},
+              {{ days.5.count }},
+              {{ days.6.count }}
+            {% endwith %}
+          ],
+          {% endif %}
+          backgroundColor: [
+            'rgba(13, 110, 253, 0.7)',
+            'rgba(13, 110, 253, 0.7)',
+            'rgba(13, 110, 253, 0.7)',
+            'rgba(13, 110, 253, 0.7)',
+            'rgba(13, 110, 253, 0.7)',
+            'rgba(13, 110, 253, 0.7)',
+            'rgba(13, 110, 253, 0.7)'
+          ],
+          borderColor: [
+            'rgb(13, 110, 253)',
+            'rgb(13, 110, 253)',
+            'rgb(13, 110, 253)',
+            'rgb(13, 110, 253)',
+            'rgb(13, 110, 253)',
+            'rgb(13, 110, 253)',
+            'rgb(13, 110, 253)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            ticks: {
+              precision: 0
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endblock content %} 
